@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="vi" class="ie8"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="vi">
+{% load static %}
+{% load humanize %}
+<head>
+    <meta charset="utf-8" />
+    {% block title %}<title>Lam Shop</title>{% endblock %}
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+
+    <!-- ========== BEGIN BASE CSS STYLE ========== -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <link href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/plugins/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/css/style.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/css/style-responsive.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/css/theme/default.css' %}" id="theme" rel="stylesheet" />
+    <link href="{% static 'assets/css/animate.min.css' %}" rel="stylesheet" />
+    <!-- ========== END BASE CSS STYLE ========== -->
+
+    <!-- ========== BEGIN BASE JS ========== -->
+    <script src="{% static 'assets/plugins/pace/pace.min.js' %}"></script>
+    <!-- ========== END BASE JS ========== -->
+</head>
+{% block css %}{% endblock %}
+<body>
+<!-- BEGIN #page-container -->
+<div id="page-container" class="fade">
+
+    <!-- BEGIN #top-nav -->
+    <div id="top-nav" class="top-nav">
+        <div class="container">
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                  
+                    <li><a href="{% url 'contact_us' %}">Chăm sóc khách hàng</a></li>
+                    <li><a href="{% url 'order_tracking' %}">Theo dõi đơn hàng</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- END #top-nav -->
+
+    <!-- BEGIN #header -->
+    <div id="header" class="header">
+        <div class="container">
+            <div class="header-container">
+
+                <!-- BEGIN navbar-header -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                        <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                    </button>
+                    <div class="header-logo">
+                        <a href="/">
+                            <span class="brand"></span>
+                            Lam Shop
+                            <small>Trao quyền cho cuộc sống công nghệ!</small>
+                        </a>
+                    </div>
+                </div>
+                <!-- END navbar-header -->
+
+                <!-- BEGIN header-nav (trái) -->
+                <div class="header-nav">
+                    <div class="collapse navbar-collapse" id="navbar-collapse">
+                        <ul class="nav">
+                            <li class="active"><a href="/">Trang chủ</a></li>
+
+                            <li class="dropdown dropdown-full-width dropdown-hover">
+                                <a href="#" data-toggle="dropdown">
+                                    Cửa hàng
+                                    <i class="fa fa-angle-down"></i><span class="arrow top"></span>
+                                </a>
+
+                                <!-- BEGIN dropdown-menu -->
+                                <div class="dropdown-menu p-0">
+                                    <div class="dropdown-menu-container">
+
+                                        <!-- Sidebar -->
+                                        <div class="dropdown-menu-sidebar">
+                                            <h4 class="title">Mua theo danh mục</h4>
+                                            <ul class="dropdown-menu-list">
+                                                {% for c in categories %}
+                                                <li><a href="{% url 'product_by_category' category_id=c.id %}">{{ c.category }}</a></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+
+                                        <!-- Content -->
+                                        <div class="dropdown-menu-content">
+                                            <h4 class="title">Gợi ý sản phẩm bán chạy</h4>
+                                            <div class="row">
+                                                {% for item in shuffled_products %}
+                                                <div class="col-md-3">
+                                                    <ul class="dropdown-menu-list">
+                                                        <li><a href="{% url 'product_detail' item.slug %}"><i class="fa fa-fw fa-angle-right text-muted"></i>{{ item.product_name }}</a></li>
+                                                    </ul>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- END dropdown-menu -->
+                            </li>
+
+                            <li><a href="{% url 'new-arrival' %}">Hàng mới về</a></li>
+
+                            <li class="dropdown dropdown-hover">
+                                <a href="#" data-toggle="dropdown">
+                                    Trang
+                                    <i class="fa fa-angle-down"></i><span class="arrow top"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/">Trang chủ (mặc định)</a></li>
+                                    <li><a href="{% url 'search_results' %}">Kết quả tìm kiếm</a></li>
+                                    <li><a href="{% url 'product' %}">Danh sách sản phẩm</a></li>
+                                    <li><a href="/my_account">Tài khoản của tôi</a></li>
+                                    <li><a href="/contact_us">Liên hệ</a></li>
+                                    <li><a href="/about_us">Về chúng tôi</a></li>
+                                    <li><a href="/faq">FAQ</a></li>
+                                </ul>
+                            </li>
+
+                            <!-- Tìm kiếm -->
+                            <li class="dropdown dropdown-hover">
+                                <a href="#" data-toggle="dropdown"><i class="fa fa-search search-btn"></i><span class="arrow top"></span></a>
+                                <div class="dropdown-menu p-15">
+                                    <form action="{% url 'home' %}" method="POST">
+                                        {% csrf_token %}
+                                        <div class="input-group">
+                                            <input type="text" placeholder="Tìm kiếm" name="search" class="form-control bg-silver-lighter" />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-inverse" type="submit"><i class="fa fa-search"></i></button>
+                                            </span>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- END header-nav (trái) -->
+
+                <!-- BEGIN header-nav (phải) -->
+                <div class="header-nav">
+                    <ul class="nav pull-right">
+
+                        <!-- Giỏ hàng -->
+                        <li class="dropdown dropdown-hover">
+                            <a href="#" class="header-cart" data-toggle="dropdown">
+                                <i class="fa fa-shopping-bag"></i>
+                                <span class="total">{{ request.user.get_cart_count }}</span>
+                                <span class="arrow top"></span>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-cart p-0">
+                                <div class="cart-header"><h4 class="cart-title">Giỏ hàng</h4></div>
+                                <div class="cart-body">
+                                    {% if request.user.get_cart_count == 0 %}
+                                        <h4 class="cart-title">Chưa có sản phẩm</h4>
+                                    {% else %}
+                                        {% for cart_items in request.user.user_carts.all %}
+                                        <ul class="cart-item">
+                                            <li>
+                                                <div class="cart-item-image"><img src="{{ cart_items.product.product_image.url }}" alt="" /></div>
+                                                {% load humanize %}
+                                                <div class="cart-item-info">
+                                                    <h4>{{ cart_items.product.product_name }}</h4>
+                                                    <p class="price">{{ cart_items.product.discounted_price|intcomma }} ₫</p>
+                                                </div>
+                                                <div class="cart-item-close">
+                                                    <a href="{% url 'remove_cart' cart_items.product.slug %}" data-toggle="tooltip" data-title="Xóa">&times;</a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+
+                                <div class="cart-footer">
+                                    <div class="row row-space-10">
+                                        <div class="col-xs-6"><a href="{% url 'add_to_cart' %}" class="btn btn-default btn-block">Xem giỏ</a></div>
+                                        <div class="col-xs-6"><a href="{% url 'product' %}" class="btn btn-inverse btn-block">Tiếp tục mua</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <!-- Người dùng -->
+                        {% if request.user.is_authenticated %}
+                            <li class="divider"></li>
+                            <li>
+                                <a href="{% url 'my_account' %}">
+                                    {% if request.user.user_profile %}
+                                        <img src="{{ MEDIA_URL }}{{ request.user.user_profile.url }}" class="user-img" alt="{{ request.user.first_name }}" />
+                                    {% else %}
+                                        <img src="{% static 'user_profile/default.webp' %}" class="user-img" alt="Ảnh mặc định" />
+                                    {% endif %}
+                                    <span class="hidden-xs">Tài khoản</span>
+                                </a>
+                            </li>
+                            <li><a href="{% url 'logout' %}"><span class="hidden-xs">Đăng xuất</span></a></li>
+                        {% else %}
+                            <li class="divider"></li>
+                            <li>
+                                <a href="{% url 'login' %}">
+                                    <img src="{% static 'assets/img/user-1.jpg' %}" class="user-img" alt="" />
+                                    <span class="hidden-xs">Đăng nhập / Đăng ký</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <!-- END header-nav (phải) -->
+
+            </div>
+        </div>
+    </div>
+    <!-- END #header -->
+
+    {% block content %}{% endblock %}
+
+    <!-- BEGIN #policy -->
+    <div id="policy" class="section-container p-t-30 p-b-30">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="policy">
+                        <div class="policy-icon"><i class="fa fa-truck"></i></div>
+                        <div class="policy-info">
+                            <h4>Miễn phí giao hàng cho đơn &gt; 500.000 ₫</h4>
+                            <p>Đặt hàng hôm nay, nhận hàng tận tay!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="policy">
+                        <div class="policy-icon"><i class="fa fa-shield"></i></div>
+                        <div class="policy-info">
+                            <h4>Bảo hành 1 năm cho điện thoại</h4>
+                            <p>An tâm sử dụng, hỗ trợ nhanh chóng.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="policy">
+                        <div class="policy-icon"><i class="fa fa-user-md"></i></div>
+                        <div class="policy-info">
+                            <h4>Bảo hành 6 tháng cho phụ kiện</h4>
+                            <p>Cam kết chính hãng, lỗi 1‑đổi‑1.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BEGIN #subscribe -->
+    <div id="subscribe" class="section-container bg-silver p-t-30 p-b-30">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-6 col-sm-6">
+                    <div class="subscription">
+                        <div class="subscription-intro">
+                            <h4>GIỮ LIÊN LẠC VỚI CHÚNG TÔI</h4>
+                            <p>Nhận tin khuyến mãi và nhiều ưu đãi hấp dẫn</p>
+                        </div>
+                        <div class="subscription-form">
+                            <form name="subscription_form" action="{% url 'home' %}" method="POST">
+                                {% csrf_token %}
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="email" placeholder="Nhập địa chỉ email" />
+                                    <div class="input-group-btn">
+                                        <button type="submit" class="btn btn-inverse"><i class="fa fa-angle-right"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-sm-6">
+                    <div class="social">
+                        <div class="social-intro">
+                            <h4>THEO DÕI CHÚNG TÔI</h4>
+                            <p>Chúng tôi lắng nghe bạn!</p>
+                        </div>
+                        <div class="social-list">
+                            <a href="https://www.facebook.com/share/16nHhpMGAB/?mibextid=wwXIfr"><i class="fa fa-facebook"></i></a>     
+                            <a href="https://www.instagram.com/adonis_2k5/?igsh=MTRqaDQyMWpsM2toNg%3D%3D&utm_source=qr"><i class="fa fa-instagram"></i></a>                        
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- BEGIN #footer -->
+    <div id="footer" class="footer">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-3">
+                    <h4 class="footer-header">VỀ CHÚNG TÔI</h4>
+                    <p>
+                       Tôi là Lâm ,sinh  viên năm 2 khoa công nghệ thông tin
+                    </p>
+                </div>
+
+                <div class="col-md-3">
+                    <h4 class="footer-header">LIÊN KẾT</h4>
+                    <ul class="fa-ul">
+                        <li><a href="/">Trang chủ</a></li>
+                        <li><a href="{% url 'search_results' %}">Kết quả tìm kiếm</a></li>
+                        <li><a href="{% url 'product' %}">Danh sách sản phẩm</a></li>
+                        <li><a href="/checkout_cart">Giỏ hàng</a></li>
+                        <li><a href="/checkout_info">Thông tin giao hàng</a></li>
+                        <li><a href="/checkout_payment">Thanh toán</a></li>
+                        <li><a href="/checkout_complete">Hoàn tất đơn</a></li>
+                        <li><a href="/my_account">Tài khoản</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3">
+                    <h4 class="footer-header">SẢN PHẨM MỚI NHẤT</h4>
+                    <ul class="list-unstyled list-product">
+                        {% for item in latest_products %}
+                        <li>
+                            <div class="image">
+                                <a href="{% url 'product_detail' item.slug %}" class="item-image">
+                                    <img src="{{ item.product_image.url }}" style="width: 30px;" alt="{{ item.product_name }}" />
+                                </a>
+                            </div>
+                            <div class="info">
+                                <h4 class="info-title">{{ item.product_name }}</h4>
+                                <div class="price">{{ item.discounted_price|intcomma }} ₫</div>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="col-md-3">
+                    <h4 class="footer-header">LIÊN HỆ</h4>
+                    <address>
+                        <strong>Lam shop, Inc.</strong><br />
+                       Ha Tinh, viet Nam<br /><br />
+                        <abbr title="Phone">Điện thoại:</abbr> 0346688567<br />
+                        <abbr title="Fax">Fax:</abbr> 0357899654<br />
+                        <abbr title="Email">Email:</abbr> lam181204@gmail.com
+                    </address>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- BEGIN copyright -->
+    <div id="footer-copyright" class="footer-copyright">
+        <div class="container">
+            <div class="payment-method">
+                <img src="{% static 'assets/img/payment_method.png' %}" alt="" />
+            </div>
+            <div class="copyright">
+                &copy; Lam Shop trên Django. Đã đăng ký bản quyền.
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- END #page-container -->
+
+<!-- ========== BEGIN THEME PANEL ========== -->
+<div class="theme-panel">
+    <a href="javascript:;" data-click="theme-panel-expand" class="theme-collapse-btn"><i class="fa fa-cog"></i></a>
+    <div class="theme-panel-content">
+        <ul class="theme-list clearfix">
+            <li><a href="javascript:;" class="bg-purple" data-theme="purple" data-click="theme-selector" data-toggle="tooltip" data-title="Purple">&nbsp;</a></li>
+            <li><a href="javascript:;" class="bg-blue" data-theme="blue" data-click="theme-selector" data-toggle="tooltip" data-title="Blue">&nbsp;</a></li>
+            <li class="active"><a href="javascript:;" class="bg-green" data-theme="default" data-click="theme-selector" data-toggle="tooltip" data-title="Default">&nbsp;</a></li>
+            <li><a href="javascript:;" class="bg-orange" data-theme="orange" data-click="theme-selector" data-toggle="tooltip" data-title="Orange">&nbsp;</a></li>
+            <li><a href="javascript:;" class="bg-red" data-theme="red" data-click="theme-selector" data-toggle="tooltip" data-title="Red">&nbsp;</a></li>
+        </ul>
+    </div>
+</div>
+<!-- ========== END THEME PANEL ========== -->
+
+<!-- ========== BEGIN BASE JS ========== -->
+<script src="{% static 'assets/plugins/jquery/jquery-1.9.1.min.js' %}"></script>
+<script src="{% static 'assets/plugins/jquery/jquery-migrate-1.1.0.min.js' %}"></script>
+<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--[if lt IE 9]>
+<script src="assets/crossbrowserjs/html5shiv.js"></script>
+<script src="assets/crossbrowserjs/respond.min.js"></script>
+<script src="assets/crossbrowserjs/excanvas.min.js"></script>
+<![endif]-->
+<script src="{% static 'assets/plugins/jquery-cookie/jquery.cookie.js' %}"></script>
+<script src="{% static 'assets/js/apps.min.js' %}"></script>
+<!-- ========== END BASE JS ========== -->
+
+<script>
+    $(document).ready(function () {
+        App.init();
+    });
+</script>
+</body>
+</html>

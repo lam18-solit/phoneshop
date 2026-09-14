@@ -1,0 +1,300 @@
+{% extends 'index.html' %}
+{% block content %}
+    {% load static %}   
+    {% load humanize %}
+
+    <!-- BEGIN #slider -->
+    <div id="slider" class="section-container p-0 bg-black-darker">
+        <!-- BEGIN carousel -->
+        <div id="main-carousel" class="carousel slide" data-ride="carousel">
+            <!-- BEGIN carousel-inner -->
+            <div class="carousel-inner"> 
+                <!-- BEGIN item -->
+                <div class="item active">
+                    <img src="{% static 'assets/img/slider-1-cover.jpg' %}" class="bg-cover-img" alt="" />
+                    <div class="container">
+                        <img src="{% static 'assets/img/slider-1-product.png' %}" class="product-img right bottom fadeInRight animated" alt="" />
+                    </div>
+                    <div class="carousel-caption carousel-caption-left">
+                        <div class="container">
+                            <h3 class="title m-b-5 fadeInLeftBig animated">IMac</h3> 
+                            <p class="m-b-15 fadeInLeftBig animated">Màn hình Retina. Nay đã lớn hơn và sắc nét hơn bao giờ hết.</p>
+                            <div class="price m-b-30 fadeInLeftBig animated"><small>Giá từ</small> <span>589,047 ₫</span></div>
+                            <a href="/product_detail/apple-imac-m1" class="btn btn-outline btn-lg fadeInLeftBig animated">Mua ngay</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- END item -->
+
+                <!-- BEGIN item -->
+                <div class="item">
+                    <img src="{% static 'assets/img/slider-2-cover.jpg' %}" class="bg-cover-img" alt="" />
+                    <div class="container">
+                        <img src="{% static 'assets/img/slider-2-product.png' %}" class="product-img left bottom fadeInLeft animated" alt="" />
+                    </div>
+                    <div class="carousel-caption carousel-caption-right">
+                        <div class="container">
+                            <h3 class="title m-b-5 fadeInRightBig animated">iPhone 6s</h3> 
+                            <p class="m-b-15 fadeInRightBig animated">Mọi thứ đã thay đổi. Kể cả chính nó.</p>
+                            <div class="price m-b-30 fadeInRightBig animated"><small>Giá từ</small> <span>10,800 ₫</span></div>
+                            <a href="/product_detail/iphone-6s" class="btn btn-outline btn-lg fadeInRightBig animated">Mua ngay</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- END item -->
+
+                <!-- BEGIN item -->
+                <div class="item">
+                    <img src="{% static 'assets/img/slider-3-cover.jpg' %}" class="bg-cover-img" alt="" />
+                    <div class="carousel-caption">
+                        <div class="container">
+                            <h3 class="title m-b-5 fadeInDownBig animated">Macbook Air</h3> 
+                            <p class="m-b-15 fadeInDownBig animated">Mỏng. Nhẹ. Mạnh mẽ.<br />Sẵn sàng cho mọi thử thách.</p>
+                            <div class="price fadeInDownBig animated"><small>Giá từ</small> <span>260,679 ₫</span></div>
+                            <a href="product_detail/macbook-air" class="btn btn-outline btn-lg fadeInUpBig animated">Mua ngay</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- END item -->
+            </div>
+            <!-- END carousel-inner -->
+            <a class="left carousel-control" href="#main-carousel" data-slide="prev"> 
+                <i class="fa fa-angle-left"></i> 
+            </a>
+            <a class="right carousel-control" href="#main-carousel" data-slide="next"> 
+                <i class="fa fa-angle-right"></i> 
+            </a>
+        </div>
+        <!-- END carousel -->
+    </div>
+    <!-- END #slider -->
+
+    <!-- BEGIN #promotions -->
+    <div id="promotions" class="section-container bg-white">
+        <div class="container">
+            <h4 class="section-title clearfix">
+                <a href="{% url 'product' %}" class="pull-right">XEM TẤT CẢ</a>
+                Khuyến mãi độc quyền
+                <small>từ ngày 11/06/2024 - 20/06/2024</small>
+            </h4>
+
+            <div class="row row-space-10">
+                <div class="col-md-6">
+                    <div class="promotion promotion-lg bg-black-darker">
+                        <div class="promotion-image text-right promotion-image-overflow-bottom">
+                            <img src="{% static 'assets/img/iphone-se.png' %}" alt="" />
+                        </div>
+                        <div class="promotion-caption promotion-caption-inverse">
+                            <h4 class="promotion-title">iPhone SE</h4>
+                            <div class="promotion-price"><small>Giá từ</small> 87,874 ₫</div>
+                            <p class="promotion-desc">Một bước tiến lớn cho chiếc điện thoại nhỏ.<br />Thiết kế được yêu thích. Nay còn tuyệt hơn.</p>
+                            <a href="/product_detail/iphone-se" class="promotion-btn">Xem thêm</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6">
+                    <div class="promotion bg-blue">
+                        <div class="promotion-image promotion-image-overflow-bottom promotion-image-overflow-top">
+                            <img src="{% static 'assets/img/apple-watch-sm.png' %}" alt="" />
+                        </div>
+                        <div class="promotion-caption promotion-caption-inverse text-right">
+                            <h4 class="promotion-title">Apple Watch</h4>
+                            <div class="promotion-price">113,679 ₫</div>
+                            <p class="promotion-desc">Bạn. Trong chớp mắt.</p>
+                            <a href="/product_detail/apple-watch-series-9" class="promotion-btn">Mua ngay</a>
+                        </div>
+                    </div>
+
+                    <div class="promotion bg-silver">
+                        <div class="promotion-image text-center promotion-image-overflow-bottom">
+                            <img src="{% static 'assets/img/mac-mini.png' %}" alt="" />
+                        </div>
+                        <div class="promotion-caption text-center">
+                            <h4 class="promotion-title">Mac Mini</h4>
+                            <div class="promotion-price">184,142 ₫</div>
+                            <p class="promotion-desc">Nhỏ mà có võ.</p>
+                            <a href="/product_detail/mac-mini" class="promotion-btn">Mua ngay</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6">
+                    <div class="promotion bg-silver">
+                        <div class="promotion-image promotion-image-overflow-right promotion-image-overflow-bottom text-right">
+                            <img src="{% static 'assets/img/mac-accessories.png' %}" alt="" />
+                        </div>
+                        <div class="promotion-caption text-center">
+                            <h4 class="promotion-title">Phụ kiện Apple</h4>
+                            <p class="promotion-desc">Thiết kế mới. Có thể sạc lại. Đầy sáng tạo.</p>
+                            <a href="/product/Apple/" class="promotion-btn">Xem thêm</a>
+                        </div>
+                    </div>
+
+                    <div class="promotion bg-black">
+                        <div class="promotion-image text-right">
+                            <img src="{% static 'assets/img/mac-pro.png' %}" alt="" />
+                        </div>
+                        <div class="promotion-caption promotion-caption-inverse">
+                            <h4 class="promotion-title">Mac Pro</h4>
+                            <div class="promotion-price"><small>Giá từ</small> 1,299,000 ₫</div>
+                            <p class="promotion-desc">Được tạo ra cho sự sáng tạo ở quy mô hoành tráng.</p>
+                            <a href="#" class="promotion-btn">Xem thêm</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BEGIN #trending-items -->
+    <div id="trending-items" class="section-container bg-silver">
+        <div class="container">
+            <h4 class="section-title clearfix">
+                Xu hướng
+                <small>Mua ngay sản phẩm yêu thích với giá cực tốt!</small>
+            </h4>
+
+            <div class="row row-space-10">
+                {% for p in trending_products %}
+                {% if p.is_trending %}
+                <div class="col-md-2 col-sm-4">
+                    <div class="item item-thumbnail">
+                        <a href="{% url 'product_detail' p.slug %}" class="item-image">
+                            <img src="media/{{ p.product_image }}" alt="" />
+                            <div class="discount">{{ p.discount_percentage }}% GIẢM</div>
+                        </a>
+                        <div class="item-info">
+                            <h4 class="item-title">
+                                <a href="{% url 'product_detail' p.slug %}">{{ p.product_name }}<br /></a>
+                            </h4>
+                            <p class="item-desc">{{ p.product_description }}.</p>
+                            <div class="item-price">{{ p.discounted_price|intcomma }} ₫</div>
+                            <div class="item-discount-price">Giá gốc: {{ p.orignal_price|intcomma }} ₫</div>
+                        </div>           
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- BEGIN #mobile-list -->
+    <div id="mobile-list" class="section-container bg-silver p-t-0">
+        <div class="container">
+            <h4 class="section-title clearfix">
+                <a href="{% url 'mobile_phones' %}" class="pull-right">XEM TẤT CẢ</a>
+                Điện thoại di động
+                <small>Chọn ngay điện thoại yêu thích với giá tốt!</small>
+            </h4>
+
+            <div class="category-container">
+                <div class="category-sidebar">
+                    <ul class="category-list">
+                        <li class="list-header">Thương hiệu hàng đầu</li>
+                        {% for c in mobile_companies %}
+                        <li><a href="{% url 'product_by_company' company_name=c %}">{{ c }} </a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="category-detail">
+                    <a href="/product_detail/iphone-15-pro" class="category-item full">
+                        <div class="item">
+                            <div class="item-cover">
+                                <img src="{% static 'assets/img/pot.webp' %}" alt="Iphone 15 Pro Max" />
+                            </div>
+                            <div class="item-info bottom">
+                                <h4 class="item-title">Iphone 15 Pro </h4>
+                                <p class="item-desc">Tái định nghĩa một chiếc điện thoại</p>
+                                <div class="item-price">580,000 ₫</div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <div class="category-item list">
+                        {% for mobile in mobiles %}
+                        <div class="item-row">
+                            <div class="item item-thumbnail">
+                                <a href="{% url 'product_detail' mobile.slug %}" class="item-image">
+                                    <img src="/media/{{ mobile.product_image }}" alt="{{ mobile.product_name }}" />
+                                    <div class="discount">{{ mobile.discount_percentage }} % GIẢM</div>
+                                </a>
+                                <div class="item-info">
+                                    <h4 class="item-title">
+                                        <a href="{% url 'product_detail' mobile.slug %}">{{ mobile.product_name }}<br /></a>
+                                    </h4>
+                                    <p class="item-desc">{{ mobile.product_description }}.</p>
+                                    <div class="item-price">{{ mobile.discounted_price|intcomma }} ₫</div>
+                                    <div class="item-discount-price">Giá gốc: {{ mobile.orignal_price|intcomma }} ₫</div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BEGIN laptop-list -->
+    <div id="laptop-list" class="section-container bg-silver p-t-0">
+        <div class="container">
+            <h4 class="section-title clearfix">
+                Laptop
+                <small>Mua ngay laptop yêu thích với giá hấp dẫn!</small>
+                <a href="{% url 'laptops' %}" class="pull-right">XEM TẤT CẢ</a>
+            </h4>
+
+            <div class="category-container">
+                <div class="category-sidebar">
+                    <ul class="category-list">
+                        <li class="list-header">Thương hiệu hàng đầu</li>
+                        {% for brand in laptop_companies %}
+                        <li><a href="{% url 'product_by_company_laptops' company_name=brand %}">{{ brand }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="category-detail">
+                    <a href="#" class="category-item full">
+                        <div class="item">
+                            <div class="item-cover">
+                                <img src="{% static 'assets/img/mac.jpg' %}" alt="" />
+                            </div>
+                            <div class="item-info bottom">
+                                <h4 class="item-title">Apple MacBook Pro 13-Inch</h4>
+                                <p class="item-desc">Macbook Pro mới nhất với chip M1, RAM 16GB, SSD 256GB, màn hình 13 inch</p>
+                                <div class="item-price">310,000 ₫</div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <div class="category-item list">
+                        <div class="item-row">
+                            {% for laptop in laptops %}
+                                {% if laptop.category.category == 'Laptops' %}
+                                <div class="item item-thumbnail">
+                                    <a href="{% url 'product_detail' laptop.slug %}" class="item-image">
+                                        <img src="media/{{ laptop.product_image }}" alt="" />
+                                        <div class="discount">{{ laptop.discount_percentage }} % GIẢM</div>
+                                    </a>
+                                    <div class="item-info">
+                                        <h4 class="item-title">
+                                            <a href="{% url 'product_detail' laptop.slug %}">{{ laptop.product_name }}<br /></a>
+                                        </h4>
+                                        <p class="item-desc">{{ laptop.product_description }}.</p>
+                                        <div class="item-price">{{ laptop.discounted_price|intcomma }} ₫</div>
+                                        <div class="item-discount-price">Giá gốc: {{ laptop.orignal_price|intcomma }} ₫</div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

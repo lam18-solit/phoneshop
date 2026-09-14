@@ -1,0 +1,53 @@
+{% extends "index.html" %}
+{% block title %}<title>Thanh toán thất bại!</title>{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="card mt-5">
+                <div class="card-body">
+                    <h1 class="display-4 text-danger">Thanh toán thất bại</h1>
+                    <p class="lead">Rất tiếc, giao dịch thanh toán của bạn không thành công. Vui lòng thử lại.</p>
+                    <hr>
+                    <div class="alert alert-warning" role="alert">
+                        <strong>Mẹo:</strong> Hãy kiểm tra lại thông tin thanh toán của bạn và thử lại.
+                    </div>
+                    <a href="{% url 'add_to_cart' %}" class="btn btn-primary btn-lg mr-2">Thử thanh toán lại</a>
+                    <a href="{% url 'contact_us' %}" class="btn btn-primary btn-lg mr-2">Liên hệ hỗ trợ</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal liên hệ hỗ trợ (bị ẩn) -->
+<!--
+<div class="modal fade" id="contactSupportModal" tabindex="-1" role="dialog" aria-labelledby="contactSupportModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="contactSupportModalLabel">Liên hệ hỗ trợ</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Nếu bạn gặp sự cố trong quá trình thanh toán, đội ngũ hỗ trợ của chúng tôi sẵn sàng giúp bạn. Vui lòng cung cấp chi tiết về vấn đề.</p>
+                <form>
+                    <div class="form-group">
+                        <label for="message">Nội dung tin nhắn:</label>
+                        <textarea class="form-control" id="message" rows="4"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary">Gửi tin nhắn</button>
+            </div>
+        </div>
+    </div>
+</div>
+-->
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends 'index.html' %}
+{% block title%}<title>Chăm sóc khách hàng!</title>{% endblock %}
+{% block content %}
+{% load static %}
+
+<!-- BẮT ĐẦU #product -->
+<div id="product" class="section-container p-t-20">
+    <div class="container">
+
+        <!-- BẮT ĐẦU breadcrumb -->
+        <ul class="breadcrumb m-b-10 f-s-12">
+            <li><a href="#">Trang chủ</a></li>
+            <li><a href="#">Hỗ trợ</a></li>
+            <li class="active">Liên hệ</li>
+        </ul>
+        <!-- KẾT THÚC breadcrumb -->
+
+        <div class="row row-space-30">
+            <!-- BẮT ĐẦU cột trái -->
+            <div class="col-md-8">
+                <h4 class="m-t-0">Liên hệ với chúng tôi</h4>
+                <p class="m-b-30 f-s-13">
+                    Chúng tôi luôn sẵn sàng lắng nghe bạn! Hãy điền vào biểu mẫu dưới đây và chúng tôi sẽ phản hồi sớm nhất có thể.
+                </p>
+
+                {% include 'alert.html' %}
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label class="control-label">Họ tên của bạn <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="name" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Email <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="email" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Tiêu đề <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="subject" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Nội dung <span class="text-danger">*</span></label>
+                        <textarea class="form-control" rows="5" name="message"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Gửi tin nhắn</button>
+                    </div>
+                </form>
+            </div>
+            <!-- KẾT THÚC cột trái -->
+
+            <!-- BẮT ĐẦU cột phải -->
+            <div class="col-md-4">
+                <h4 class="m-t-0">Thông tin liên hệ</h4>
+                <p>
+                    Bạn có thể liên hệ với chúng tôi qua các cách sau:
+                </p>
+                <address>
+                    <strong>Cửa hàng E-tech</strong><br>
+                    19 Treade Center, Đường 12-b<br>
+                    Bahawalpur<br>
+                    ĐT: (92) 326-326487215
+                </address>
+                <p>
+                    <strong>Email:</strong><br>
+                    <a href="mailto:lam181204@gmail.com" class="text-primary">lam181204@gmail.com</a><br>
+                </p>
+                <p>
+                    <strong>Mạng xã hội:</strong><br>
+                    <a href="https://www.facebook.com/share/16nHhpMGAB/?mibextid=wwXIfr" class="btn btn-icon btn-facebook"><i class="fa fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/adonis_2k5?igsh=MTRqaDQyMWpsM2toNg%3D%3D&utm_source=qr" class="btn btn-icon btn-instagram"><i class="fa fa-instagram"></i></a>
+                </p>
+            </div>
+            <!-- KẾT THÚC cột phải -->
+        </div>
+    </div>
+</div>
+<!-- KẾT THÚC #product -->
+{% endblock %}

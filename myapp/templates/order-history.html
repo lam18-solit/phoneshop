@@ -1,0 +1,58 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}<title>Lịch sử đơn hàng</title>{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Lịch sử đơn hàng</h2>
+    <div class="row">
+        {% if messages %}
+            <div class="alert alert-success" role="alert">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="col-md-8 offset-md-2">
+            <div class="list-group">
+                {% if order %}
+                {% for order in order %}
+                
+                <div class="list-group-item list-group-item-action shadow-sm mb-3">
+                    <div class="d-flex w-100 justify-content-between">
+                        <div class="cart-product">
+                            <div class="product-details">
+                                <img src="{{ order.product.product_image.url }}" alt="{{ order.product.product_name }}" class="product-img img-fluid" style="max-width: 100px;">
+                                <div class="product-info">
+                                    <div class="product-name">{{ order.product.product_name }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="order-details">
+                            <div>
+                                <h5 class="mb-1">Ngày đặt hàng: {{ order.created_at|date:"F j, Y" }}</h5>
+                                <small>Tổng tiền: {{ order.total_price|floatformat:"0"|intcomma }} ₫</small>
+                                <p class="mb-1">Trạng thái: {{ order.get_order_status_display }}</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+
+                <tr>
+                    <td colspan="9">
+                        <div class="text-center alert alert-info" role="alert">
+                            Không tìm thấy đơn hàng nào.
+                        </div>
+                    </td>
+                </tr>
+                
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

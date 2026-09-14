@@ -1,0 +1,37 @@
+<nav aria-label="Điều hướng phân trang">
+    <ul class="pagination justify-content-center">
+        {% if reviews.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1" aria-label="Trang đầu">
+                    <span aria-hidden="true">&laquo;&laquo;</span>
+                    <span class="sr-only">Trang đầu</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ reviews.previous_page_number }}" aria-label="Trang trước">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Trang trước</span>
+                </a>
+            </li>
+        {% endif %}
+        {% for i in reviews.paginator.page_range %}
+            <li class="page-item {% if reviews.number == i %}active{% endif %}">
+                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+            </li>
+        {% endfor %}
+        {% if reviews.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ reviews.next_page_number }}" aria-label="Trang sau">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Trang sau</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ reviews.paginator.num_pages }}" aria-label="Trang cuối">
+                    <span aria-hidden="true">&raquo;&raquo;</span>
+                    <span class="sr-only">Trang cuối</span>
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>

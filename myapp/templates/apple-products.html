@@ -1,0 +1,146 @@
+{% extends 'index.html' %}
+{% block content %}
+{% load static %} 
+
+<!-- PHẦN KẾT QUẢ TÌM KIẾM -->
+<div id="search-results" class="section-container bg-silver">
+    <div class="container">
+        <div class="search-container">
+            <!-- NỘI DUNG TÌM KIẾM -->
+            <div class="search-content">
+                <!-- THANH CÔNG CỤ TÌM KIẾM -->
+                <div class="search-toolbar">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4>Chúng tôi đã tìm thấy <strong>{{apple_total_products}}</strong> iPhone, iPad, MacBook phù hợp với bạn</h4>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <ul class="sort-list">
+                                <li class="text"><i class="fa fa-filter"></i> Sắp xếp theo:</li>
+                                <li class="active"><a href="#">Phổ biến</a></li>
+                                <li><a href="#">Hàng mới về</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- KẾT THÚC THANH CÔNG CỤ -->
+
+                <div class="search-item-container">
+                    <div class="item-row">
+                        {% for product in apple_products %}
+                        <div class="item item-thumbnail">
+                            <a href="{% url 'product_detail' product.slug %}" class="item-image">
+                                <img src="{{ product.product_image.url }}" alt="Không có hình ảnh" />
+                                <div class="discount">{{ product.discount_percentage }} % GIẢM</div>
+                            </a>
+
+                            <div class="item-info">
+                                <h4 class="item-title">
+                                    <a href="{% url 'product_detail' product.slug %}">{{ product.product_name }}<br /></a>
+                                </h4>
+                                {% load humanize %}
+                                <p class="item-desc">{{ product.product_description }}</p>
+                                <div class="item-price">{{ product.discounted_price|intcomma }} ₫</div>
+                                <div class="item-discount-price">Giá gốc: {{ product.orignal_price|intcomma }} ₫</div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- PHÂN TRANG -->
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <nav aria-label="Phân trang">
+                            <ul class="pagination">
+                                {% if apple_products.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=1" aria-label="Trang đầu">
+                                        <span aria-hidden="true">&laquo;&laquo;</span>
+                                        <span class="sr-only">Đầu tiên</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ apple_products.previous_page_number }}" aria-label="Trang trước">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Trước</span>
+                                    </a>
+                                </li>
+                                {% endif %}
+                                {% for i in apple_products.paginator.page_range %}
+                                <li class="page-item {% if apple_products.number == i %}active{% endif %}">
+                                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                                </li>
+                                {% endfor %}
+                                {% if apple_products.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ apple_products.next_page_number }}" aria-label="Trang tiếp theo">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Tiếp</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ apple_products.paginator.num_pages }}" aria-label="Trang cuối">
+                                        <span aria-hidden="true">&raquo;&raquo;</span>
+                                        <span class="sr-only">Cuối cùng</span>
+                                    </a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <!-- KẾT THÚC PHÂN TRANG -->
+
+            </div>
+            <!-- KẾT THÚC NỘI DUNG -->
+
+            <!-- THANH BÊN (FILTER) -->
+            <div class="search-sidebar">
+                <h4 class="title">Lọc sản phẩm</h4>
+                <form action="{% url 'apple-products' %}" method="post" name="filter_form">
+                    {% csrf_token %}
+
+                    {% if not apple_products %}
+                    <div class="alert alert-danger">Không tìm thấy sản phẩm nào</div>
+                    {% endif %}
+                    
+                    <div class="form-group">
+                        <label class="control-label">Tìm sản phẩm</label>
+                        <input type="text" class="form-control input-sm" name="search" placeholder="Nhập tên sản phẩm" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Khoảng giá</label>
+                        <div class="row row-space-0">
+                            <div class="col-md-5">
+                                <input type="number" class="form-control input-sm" name="price_from" placeholder="Từ giá" />
+                            </div>
+                            <div class="col-md-2 text-center p-t-5 f-s-12 text-muted">đến</div>
+                            <div class="col-md-5">
+                                <input type="number" class="form-control input-sm" name="price_to" placeholder="Đến giá" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="m-b-30">
+                        <button type="submit" class="btn btn-sm btn-inverse"><i class="fa fa-search"></i> Lọc</button>
+                    </div>
+                </form>
+
+                <h4 class="title m-b-0">Danh mục</h4>
+                <ul class="search-category-list">
+                    <li><a href="#">Điện thoại Apple <span class="pull-right">({{apple_total_products}})</span></a></li>
+                    <li><a href="#">iPad <span class="pull-right">({{ipad_products}})</span></a></li>
+                    <li><a href="#">Điện thoại Realme <span class="pull-right">({{realme_products}})</span></a></li>
+                    <li><a href="#">Sản phẩm Samsung <span class="pull-right">({{samsung_products}})</span></a></li>
+                    <li><a href="#">Laptop HP <span class="pull-right">({{hp_products}})</span></a></li>
+                </ul>
+            </div>
+            <!-- KẾT THÚC THANH BÊN -->
+        </div>
+    </div>
+</div>
+<!-- KẾT THÚC KẾT QUẢ TÌM KIẾM -->
+
+{% endblock %}

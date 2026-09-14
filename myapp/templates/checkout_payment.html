@@ -1,0 +1,245 @@
+{% extends 'index.html' %}
+
+{% block content %}
+{% load static %}   
+<script src="https://js.stripe.com/v3/"></script>
+
+<!-- BẮT ĐẦU #checkout-payment -->
+<div class="section-container" id="checkout-payment">
+    <div class="container">
+        <div class="checkout">
+
+            <!-- BẮT ĐẦU phần tiêu đề -->
+            <div class="checkout-header">
+                <div class="row">
+                    <div class="col-md-3 col-sm-3">
+                        <div class="step">
+                            <a href="{% url 'add_to_cart' %}">
+                                <div class="number">1</div>
+                                <div class="info">
+                                    <div class="title">Tùy chọn giao hàng</div>
+                                    <div class="desc">Vận chuyển toàn quốc, nhanh chóng và an toàn.</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3">
+                        <div class="step">
+                            <a href="{% url 'checkout_info' %}">
+                                <div class="number">2</div>
+                                <div class="info">
+                                    <div class="title">Địa chỉ giao hàng</div>
+                                    <div class="desc">Vui lòng nhập địa chỉ giao hàng của bạn.</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3">
+                        <div class="step active">
+                            <a href="#">
+                                <div class="number">3</div>
+                                <div class="info">
+                                    <div class="title">Thanh toán</div>
+                                    <div class="desc">Chọn phương thức thanh toán.</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3">
+                        <div class="step">
+                            <a href="/checkout_complete">
+                                <div class="number">4</div>
+                                <div class="info">
+                                    <div class="title">Hoàn tất thanh toán</div>
+                                    <div class="desc">Xem lại đơn hàng và xác nhận thanh toán.</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- KẾT THÚC phần tiêu đề -->
+
+            {% include 'alert.html' %}
+
+            <div class="checkout-body">
+                <h4 class="checkout-title">Chọn phương thức thanh toán</h4>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Tên chủ thẻ <span class="text-danger">*</span></label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control required" name="cardholder" placeholder="" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Số thẻ <span class="text-danger">*</span></label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control required" name="cardnumber" placeholder="" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Ngày hết hạn <span class="text-danger">*</span></label>
+                    <div class="col-md-8">
+                        <div class="width-100">
+                            <div class="row row-space-0">
+                                <div class="col-xs-5">
+                                    <input type="text" name="mm" placeholder="MM" class="form-control required p-l-5 p-r-5 text-center" />
+                                </div>
+                                <div class="col-xs-2 text-center">
+                                    <div class="text-muted p-t-5 m-t-2">/</div>
+                                </div>
+                                <div class="col-xs-5">
+                                    <input type="text" name="yy" placeholder="YY" class="form-control required p-l-5 p-r-5 text-center" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label">CSC <span class="text-danger">*</span></label>
+                    <div class="col-md-8">
+                        <div class="width-100 pull-left m-r-10">
+                            <input type="text" name="csc" class="form-control required p-l-5 p-r-5 text-center" />
+                        </div>
+                        <a href="#" class="text-muted f-s-12 pull-left m-t-5 p-t-2">
+                            <i class="fa fa-question-circle"></i> CSC là gì?
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BẮT ĐẦU checkout-footer -->
+            <div class="checkout-footer">
+                <a href="/checkout_info" class="btn btn-white btn-lg pull-left">Quay lại</a>
+                <form action="{% url 'checkout_payment' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-inverse btn-lg p-l-30 p-r-30 m-l-10">Tiếp tục</button>
+                </form>
+            </div>
+            <!-- KẾT THÚC checkout-footer -->
+        </div>
+
+        <h4 class="checkout-title m-t-30 m-b-15">Các câu hỏi thường gặp về thanh toán</h4>
+        <div class="row checkout-question-list" id="checkout-faq">
+            <div class="col-md-6">
+                <div class="clearfix">
+                    <div class="question">
+                        <a href="#checkout-faq-1" class="collapsed" data-toggle="collapse" data-parent="#checkout-faq">
+                            <span class="dash">-</span> Thông tin thẻ của tôi có được bảo vệ không?
+                        </a>   
+                    </div>
+                    <div class="answer collapse in" id="checkout-faq-1">
+                        Tất cả thông tin thẻ được mã hóa và xử lý an toàn thông qua Stripe. Chúng tôi không lưu trữ dữ liệu thẻ.
+                    </div> 
+                </div>
+
+                <div class="clearfix m-t-10">
+                    <div class="question">
+                        <a href="#checkout-faq-2" class="collapsed" data-toggle="collapse" data-parent="#checkout-faq">
+                            <span class="dash">-</span> Tôi có thể sử dụng thẻ ghi nợ (debit) để thanh toán không?
+                        </a>   
+                    </div>
+                    <div class="answer collapse in" id="checkout-faq-2">
+                        Có, chúng tôi chấp nhận cả thẻ tín dụng và thẻ ghi nợ quốc tế có biểu tượng Visa hoặc Mastercard.
+                    </div> 
+                </div>
+
+                <div class="clearfix m-t-10">
+                    <div class="question">
+                        <a href="#checkout-faq-3" class="collapsed" data-toggle="collapse" data-parent="#checkout-faq">
+                            <span class="dash">-</span> Giao dịch bị lỗi, lý do là gì?
+                        </a>   
+                    </div>
+                    <div class="answer collapse in" id="checkout-faq-3">
+                        Một số lý do có thể: không đủ tiền, sai thông tin thẻ, thẻ bị chặn hoặc lỗi mạng.
+                    </div> 
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="clearfix">
+                    <div class="question">
+                        <a href="#checkout-faq-4" class="collapsed" data-toggle="collapse" data-parent="#checkout-faq">
+                            <span class="dash">-</span> Tôi không nhận được mã xác nhận OTP?
+                        </a>   
+                    </div>
+                    <div class="answer collapse in" id="checkout-faq-4">
+                        Hãy kiểm tra lại số điện thoại đã đăng ký với ngân hàng, hoặc thử lại sau vài phút.
+                    </div> 
+                </div>
+
+                <div class="clearfix m-t-10">
+                    <div class="question">
+                        <a href="#checkout-faq-5" class="collapsed" data-toggle="collapse" data-parent="#checkout-faq">
+                            <span class="dash">-</span> Thẻ bị trừ tiền nhưng đơn hàng bị lỗi?
+                        </a>   
+                    </div>
+                    <div class="answer collapse in" id="checkout-faq-5">
+                        Đừng lo lắng! Vui lòng liên hệ bộ phận hỗ trợ, chúng tôi sẽ xác minh và hoàn tiền nếu cần.
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- KẾT THÚC #checkout-payment -->
+
+<script>
+    // Stripe Payment Integration
+    const stripe = Stripe("pk_test_51Ovj1kHMaLFgg1XNRB1Dq4uVviq4ZkJbd460w75eSyAo13efBdBJPRgOpPX3J7C8vm2u17ir3xGeq2FQphguc0R800AqslFwHv");
+    const elements = stripe.elements();
+    const style = {
+        base: {
+            color: '#32325d',
+            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+            fontSmoothing: 'antialiased',
+            fontSize: '16px',
+            '::placeholder': { color: '#aab7c4' }
+        },
+        invalid: {
+            color: '#fa755a',
+            iconColor: '#fa755a'
+        }
+    };
+
+    const card = elements.create('card', { style });
+    card.mount('#card-element');
+
+    card.on('change', (event) => {
+        const displayError = document.getElementById('card-errors');
+        if (event.error) {
+            displayError.textContent = event.error.message;
+        } else {
+            displayError.textContent = '';
+        }
+    });
+
+    const form = document.getElementById('payment-form');
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        try {
+            const { token } = await stripe.createToken(card);
+            if (token.error) {
+                document.getElementById('card-errors').textContent = token.error.message;
+                return;
+            }
+            stripeTokenHandler(token);
+        } catch (error) {
+            console.error('Lỗi Stripe:', error);
+        }
+    });
+
+    function stripeTokenHandler(token) {
+        const form = document.getElementById('payment-form');
+        const hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'stripeToken');
+        hiddenInput.setAttribute('value', token.id);
+        form.appendChild(hiddenInput);
+        form.submit();
+    }
+</script>
+{% endblock %}

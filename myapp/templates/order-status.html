@@ -1,0 +1,72 @@
+{% extends 'index.html' %}
+
+{% block title %}
+<title>Trạng Thái Đơn Hàng</title>
+{% endblock %}
+
+{% block content %}
+{% load humanize %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <br>
+            <h2 class="text-center mb-4">Trạng Thái Đơn Hàng</h2>
+            <hr>
+
+            <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>STT</th>
+                            <th>Mã Đơn Hàng</th>
+                            <th>Tên Sản Phẩm</th>
+                            <th>Số Lượng</th>
+                            <th>Giá</th>
+                            <th>Ngày Đặt</th>
+                            <th>Ngày Giao</th>
+                            <th>Hành Động</th>
+                            <th>Tiến Trình</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if cart_items %}
+                        {% for item in cart_items %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ item.order_id }}</td>
+                            <td>{{ item.product.product_name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.total_price|floatformat:"0"|intcomma }} ₫</td>
+                            <td>{{ item.created_at | date:"d M Y" }}</td>
+                            <td>{{ delivery_date | date:"d M Y" }}</td>
+
+                            <td>
+                                {% if item.order_status < 4 %}
+                                <a href="{% url 'cancel-order' item.id %}" class="btn btn-danger">Huỷ Đơn</a>
+                                {% elif item.order_status == 4 %}
+                                <a href="{% url 'return-order' item.id %}" class="btn btn-warning">Trả Hàng</a>
+                                {% elif item.order_status == 5 %}
+                                <p class="text-success">Đã Huỷ</p>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <a href="{% url 'order_progress' pid=item.id %}" class="btn btn-primary"
+                                    title="Theo dõi tiến trình">Xem</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+                        {% else %}
+                        <tr>
+                            <td colspan="9" class="text-center">Không tìm thấy đơn hàng nào</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

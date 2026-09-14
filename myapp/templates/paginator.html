@@ -1,0 +1,37 @@
+<nav aria-label="Phân trang ví dụ">
+    <ul class="pagination justify-content-center">
+        {% if product1.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1" aria-label="Trang đầu">
+                    <span aria-hidden="true">&laquo;&laquo;</span>
+                    <span class="sr-only">Trang đầu</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ product1.previous_page_number }}" aria-label="Trang trước">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Trang trước</span>
+                </a>
+            </li>
+        {% endif %}
+        {% for i in product1.paginator.page_range %}
+            <li class="page-item {% if product1.number == i %}active{% endif %}">
+                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+            </li>
+        {% endfor %}
+        {% if product1.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ product1.next_page_number }}" aria-label="Trang sau">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Trang sau</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ product1.paginator.num_pages }}" aria-label="Trang cuối">
+                    <span aria-hidden="true">&raquo;&raquo;</span>
+                    <span class="sr-only">Trang cuối</span>
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>

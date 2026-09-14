@@ -1,0 +1,102 @@
+{% extends 'index.html' %}
+
+{% block content %}
+{% load static %} 
+{% load humanize %}
+
+<div class="section-container" id="checkout-cart">
+    <div class="container">
+        <div class="checkout">
+           <form action="{% url 'add_to_cart' %}" method="post" id="cart-form">
+                {% csrf_token %}
+                <div class="checkout-header">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <div class="step active">
+                                <a href="#">
+                                    <div class="number">1</div>
+                                    <div class="info">
+                                        <div class="title">Giao hàng miễn phí</div>
+                                        <div class="desc">Miễn phí giao hàng trên toàn quốc. Không yêu cầu giá trị đơn hàng tối thiểu</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <div class="step">
+                                <a href="{% url 'checkout_info' %}">
+                                    <div class="number">2</div>
+                                    <div class="info">
+                                        <div class="title">Địa chỉ giao hàng</div>
+                                        <div class="desc">Cung cấp địa chỉ để chúng tôi giao hàng đến đúng nơi</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <div class="step">
+                                <a href="{% url 'checkout_payment' %}">
+                                    <div class="number">3</div>
+                                    <div class="info">
+                                        <div class="title">Thanh toán</div>
+                                        <div class="desc">Chọn phương thức thanh toán bạn muốn sử dụng</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <div class="step">
+                                <a href="{% url 'checkout_complete' %}">
+                                    <div class="number">4</div>
+                                    <div class="info">
+                                        <div class="title">Hoàn tất thanh toán</div>
+                                        <div class="desc">Xem lại đơn hàng và hoàn tất thanh toán</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+<div class="checkout-body">
+    <div class="checkout-message">
+        <h1>Cảm ơn bạn! <small>Thanh toán của bạn đã được xử lý thành công với các thông tin sau.</small></h1>
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-payment-summary">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Tên sản phẩm</th>
+                        <th>Số lượng</th>
+                        <th>Thành tiền</th>
+                        <th>Mã đơn hàng</th>
+                        <th>Ngày đặt hàng</th>
+                        <th>Ngày giao dự kiến</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if ordered_items %}
+                        {% for ordered_item in ordered_items %}
+                            <tr>
+                                <td>{{ ordered_item.product.product_name }}</td>
+                                <td>{{ ordered_item.quantity }}</td>
+                                <td>{{ ordered_item.total_price|floatformat:"0"|intcomma }} ₫</td>
+                                <td>{{ ordered_item.order_id }}</td>
+                                <td>{{ ordered_item.created_at|date:"j F, Y" }}</td>
+                                <td>{{ delivery_date|date:"j F, Y" }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="6">Không tìm thấy đơn hàng nào gần đây.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <p class="text-muted text-center">Nếu bạn cần hỗ trợ, vui lòng liên hệ Bộ phận Chăm sóc Khách hàng qua số (123) 456-7890.</p>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,158 @@
+{% extends 'index.html' %}
+{% block content %}
+{% load static %}
+
+<!-- BẮT ĐẦU #faq -->
+<div id="faq" class="section-container">
+    <div class="container">
+        <!-- BẮT ĐẦU breadcrumb -->
+        <ul class="breadcrumb m-b-10 f-s-12">
+            <li><a href="#">Trang chủ</a></li>
+            <li><a href="#">Hỗ trợ</a></li>
+            <li class="active">Câu hỏi thường gặp</li>
+        </ul>
+        <!-- KẾT THÚC breadcrumb -->
+
+        <!-- BẮT ĐẦU danh sách câu hỏi -->
+        <div class="panel-group faq" id="faq-list">
+
+            <!-- Câu hỏi 1 -->
+            <div class="panel panel-inverse">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#faq-1">
+                            <i class="fa fa-question-circle fa-fw m-r-5"></i>
+                            1. Thông tin thanh toán của tôi có được bảo mật không?
+                        </a>
+                    </h4>
+                </div>
+                <div id="faq-1" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <p>
+                            Mọi thông tin thẻ tín dụng hoặc ghi nợ của bạn được mã hóa và xử lý thông qua kết nối bảo mật SSL. Chúng tôi không lưu trữ thông tin thẻ trên hệ thống.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Câu hỏi 2 -->
+            <div class="panel panel-inverse">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#faq-2">
+                            <i class="fa fa-question-circle fa-fw text-muted m-r-5"></i>
+                            2. Tôi có thể thanh toán bằng thẻ ghi nợ không?
+                        </a>
+                    </h4>
+                </div>
+                <div id="faq-2" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>
+                            Có, bạn hoàn toàn có thể sử dụng thẻ ghi nợ để thanh toán. Đảm bảo rằng thẻ của bạn đã được kích hoạt thanh toán trực tuyến từ ngân hàng.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Câu hỏi 3 -->
+            <div class="panel panel-inverse">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#faq-3">
+                            <i class="fa fa-question-circle fa-fw text-primary m-r-5"></i>
+                            3. Giao hàng mất bao lâu?
+                        </a>
+                    </h4>
+                </div>
+                <div id="faq-3" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>
+                            Thời gian giao hàng thường từ 3-5 ngày làm việc, tùy theo khu vực của bạn. Bạn có thể theo dõi đơn hàng qua mã vận đơn.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Câu hỏi 4 -->
+            <div class="panel panel-inverse">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#faq-4">
+                            <i class="fa fa-question-circle fa-fw text-info m-r-5"></i>
+                            4. Làm sao để biết đơn hàng của tôi đã được xử lý?
+                        </a>
+                    </h4>
+                </div>
+                <div id="faq-4" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>
+                            Sau khi đơn hàng được xác nhận, bạn sẽ nhận được email thông báo. Ngoài ra, bạn có thể kiểm tra trạng thái đơn hàng trong tài khoản cá nhân.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Câu hỏi 5 -->
+            <div class="panel panel-inverse">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#faq-5">
+                            <i class="fa fa-question-circle fa-fw text-success m-r-5"></i>
+                            5. Tôi đã bị trừ tiền nhưng đơn hàng không thành công?
+                        </a>
+                    </h4>
+                </div>
+                <div id="faq-5" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>
+                            Trong một số trường hợp hiếm, giao dịch có thể gặp lỗi kỹ thuật. Vui lòng liên hệ bộ phận hỗ trợ với biên lai thanh toán để được hỗ trợ hoàn tiền hoặc xác minh đơn hàng.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Câu hỏi 6 -->
+            <div class="panel panel-inverse">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#faq-6">
+                            <i class="fa fa-question-circle fa-fw text-warning m-r-5"></i>
+                            6. Tôi có thể đổi/trả hàng không?
+                        </a>
+                    </h4>
+                </div>
+                <div id="faq-6" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>
+                            Có, bạn có thể yêu cầu đổi/trả hàng trong vòng 7 ngày kể từ khi nhận hàng nếu sản phẩm bị lỗi hoặc không đúng mô tả. Vui lòng đọc chính sách đổi trả để biết thêm chi tiết.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Câu hỏi 7 -->
+            <div class="panel panel-inverse">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#faq-7">
+                            <i class="fa fa-question-circle fa-fw text-danger m-r-5"></i>
+                            7. Tôi cần hỗ trợ thêm thì liên hệ ở đâu?
+                        </a>
+                    </h4>
+                </div>
+                <div id="faq-7" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>
+                            Bạn có thể liên hệ với bộ phận chăm sóc khách hàng qua email, điện thoại hoặc biểu mẫu liên hệ tại trang "Liên hệ". Chúng tôi sẽ phản hồi trong vòng 24h làm việc.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- KẾT THÚC danh sách câu hỏi -->
+    </div>
+</div>
+<!-- KẾT THÚC #faq -->
+
+{% endblock %}

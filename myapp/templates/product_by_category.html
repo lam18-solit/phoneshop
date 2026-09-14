@@ -1,0 +1,152 @@
+{% extends 'index.html' %}
+{% block content %}
+{% load static %} 
+
+<!-- BẮT ĐẦU: Kết quả tìm kiếm -->
+<div id="search-results" class="section-container bg-silver">
+    <!-- BẮT ĐẦU: container -->
+    <div class="container">
+        <!-- BẮT ĐẦU: search-container -->
+        <div class="search-container">
+            <!-- BẮT ĐẦU: search-content -->
+            <div class="search-content">
+                <!-- BẮT ĐẦU: thanh công cụ tìm kiếm -->
+                <div class="search-toolbar">
+                    <!-- BẮT ĐẦU: dòng -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4>Chúng tôi đã tìm thấy <strong>{{ product_count_filter }}</strong> sản phẩm cho bạn</h4>
+                        </div>
+                        <!-- KẾT THÚC col-6 -->
+                        <div class="col-md-6 text-right">
+                            <ul class="sort-list">
+                                <li class="text"><i class="fa fa-filter"></i> Sắp xếp theo:</li>
+                                <li class="active"><a href="#">Phổ biến</a></li>
+                                <li><a href="{% url 'new-arrival' %}">Hàng mới về</a></li>
+                            </ul>
+                        </div>
+                        <!-- KẾT THÚC col-6 -->
+                    </div>
+                    <!-- KẾT THÚC dòng -->
+                </div>
+                <!-- KẾT THÚC: thanh công cụ tìm kiếm -->
+
+                <div class="search-item-container">
+                    <!-- BẮT ĐẦU: dòng sản phẩm -->
+                    <div class="item-row">
+                        {% for product in paginated_products %}
+                        <div class="item item-thumbnail">
+                            <a href="{% url 'product_detail' product.slug %}" class="item-image">
+                                <img src="{{ product.product_image.url }}" alt="Không có hình ảnh" /> 
+                                <div class="discount">{{ product.discount_percentage }} % GIẢM</div>
+                            </a>
+
+                            <div class="item-info">
+                                <h4 class="item-title">
+                                    <a href="{% url 'product_detail' product.slug  %}">{{ product.product_name }}</a>
+                                </h4>
+                                {% load humanize %}
+                                <p class="item-desc">{{ product.product_description }}</p>
+                                <div class="item-price">Giá khuyến mãi: {{ product.discounted_price|intcomma }} ₫</div>
+                                <div class="item-discount-price">Giá gốc: {{ product.orignal_price|intcomma }} ₫</div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <!-- KẾT THÚC: dòng sản phẩm -->
+                </div>
+
+                <!-- PHÂN TRANG -->
+                <nav aria-label="Phân trang">
+                    <ul class="pagination justify-content-center">
+                        {% if paginated_products.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1" aria-label="Trang đầu">
+                                    <span aria-hidden="true">&laquo;&laquo;</span>
+                                    <span class="sr-only">Trang đầu</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ paginated_products.previous_page_number }}" aria-label="Trang trước">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Trang trước</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% for i in paginated_products.paginator.page_range %}
+                            <li class="page-item {% if paginated_products.number == i %}active{% endif %}">
+                                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                            </li>
+                        {% endfor %}
+                        {% if paginated_products.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ paginated_products.next_page_number }}" aria-label="Trang sau">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Trang sau</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ paginated_products.paginator.num_pages }}" aria-label="Trang cuối">
+                                    <span aria-hidden="true">&raquo;&raquo;</span>
+                                    <span class="sr-only">Trang cuối</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+            <!-- KẾT THÚC: search-content -->
+
+            <!-- BẮT ĐẦU: thanh bên tìm kiếm -->
+            <div class="search-sidebar">
+                <h4 class="title">Lọc theo</h4>
+                <form action="{% url 'product' %}" method="post" name="filter_form">
+                    {% csrf_token %}
+                    {% if messages %}
+                        <div class="alert alert-warning">
+                            {% for message in messages %}
+                                {{ message }}   
+                            {% endfor %}
+                        </div>    
+                    {% endif %}
+                    <input type="hidden" name="company_name" value="{{ company_name }}">
+                    <div class="form-group">
+                        <label class="control-label">Tìm kiếm sản phẩm</label>
+                        <input type="text" class="form-control input-sm" name="search" placeholder="Nhập tên sản phẩm" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Giá</label>
+                        <div class="row row-space-0">
+                            <div class="col-md-5">
+                                <input type="number" class="form-control input-sm" name="price_from" placeholder="Từ giá" />
+                            </div>
+                            <div class="col-md-2 text-center p-t-5 f-s-12 text-muted">đến</div>
+                            <div class="col-md-5">
+                                <input type="number" class="form-control input-sm" name="price_to" placeholder="Đến giá" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-b-30">
+                        <button type="submit" class="btn btn-sm btn-inverse">
+                            <i class="fa fa-search"></i> Lọc
+                        </button>
+                    </div>
+                </form>
+
+                {% if show_top_companies %}
+                <h4 class="title m-b-0">Công ty nổi bật</h4>
+                <ul class="search-category-list">
+                    {% for company, count in company_counts.items %}
+                        <li><a href="{% url 'product_by_company' company_name=company %}">{{ company }} <span class="pull-right">({{ count }})</span></a></li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            <!-- KẾT THÚC: thanh bên -->
+        </div>
+        <!-- KẾT THÚC: search-container -->
+    </div>
+    <!-- KẾT THÚC: container -->
+</div>
+<!-- KẾT THÚC: Kết quả tìm kiếm -->
+{% endblock %}

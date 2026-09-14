@@ -1,0 +1,68 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}<title>Theo dõi đơn hàng</title>{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-r0GzC2frvfuvnaZZVk8Xgiyl/uN+hARaV/titNmvllpaZ2F/0wopd6oTlgkzcz8Qfe5MpRzPqnFsqMMcOefLcg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+    .order-tracking-form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .form-control:focus {
+        border-color: #f05a00;
+        box-shadow: 0 0 0 0.2rem rgba(240, 90, 0, 0.25);
+    }
+
+    .btn-primary {
+        background-color: #f05a00;
+        border-color: #f05a00;
+    }
+
+    .btn-primary:hover {
+        background-color: #d94b00;
+        border-color: #d94b00;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-3"></div> <!-- Cột trống để căn giữa -->
+        <div class="col-md-6">
+            <div class="order-tracking-form">
+                <h2 class="text-center mb-4">Theo dõi đơn hàng</h2>
+                <p class="text-center">Nhập mã theo dõi để kiểm tra tình trạng đơn hàng của bạn.</p>
+                <hr>
+                {% if messages %}
+                <div class="alert alert-warning" role="alert">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <form action="{% url 'order_tracking' %}" method="post">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label for="tracking-id">Mã theo dõi</label>
+                        <input type="text" required name="order_id" class="form-control" id="tracking-id" placeholder="Nhập mã theo dõi của bạn">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fas fa-search"></i> Theo dõi
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
+{% endblock %}
