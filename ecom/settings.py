@@ -43,6 +43,11 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost',
 ]
 
+# Fix CSRF khi chạy qua reverse proxy (Render, Railway...)
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+
 
 # Application definition
 
