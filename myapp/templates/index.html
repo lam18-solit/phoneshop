@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--[if IE 8]> <html lang="vi" class="ie8"> <![endif]-->
 <!--[if !IE]><!-->
 <html lang="vi">
@@ -172,7 +172,7 @@
                                                 {% load humanize %}
                                                 <div class="cart-item-info">
                                                     <h4>{{ cart_items.product.product_name }}</h4>
-                                                    <p class="price">{{ cart_items.product.discounted_price|intcomma }} ₫</p>
+                                                    <p class="price">${{ cart_items.product.discounted_price|floatformat:"2" }}</p>
                                                 </div>
                                                 <div class="cart-item-close">
                                                     <a href="{% url 'remove_cart' cart_items.product.slug %}" data-toggle="tooltip" data-title="Xóa">&times;</a>
@@ -234,7 +234,7 @@
                     <div class="policy">
                         <div class="policy-icon"><i class="fa fa-truck"></i></div>
                         <div class="policy-info">
-                            <h4>Miễn phí giao hàng cho đơn &gt; 500.000 ₫</h4>
+                            <h4>Miễn phí giao hàng cho đơn &gt; 500.000</h4>
                             <p>Đặt hàng hôm nay, nhận hàng tận tay!</p>
                         </div>
                     </div>
@@ -343,7 +343,7 @@
                             </div>
                             <div class="info">
                                 <h4 class="info-title">{{ item.product_name }}</h4>
-                                <div class="price">{{ item.discounted_price|intcomma }} ₫</div>
+                                <div class="price">${{ item.discounted_price|floatformat:"2" }}</div>
                             </div>
                         </li>
                         {% endfor %}
@@ -415,3 +415,4 @@
 </script>
 </body>
 </html>
+

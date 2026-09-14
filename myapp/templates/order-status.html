@@ -1,4 +1,4 @@
-{% extends 'index.html' %}
+﻿{% extends 'index.html' %}
 
 {% block title %}
 <title>Trạng Thái Đơn Hàng</title>
@@ -37,7 +37,7 @@
                             <td>{{ item.order_id }}</td>
                             <td>{{ item.product.product_name }}</td>
                             <td>{{ item.quantity }}</td>
-                            <td>{{ item.total_price|floatformat:"0"|intcomma }} ₫</td>
+                            <td>${{ item.total_price|floatformat:"0"|floatformat:"2" }}</td>
                             <td>{{ item.created_at | date:"d M Y" }}</td>
                             <td>{{ delivery_date | date:"d M Y" }}</td>
 
@@ -70,3 +70,4 @@
     </div>
 </div>
 {% endblock %}
+

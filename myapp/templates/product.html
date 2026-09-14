@@ -1,4 +1,4 @@
-{% extends 'index.html' %}
+﻿{% extends 'index.html' %}
 {% block content %}
 {% load static %} 
 {% load humanize %}
@@ -39,8 +39,8 @@
                                     <a href="{% url 'product_detail' product.slug  %}">{{ product.product_name }}</a>
                                 </h4>
                                 <p class="item-desc">{{ product.product_description }}</p>
-                                <div class="item-price">Giá khuyến mãi: {{ product.discounted_price|intcomma }} ₫</div>
-                                <div class="item-discount-price">Giá gốc: {{ product.orignal_price|intcomma }} ₫</div>
+                                <div class="item-price">Giá khuyến mãi: ${{ product.discounted_price|floatformat:"2" }}</div>
+                                <div class="item-discount-price">Giá gốc: ${{ product.orignal_price|floatformat:"2" }}</div>
                             </div>
                         </div>
                         {% endfor %}
@@ -144,3 +144,4 @@
 </div>
 <!-- KẾT THÚC search-results -->
 {% endblock %}
+

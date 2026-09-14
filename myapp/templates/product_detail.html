@@ -1,4 +1,4 @@
-{% extends 'index.html' %}
+﻿{% extends 'index.html' %}
 
 {% block title %}
 <title>{{product.product_name}}</title>
@@ -52,10 +52,10 @@
 
           <div class="product-purchase-container">
             <div class="product-discount">
-              <span class="discount">Giá gốc: {{ product.orignal_price|intcomma }} ₫</span>
+              <span class="discount">Giá gốc: ${{ product.orignal_price|floatformat:"2" }}</span>
             </div>
             <div class="product-price">
-              <div class="price">Giá khuyến mãi: {{ product.discounted_price|intcomma }} ₫</div>
+              <div class="price">Giá khuyến mãi: ${{ product.discounted_price|floatformat:"2" }}</div>
             </div>
 
             {% include "alert.html" %}
@@ -202,8 +202,8 @@
                 <a href="{% url 'product_detail' p.slug %}">{{p.product_name}}<br /></a>
               </h4>
               <p class="item-desc">{{p.product_description}}</p>
-              <div class="item-price">Giá khuyến mãi: {{ p.discounted_price|intcomma }} ₫</div>
-              <div class="item-discount-price">Giá gốc: {{ p.orignal_price|intcomma }} ₫</div>
+              <div class="item-price">Giá khuyến mãi: ${{ p.discounted_price|floatformat:"2" }}</div>
+              <div class="item-discount-price">Giá gốc: ${{ p.orignal_price|floatformat:"2" }}</div>
             </div>
           </div>
         </div>
@@ -226,3 +226,4 @@
 </script>
 
 {% endblock %}
+

@@ -1,4 +1,4 @@
-{% extends 'index.html' %}
+﻿{% extends 'index.html' %}
 
 {% block content %}
 {% load static %} 
@@ -83,7 +83,7 @@
                                         </div>
                                     </td>
                                     <td class="cart-price">
-                                        <div class="price-tag">{{ cart_item.product.orignal_price|intcomma }} ₫ / cái</div>
+                                        <div class="price-tag">${{ cart_item.product.orignal_price|floatformat:"2" }} / cái</div>
                                     </td>
                                     <td class="cart-qty">
                                         <form method="post" action="{% url 'add_to_cart' %}">
@@ -96,7 +96,7 @@
                                             </div>
                                         </form>
                                     </td>
-                                    <td class="cart-total"><strong>{{ cart_item.total_price|floatformat:"0"|intcomma }} ₫</strong></td>
+                                    <td class="cart-total"><strong>${{ cart_item.total_price|floatformat:"0"|floatformat:"2" }}</strong></td>
                                 </tr>
                                 {% endfor %}
 
@@ -105,15 +105,15 @@
                                         <div class="summary-container">
                                             <div class="summary-row">
                                                 <div class="field">Tạm tính</div>
-                                                <div class="value" id="subtotal">{{ subtotal|floatformat:"0"|intcomma }} ₫</div>
+                                                <div class="value" id="subtotal">${{ subtotal|floatformat:"0"|floatformat:"2" }}</div>
                                             </div>
                                             <div class="summary-row text-danger">
                                                 <div class="field">Phí giao hàng</div>
-                                                <div class="value">0 ₫</div>
+                                                <div class="value">0</div>
                                             </div>
                                             <div class="summary-row total">
                                                 <div class="field">Tổng cộng</div>
-                                                <div class="value" id="total">{{ total|floatformat:"0"|intcomma }} ₫</div>
+                                                <div class="value" id="total">${{ total|floatformat:"0"|floatformat:"2" }}</div>
                                             </div>
                                         </div>
                                     </td>
@@ -132,3 +132,4 @@
     </div>
 </div>
 {% endblock %}
+

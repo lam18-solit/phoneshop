@@ -1,4 +1,4 @@
-{% extends 'index.html' %}
+﻿{% extends 'index.html' %}
 {% load static %}
 {% load humanize %}
 {% block title %}<title>Lịch sử đơn hàng</title>{% endblock %}
@@ -32,7 +32,7 @@
                         <div class="order-details">
                             <div>
                                 <h5 class="mb-1">Ngày đặt hàng: {{ order.created_at|date:"F j, Y" }}</h5>
-                                <small>Tổng tiền: {{ order.total_price|floatformat:"0"|intcomma }} ₫</small>
+                                <small>Tổng tiền: ${{ order.total_price|floatformat:"0"|floatformat:"2" }}</small>
                                 <p class="mb-1">Trạng thái: {{ order.get_order_status_display }}</p>
                             </div>
                         </div>
@@ -56,3 +56,4 @@
     </div>
 </div>
 {% endblock %}
+

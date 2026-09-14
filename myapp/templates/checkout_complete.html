@@ -1,4 +1,4 @@
-{% extends 'index.html' %}
+﻿{% extends 'index.html' %}
 
 {% block content %}
 {% load static %} 
@@ -80,7 +80,7 @@
                             <tr>
                                 <td>{{ ordered_item.product.product_name }}</td>
                                 <td>{{ ordered_item.quantity }}</td>
-                                <td>{{ ordered_item.total_price|floatformat:"0"|intcomma }} ₫</td>
+                                <td>${{ ordered_item.total_price|floatformat:"0"|floatformat:"2" }}</td>
                                 <td>{{ ordered_item.order_id }}</td>
                                 <td>{{ ordered_item.created_at|date:"j F, Y" }}</td>
                                 <td>{{ delivery_date|date:"j F, Y" }}</td>
@@ -100,3 +100,4 @@
 </div>
 
 {% endblock %}
+

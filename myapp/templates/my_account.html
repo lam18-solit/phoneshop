@@ -1,4 +1,4 @@
-{% extends 'index.html' %}
+﻿{% extends 'index.html' %}
 {% block content %}
 {% load static %}        
 {% load humanize %}
@@ -31,7 +31,7 @@
                                 <tr>
                                     <td class="align-middle">{{ ordered_item.product.product_name }}</td>
                                     <td class="align-middle">{{ ordered_item.quantity }}</td>
-                                    <td class="align-middle">{{ ordered_item.total_price|floatformat:"0"|intcomma }} ₫</td>
+                                    <td class="align-middle">${{ ordered_item.total_price|floatformat:"0"|floatformat:"2" }}</td>
                                     <td class="align-middle">{{ ordered_item.order_id }}</td>
                                     <td class="align-middle">{{ ordered_item.created_at|date:"j F, Y" }}</td>
                                     <td class="align-middle">{{ delivery_date|date:"j F, Y" }}</td>
@@ -50,3 +50,4 @@
 </div>
 
 {% endblock %}
+

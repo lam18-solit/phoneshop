@@ -1,4 +1,4 @@
-{% extends 'index.html' %}
+﻿{% extends 'index.html' %}
 {% block content %}
 {% load static %}
 
@@ -36,8 +36,8 @@
                                 </h4>
                                 {% load humanize %}
                                 <p class="item-desc">{{ product.product_description }}</p>
-                                <div class="item-price">Giá khuyến mãi: {{ product.discounted_price|intcomma }} ₫</div>
-                                <div class="item-discount-price">Giá gốc: {{ product.orignal_price|intcomma }} ₫</div>
+                                <div class="item-price">Giá khuyến mãi: ${{ product.discounted_price|floatformat:"2" }}</div>
+                                <div class="item-discount-price">Giá gốc: ${{ product.orignal_price|floatformat:"2" }}</div>
                             </div>
                         </div>
                         {% endfor %}
@@ -48,3 +48,4 @@
     </div>
 </div>
 {% endblock %}
+
