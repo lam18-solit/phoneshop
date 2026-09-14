@@ -1,0 +1,1055 @@
+[
+{
+  "model": "myapp.category",
+  "pk": 1,
+  "fields": {
+    "category": "Mobile Phones",
+    "is_active": true
+  }
+},
+{
+  "model": "myapp.category",
+  "pk": 2,
+  "fields": {
+    "category": "Laptops",
+    "is_active": true
+  }
+},
+{
+  "model": "myapp.category",
+  "pk": 3,
+  "fields": {
+    "category": "Tablet",
+    "is_active": true
+  }
+},
+{
+  "model": "myapp.category",
+  "pk": 5,
+  "fields": {
+    "category": "Dekstop Computers",
+    "is_active": true
+  }
+},
+{
+  "model": "myapp.category",
+  "pk": 6,
+  "fields": {
+    "category": "Watches",
+    "is_active": true
+  }
+},
+{
+  "model": "myapp.company",
+  "pk": 6,
+  "fields": {
+    "category": 1,
+    "company": "XIAOMI",
+    "is_active": true
+  }
+},
+{
+  "model": "myapp.company",
+  "pk": 7,
+  "fields": {
+    "category": 1,
+    "company": "Samsung",
+    "is_active": true
+  }
+},
+{
+  "model": "myapp.company",
+  "pk": 4,
+  "fields": {
+    "category": 1,
+    "company": "Realme",
+    "is_active": true
+  }
+},
+{
+  "model": "myapp.company",
+  "pk": 14,
+  "fields": {
+    "category": 2,
+    "company": "ROG",
+    "is_active": true
+  }
+},
+{
+  "model": "myapp.company",
+  "pk": 8,
+  "fields": {
+    "category": 1,
+    "company": "Oppo",
+    "is_active": true
+  }
+},
+{
+  "model": "myapp.company",
+  "pk": 12,
+  "fields": {
+    "category": 2,
+    "company": "Microsoft",
+    "is_active": true
+  }
+},
+{
+  "model": "myapp.company",
+  "pk": 10,
+  "fields": {
+    "category": 2,
+    "company": "Lenovo",
+    "is_active": true
+  }
+},
+{
+  "model": "myapp.company",
+  "pk": 2,
+  "fields": {
+    "category": 2,
+    "company": "HP",
+    "is_active": true
+  }
+},
+{
+  "model": "myapp.company",
+  "pk": 13,
+  "fields": {
+    "category": 1,
+    "company": "Google Pixel",
+    "is_active": true
+  }
+},
+{
+  "model": "myapp.company",
+  "pk": 9,
+  "fields": {
+    "category": 2,
+    "company": "Dell",
+    "is_active": true
+  }
+},
+{
+  "model": "myapp.company",
+  "pk": 5,
+  "fields": {
+    "category": 1,
+    "company": "Asus",
+    "is_active": true
+  }
+},
+{
+  "model": "myapp.company",
+  "pk": 1,
+  "fields": {
+    "category": 1,
+    "company": "Apple",
+    "is_active": true
+  }
+},
+{
+  "model": "myapp.company",
+  "pk": 11,
+  "fields": {
+    "category": 2,
+    "company": "Acer",
+    "is_active": true
+  }
+},
+{
+  "model": "myapp.product",
+  "pk": 1,
+  "fields": {
+    "category": 1,
+    "company": 1,
+    "product_name": "Iphone X",
+    "product_description": "tuyệt vời",
+    "orignal_price": 119999,
+    "discount_percentage": 2,
+    "warranty": 1,
+    "product_image": "product_images/iphone_x_5cZkDME.jpg",
+    "is_stock": true,
+    "is_active": true,
+    "is_trending": true,
+    "slug": "iphone-x",
+    "created_at": "2024-04-28T12:55:12.723Z"
+  }
+},
+{
+  "model": "myapp.product",
+  "pk": 2,
+  "fields": {
+    "category": 1,
+    "company": 1,
+    "product_name": "Iphone 6s",
+    "product_description": "chiếc iPhone tuyệt vời",
+    "orignal_price": 13500,
+    "discount_percentage": 20,
+    "warranty": 1,
+    "product_image": "product_images/Iphone_6s_kgGVvFA.png",
+    "is_stock": true,
+    "is_active": true,
+    "is_trending": false,
+    "slug": "iphone-6s",
+    "created_at": "2024-04-29T09:18:16.035Z"
+  }
+},
+{
+  "model": "myapp.product",
+  "pk": 3,
+  "fields": {
+    "category": 2,
+    "company": 2,
+    "product_name": "HP core i7",
+    "product_description": "Máy tính xách tay HP Core i7 là một thiết bị hiệu năng cao được thiết kế để đáp ứng nhu cầu của cả chuyên gia và người dùng cao cấp. Được trang bị bộ vi xử lý Intel Core i7 mới nhất, máy mang lại tốc độ và hiệu suất vượt trội cho các tác vụ đa nhiệm, tính toán chuyên sâu và công việc sáng tạo. Máy tính xách tay này sở hữu màn hình Full HD sống động hoặc độ phân giải cao hơn, đảm bảo hình ảnh sắc nét và rõ ràng cho trải nghiệm xem đắm chìm. Với RAM lên đến 16GB hoặc hơn và ổ SSD tốc độ cao, máy cung cấp bộ nhớ và dung lượng lưu trữ lớn cho hiệu năng mượt mà và truy cập dữ liệu nhanh chóng. Máy tính xách tay HP Core i7 cũng tự hào với chất lượng thiết kế chắc chắn, các tính năng bảo mật tiên tiến và nhiều tùy chọn kết nối, khiến nó trở thành lựa chọn lý tưởng cho những ai đang tìm kiếm một chiếc máy tính xách tay mạnh mẽ và đa năng cho công việc và giải trí.",
+    "orignal_price": 120000,
+    "discount_percentage": 35,
+    "warranty": 1,
+    "product_image": "product_images/hp_laptop_02_WAaRJOV.jpeg",
+    "is_stock": true,
+    "is_active": true,
+    "is_trending": false,
+    "slug": "hp-core-i7",
+    "created_at": "2024-05-26T10:52:01.309Z"
+  }
+},
+{
+  "model": "myapp.product",
+  "pk": 5,
+  "fields": {
+    "category": 5,
+    "company": 1,
+    "product_name": "Apple IMac M1",
+    "product_description": "Giới thiệu Apple iMac 24 inch với chip M1! Chiếc máy tính để bàn all-in-one bóng bẩy này sở hữu màn hình Retina 4.5K tuyệt đẹp, với nhiều màu sắc rực rỡ. Được trang bị chip M1, iMac mang lại hiệu năng và hiệu suất đáng kinh ngạc. Các tính năng chính bao gồm camera FaceTime HD 1080p, micro chất lượng phòng thu và hệ thống âm thanh sáu loa. Với RAM lên đến 16GB, ổ cứng SSD lên đến 2TB và cổng Thunderbolt/USB 4, iMac hoàn hảo cho cả công việc lẫn giải trí. Nâng cấp không gian làm việc của bạn với iMac mới!",
+    "orignal_price": 594997,
+    "discount_percentage": 1,
+    "warranty": 1,
+    "product_image": "product_images/imac.jpg",
+    "is_stock": true,
+    "is_active": true,
+    "is_trending": true,
+    "slug": "apple-imac-m1",
+    "created_at": "2024-06-09T18:52:06.447Z"
+  }
+},
+{
+  "model": "myapp.product",
+  "pk": 6,
+  "fields": {
+    "category": 2,
+    "company": 1,
+    "product_name": "Macbook air",
+    "product_description": "Được trang bị chip M1 của Apple, MacBook Air kết hợp hiệu năng mạnh mẽ với thiết kế mỏng nhẹ, thanh lịch. Máy sở hữu màn hình Retina 13,3 inch tuyệt đẹp với màu sắc sống động và chi tiết sắc nét. Với thời lượng pin lên đến 18 giờ, MacBook Air hoàn hảo cho việc sử dụng cả ngày. MacBook Air được trang bị bàn phím Magic Keyboard thoải mái, ổ SSD tốc độ cao và bảo mật tiên tiến với Touch ID. Lý tưởng cho cả công việc lẫn giải trí, MacBook Air mang đến tốc độ và hiệu suất vượt trội trong một thiết kế di động.",
+    "orignal_price": 265999,
+    "discount_percentage": 2,
+    "warranty": 1,
+    "product_image": "product_images/macbookair-og-202402_4fbNnyX.jpeg",
+    "is_stock": true,
+    "is_active": true,
+    "is_trending": true,
+    "slug": "macbook-air",
+    "created_at": "2024-06-09T19:22:31.623Z"
+  }
+},
+{
+  "model": "myapp.product",
+  "pk": 7,
+  "fields": {
+    "category": 1,
+    "company": 1,
+    "product_name": "Iphone SE",
+    "product_description": "iPhone SE sở hữu những tính năng mạnh mẽ trong một thiết kế nhỏ gọn. Với màn hình Retina HD 4,7 inch quen thuộc và Touch ID, iPhone SE mang đến trải nghiệm người dùng thoải mái. Được trang bị chip A13 Bionic, máy mang lại hiệu năng nhanh chóng và khả năng đa nhiệm mượt mà. Hệ thống camera đơn cho phép chụp ảnh ấn tượng và quay video 4K, trong khi chế độ Chân dung (Portrait) giúp tăng chiều sâu cho ảnh chụp. Với mức giá phải chăng và các tính năng hiện đại, iPhone SE là lựa chọn tuyệt vời cho những ai ưa chuộng một chiếc điện thoại thông minh nhỏ gọn mà không ảnh hưởng đến hiệu năng.",
+    "orignal_price": 92499,
+    "discount_percentage": 5,
+    "warranty": 1,
+    "product_image": "product_images/Iphone_SE.jpg",
+    "is_stock": true,
+    "is_active": true,
+    "is_trending": false,
+    "slug": "iphone-se",
+    "created_at": "2024-06-09T19:32:02.770Z"
+  }
+},
+{
+  "model": "myapp.product",
+  "pk": 8,
+  "fields": {
+    "category": 6,
+    "company": 1,
+    "product_name": "Apple watch series 9",
+    "product_description": "Apple Watch Series 9 là phiên bản mới nhất của chiếc đồng hồ thông minh biểu tượng của Apple, sở hữu các tính năng tiên tiến và sự tiện lợi vượt trội. Với thiết kế thanh lịch và khả năng theo dõi sức khỏe tiên tiến, sản phẩm sẽ hòa nhập hoàn hảo vào phong cách sống của bạn. Tận hưởng màn hình sống động và nhạy bén, mặt đồng hồ có thể tùy chỉnh và hàng loạt tùy chọn theo dõi sức khỏe, bao gồm vòng hoạt động, bài tập và theo dõi nhịp tim. Luôn kết nối với thông báo, cuộc gọi và tin nhắn ngay trên cổ tay, đồng thời tận dụng GPS tích hợp và kết nối di động tùy chọn để tăng thêm sự tự do. Dù bạn đang vận động, quản lý lịch trình hay chỉ đơn giản là giữ liên lạc, Apple Watch Series 9 sẽ là người bạn đồng hành lý tưởng cho cuộc sống hàng ngày của bạn.",
+    "orignal_price": 115999,
+    "discount_percentage": 2,
+    "warranty": 1,
+    "product_image": "product_images/apple_watch_series_9.jpg",
+    "is_stock": true,
+    "is_active": true,
+    "is_trending": true,
+    "slug": "apple-watch-series-9",
+    "created_at": "2024-06-09T19:54:31.379Z"
+  }
+},
+{
+  "model": "myapp.product",
+  "pk": 9,
+  "fields": {
+    "category": 5,
+    "company": 1,
+    "product_name": "Mac Mini",
+    "product_description": "Mac Mini là máy tính để bàn nhỏ gọn và đa năng, sở hữu sức mạnh ấn tượng trong một thiết kế nhỏ gọn. Với thiết kế thanh lịch và hiệu năng mạnh mẽ, Mac Mini hoàn hảo cho nhiều tác vụ, từ tính toán hàng ngày đến các dự án sáng tạo, v.v. Máy được trang bị chip Apple silicon mới nhất, mang đến tốc độ xử lý nhanh chóng và khả năng đa nhiệm hiệu quả. Với hàng loạt tùy chọn kết nối, bao gồm cổng Thunderbolt, USB-C, HDMI và Ethernet, Mac Mini dễ dàng tích hợp vào bất kỳ thiết lập nào. Cho dù bạn là một chuyên gia đang tìm kiếm một máy trạm mạnh mẽ hay một người dùng thông thường cần một chiếc máy tính đáng tin cậy, Mac Mini đều mang đến trải nghiệm máy tính liền mạch và hiệu quả.",
+    "orignal_price": 187900,
+    "discount_percentage": 2,
+    "warranty": 1,
+    "product_image": "product_images/mac-mini-hero.jpg",
+    "is_stock": true,
+    "is_active": true,
+    "is_trending": false,
+    "slug": "mac-mini",
+    "created_at": "2024-06-09T20:07:31.922Z"
+  }
+},
+{
+  "model": "myapp.product",
+  "pk": 10,
+  "fields": {
+    "category": 1,
+    "company": 1,
+    "product_name": "Iphone 15 pro",
+    "product_description": "iPhone 15 Pro, chiếc điện thoại thông minh hàng đầu mới nhất của Apple, sở hữu thiết kế thanh lịch với khung titan bền bỉ và mặt trước bằng gốm. Được trang bị chip A17 Bionic mạnh mẽ, iPhone 15 Pro mang đến hiệu năng và hiệu suất vượt trội. Màn hình Super Retina XDR 6,1 inch mang đến hình ảnh tuyệt đẹp với công nghệ ProMotion cho trải nghiệm cuộn mượt mà hơn. Hệ thống ba camera tiên tiến bao gồm cảm biến chính 48MP, ống kính góc siêu rộng và ống kính tele, mang đến chất lượng ảnh và video vượt trội. Thời lượng pin được cải thiện, kết nối 5G và hàng loạt tính năng đột phá khiến iPhone 15 Pro trở thành lựa chọn hàng đầu cho những người đam mê công nghệ.",
+    "orignal_price": 243000,
+    "discount_percentage": 10,
+    "warranty": 1,
+    "product_image": "product_images/apple_15_pro_03_4XOizlb.jpg",
+    "is_stock": true,
+    "is_active": true,
+    "is_trending": false,
+    "slug": "iphone-15-pro",
+    "created_at": "2024-06-10T08:19:26.646Z"
+  }
+},
+{
+  "model": "myapp.product",
+  "pk": 11,
+  "fields": {
+    "category": 1,
+    "company": 5,
+    "product_name": "Asus ROG Phone II",
+    "product_description": "Asus ROG Phone II là điện thoại thông minh chơi game mạnh mẽ được thiết kế dành riêng cho các game thủ chuyên nghiệp. Máy sở hữu màn hình AMOLED 6,59 inch với tần số quét 120Hz, mang đến hình ảnh siêu mượt và nhạy bén. Được trang bị bộ vi xử lý Qualcomm Snapdragon 855+ và RAM lên đến 12GB, ROG Phone II mang đến hiệu năng vượt trội cho các tựa game nặng và đa nhiệm. Pin 6000mAh đảm bảo trải nghiệm chơi game dài lâu mà không bị gián đoạn. Với hệ thống tản nhiệt tiên tiến, đèn RGB tùy chỉnh và các tính năng chuyên biệt dành riêng cho game như AirTriggers và âm thanh nâng cao, ROG Phone II mang đến trải nghiệm chơi game đỉnh cao khi di chuyển.",
+    "orignal_price": 164000,
+    "discount_percentage": 5,
+    "warranty": 1,
+    "product_image": "product_images/asus-rog-phone-ii-2-pakistan-priceoye-4g1co-500x500_EJZ62gG.webp",
+    "is_stock": true,
+    "is_active": true,
+    "is_trending": true,
+    "slug": "asus-rog-phone-ii",
+    "created_at": "2024-06-10T08:45:21.167Z"
+  }
+},
+{
+  "model": "myapp.product",
+  "pk": 12,
+  "fields": {
+    "category": 1,
+    "company": 4,
+    "product_name": "Realme C67",
+    "product_description": "Realme C67 là một chiếc điện thoại thông minh giá cả phải chăng, kết hợp các tính năng thiết yếu với thiết kế tinh tế. Máy sở hữu màn hình HD+ 6,5 inch, mang đến hình ảnh rõ nét và sống động cho nhu cầu sử dụng hàng ngày. Được trang bị bộ vi xử lý MediaTek Helio G35 và RAM 4GB, Realme C67 đảm bảo hiệu năng mượt mà cho cả đa nhiệm cơ bản và chơi game giải trí. Pin 5000mAh mang đến thời lượng pin dài, cho phép sử dụng cả ngày chỉ với một lần sạc. Được trang bị hệ thống camera kép với cảm biến chính 13MP và cảm biến chiều sâu 2MP, Realme C67 cho khả năng chụp ảnh và chân dung khá tốt. Với thiết kế hiện đại và các tính năng đáng giá, Realme C67 là một lựa chọn tuyệt vời cho người dùng có ngân sách eo hẹp.",
+    "orignal_price": 47999,
+    "discount_percentage": 5,
+    "warranty": 1,
+    "product_image": "product_images/Realme_C67_8EFYM2q.webp",
+    "is_stock": true,
+    "is_active": true,
+    "is_trending": false,
+    "slug": "realme-c67",
+    "created_at": "2024-06-10T08:46:40.971Z"
+  }
+},
+{
+  "model": "myapp.product",
+  "pk": 13,
+  "fields": {
+    "category": 1,
+    "company": 6,
+    "product_name": "Redmi Note 13",
+    "product_description": "Camera ba 108MP + 8MP + 2MP | Cảm biến vân tay trong màn hình Mở khóa bằng khuôn mặt AI | GPS: L1 | GLONASS: G1 | BDS: B1I | Galileo E1",
+    "orignal_price": 57000,
+    "discount_percentage": 5,
+    "warranty": 1,
+    "product_image": "product_images/65ec023d67e45_1709965885.webp",
+    "is_stock": true,
+    "is_active": true,
+    "is_trending": false,
+    "slug": "redmi-note-13",
+    "created_at": "2024-06-10T08:49:17.303Z"
+  }
+},
+{
+  "model": "myapp.product",
+  "pk": 14,
+  "fields": {
+    "category": 1,
+    "company": 7,
+    "product_name": "Samsung Galaxy S24",
+    "product_description": "Samsung Galaxy S24 là chiếc điện thoại thông minh hàng đầu kết hợp công nghệ tiên tiến với thiết kế thanh lịch. Máy sở hữu màn hình Dynamic AMOLED 2X 6,8 inch với tần số quét 120Hz, mang đến hình ảnh tuyệt đẹp và trải nghiệm tương tác mượt mà. Được trang bị bộ vi xử lý Exynos 2400 hoặc Snapdragon 8 Gen 3 mới nhất (tùy theo khu vực) và RAM lên đến 16GB, S24 mang đến hiệu năng hàng đầu cho đa nhiệm, chơi game và làm việc. Hệ thống ba camera, bao gồm cảm biến chính 108MP, ống kính góc siêu rộng và ống kính tele, mang đến chất lượng ảnh và video vượt trội. Với pin 5000mAh, khả năng sạc nhanh và các tính năng phần mềm tiên tiến, Galaxy S24 mang đến trải nghiệm người dùng cao cấp, trở thành lựa chọn nổi bật trên thị trường điện thoại thông minh cao cấp.",
+    "orignal_price": 269998,
+    "discount_percentage": 5,
+    "warranty": 1,
+    "product_image": "product_images/Samsung_Galaxy_S24_tUYga3m.webp",
+    "is_stock": true,
+    "is_active": true,
+    "is_trending": false,
+    "slug": "samsung-galaxy-s24",
+    "created_at": "2024-06-10T08:51:32.370Z"
+  }
+},
+{
+  "model": "myapp.product",
+  "pk": 15,
+  "fields": {
+    "category": 1,
+    "company": 8,
+    "product_name": "Oppo reno 11 5g",
+    "product_description": "Oppo Reno 11 5G là chiếc điện thoại thông minh thời trang và mạnh mẽ được thiết kế dành cho người dùng hiện đại. Máy sở hữu màn hình AMOLED 6,7 inch với tần số quét 120Hz, đảm bảo hình ảnh sống động và trải nghiệm cuộn mượt mà. Được trang bị bộ vi xử lý MediaTek Dimensity 920 và RAM 8GB, Reno 11 5G mang đến hiệu năng mạnh mẽ cho đa nhiệm và chơi game. Thiết bị hỗ trợ kết nối 5G, mang đến tốc độ internet nhanh chóng. Hệ thống ba camera đa năng bao gồm cảm biến chính 64MP, ống kính góc siêu rộng và ống kính macro, mang đến những bức ảnh và video chất lượng cao. Với pin 4500mAh và hỗ trợ sạc nhanh, Oppo Reno 11 5G đảm bảo thời gian sử dụng kéo dài và sạc nhanh, biến nó thành lựa chọn tuyệt vời cho những ai đang tìm kiếm một chiếc điện thoại thông minh tầm trung giàu tính năng.",
+    "orignal_price": 118999,
+    "discount_percentage": 4,
+    "warranty": 1,
+    "product_image": "product_images/oppo-reno-11-5g-pakistan-priceoye-lb2hi_M3CIr3t.jpg",
+    "is_stock": true,
+    "is_active": true,
+    "is_trending": false,
+    "slug": "oppo-reno-11-5g",
+    "created_at": "2024-06-10T08:54:10.105Z"
+  }
+},
+{
+  "model": "myapp.product",
+  "pk": 16,
+  "fields": {
+    "category": 1,
+    "company": 1,
+    "product_name": "Iphone 15",
+    "product_description": "iPhone 15 là sự bổ sung hoàn hảo và mạnh mẽ cho dòng điện thoại thông minh biểu tượng của Apple. Máy sở hữu màn hình Super Retina XDR 6,1 inch, mang lại độ sắc nét tuyệt vời và màu sắc sống động. Được trang bị chip A16 Bionic, iPhone 15 đảm bảo hiệu năng nhanh chóng và hiệu quả cho mọi tác vụ, từ đa nhiệm đến chơi game. Hệ thống camera kép bao gồm cảm biến chính 48MP và ống kính góc siêu rộng, mang đến chất lượng ảnh và video vượt trội với hiệu suất chụp thiếu sáng được cải thiện. Với thời lượng pin được cải thiện, kết nối 5G và các tính năng tiên tiến như Face ID và MagSafe, iPhone 15 mang đến trải nghiệm cao cấp, kết hợp công nghệ tiên tiến với thiết kế nổi tiếng của Apple và giao diện thân thiện với người dùng.",
+    "orignal_price": 329050,
+    "discount_percentage": 2,
+    "warranty": 1,
+    "product_image": "product_images/apple-iphone-15-pakistan-priceoye-z3uq9-500x500_zv3WPYp.webp",
+    "is_stock": true,
+    "is_active": true,
+    "is_trending": false,
+    "slug": "iphone-15",
+    "created_at": "2024-06-10T08:55:45.334Z"
+  }
+},
+{
+  "model": "myapp.product",
+  "pk": 17,
+  "fields": {
+    "category": 2,
+    "company": 9,
+    "product_name": "DELL Vostro 15 3520",
+    "product_description": "Dell Vostro 15 3520 là một chiếc máy tính xách tay đáng tin cậy và hiệu quả, được thiết kế cho mục đích kinh doanh và chuyên nghiệp. Được trang bị bộ vi xử lý Intel Core i5 thế hệ thứ 12, máy mang lại hiệu năng mạnh mẽ cho các tác vụ đa nhiệm, năng suất và các tác vụ tính toán hàng ngày. Máy tính xách tay này sở hữu màn hình Full HD 15,6 inch, mang đến hình ảnh rõ nét và sống động cho công việc và giải trí. Với RAM lên đến 16GB và ổ SSD 512GB, máy cung cấp bộ nhớ và dung lượng lưu trữ lớn cho hoạt động mượt mà và truy cập nhanh chóng vào các tệp và ứng dụng. Vostro 15 3520 cũng bao gồm các tính năng kinh doanh thiết yếu như webcam HD tích hợp, các tùy chọn bảo mật nâng cao và nhiều cổng kết nối, khiến nó trở thành lựa chọn tuyệt vời cho các chuyên gia đang tìm kiếm một chiếc máy tính xách tay làm việc đáng tin cậy và hiệu quả.",
+    "orignal_price": 134999,
+    "discount_percentage": 5,
+    "warranty": 1,
+    "product_image": "product_images/Dell.jpg",
+    "is_stock": true,
+    "is_active": true,
+    "is_trending": false,
+    "slug": "dell-vostro-15-3520",
+    "created_at": "2024-06-10T08:58:15.160Z"
+  }
+},
+{
+  "model": "myapp.product",
+  "pk": 18,
+  "fields": {
+    "category": 2,
+    "company": 10,
+    "product_name": "Yoga Slim 7x",
+    "product_description": "Yoga Slim 7x (14 inch Snapdragon) là máy tính xách tay siêu di động cao cấp được thiết kế cho cả nhu cầu làm việc và giải trí di động. Được trang bị bộ vi xử lý Qualcomm Snapdragon 8cx Gen 3, Yoga Slim 7x mang đến hiệu năng, hiệu suất vượt trội và thời lượng pin dài cho cả ngày dài sử dụng. Máy tính xách tay này sở hữu thiết kế thanh lịch và nhẹ nhàng, với màn hình Full HD 14 inch mang đến màu sắc sống động và hình ảnh sắc nét. Với RAM lên đến 16GB và ổ SSD tốc độ cao, Yoga Slim 7x mang đến khả năng đa nhiệm mượt mà và truy cập nhanh chóng vào các tệp và ứng dụng. Yoga Slim 7x cũng được trang bị các tính năng hiện đại như kết nối Wi-Fi 6E, đầu đọc dấu vân tay và hàng loạt cổng kết nối cho các tùy chọn kết nối đa dạng. Dù bạn làm việc tại nhà, xem phim trực tuyến hay lướt web, Yoga Slim 7x đều mang đến trải nghiệm cao cấp trong một thiết bị di động.",
+    "orignal_price": 259999,
+    "discount_percentage": 4,
+    "warranty": 1,
+    "product_image": "product_images/yoga-slim-7x-header.png",
+    "is_stock": true,
+    "is_active": true,
+    "is_trending": false,
+    "slug": "yoga-slim-7x",
+    "created_at": "2024-06-10T09:00:25.652Z"
+  }
+},
+{
+  "model": "myapp.product",
+  "pk": 19,
+  "fields": {
+    "category": 2,
+    "company": 12,
+    "product_name": "Surface 4",
+    "product_description": "Microsoft Surface Laptop 4 là một chiếc máy tính xách tay thanh lịch và đa năng, kết hợp giữa phong cách, hiệu năng và tính di động. Có sẵn ở các mẫu 13,5 inch và 15 inch, máy sở hữu thiết kế cao cấp với màn hình cảm ứng PixelSense độ phân giải cao, mang đến màu sắc sống động và chi tiết sắc nét. Được trang bị bộ vi xử lý Intel Core hoặc AMD Ryzen mới nhất, máy mang đến hiệu năng mạnh mẽ cho các tác vụ năng suất, sáng tạo và giải trí. Với RAM lên đến 32GB và tùy chọn lưu trữ SSD tốc độ cao, máy cung cấp bộ nhớ và dung lượng lưu trữ dồi dào để thực hiện đa nhiệm mượt mà và truy cập nhanh chóng vào các tệp và ứng dụng. Surface Laptop 4 cũng tự hào có thời lượng pin cả ngày, bàn phím thoải mái và nhiều cổng kết nối, khiến nó trở thành lựa chọn lý tưởng cho các chuyên gia, sinh viên và bất kỳ ai cần một chiếc máy tính xách tay đáng tin cậy và phong cách để làm việc và giải trí.",
+    "orignal_price": 405799,
+    "discount_percentage": 24,
+    "warranty": 1,
+    "product_image": "product_images/microsoft_surface_laptop_416_-_tejar_1.jpg",
+    "is_stock": true,
+    "is_active": true,
+    "is_trending": false,
+    "slug": "surface-4",
+    "created_at": "2024-06-10T09:03:23.499Z"
+  }
+},
+{
+  "model": "myapp.product",
+  "pk": 20,
+  "fields": {
+    "category": 2,
+    "company": 2,
+    "product_name": "HP 15S-FQ5299NIA",
+    "product_description": "HP 15s-FQ5299nia là một chiếc máy tính xách tay đáng tin cậy và giá cả phải chăng, được thiết kế cho các tác vụ điện toán hàng ngày. Với màn hình HD 15,6 inch, máy mang đến hình ảnh rõ nét cho công việc, học tập và giải trí. Được trang bị bộ vi xử lý Intel hoặc AMD, máy cung cấp hiệu năng đủ tốt để duyệt web, phát video trực tuyến và chạy các ứng dụng năng suất. Với RAM lên đến 8GB và nhiều tùy chọn lưu trữ, bao gồm cả ổ SSD cho thời gian khởi động và khởi chạy ứng dụng nhanh hơn, máy đảm bảo khả năng đa nhiệm mượt mà và truy cập tệp nhanh chóng. Máy tính xách tay này cũng bao gồm các tính năng thiết yếu như webcam, loa tích hợp và một loạt các tùy chọn kết nối, khiến nó trở thành một lựa chọn thiết thực cho sinh viên, người dùng gia đình và chuyên gia đang tìm kiếm một chiếc máy tính xách tay giá cả phải chăng để sử dụng hàng ngày.",
+    "orignal_price": 220000,
+    "discount_percentage": 19,
+    "warranty": 1,
+    "product_image": "product_images/hp-15s-fq5299nia-laptop-12th-gen-core-i7-8gb-512gb-ssd-pakistan-priceoye_9f5axqw.webp",
+    "is_stock": true,
+    "is_active": true,
+    "is_trending": false,
+    "slug": "hp-15s-fq5299nia",
+    "created_at": "2024-06-10T09:06:19.601Z"
+  }
+},
+{
+  "model": "myapp.product",
+  "pk": 21,
+  "fields": {
+    "category": 1,
+    "company": 13,
+    "product_name": "Google Pixel 4 XL",
+    "product_description": "Google Pixel 4 XL là điện thoại thông minh cao cấp nổi tiếng với khả năng camera vượt trội và trải nghiệm Android mượt mà. Với màn hình OLED Quad HD+ 6,3 inch lớn với tốc độ làm mới 90Hz mượt mà, điện thoại mang đến màu sắc sống động và hình ảnh động mượt mà. Được trang bị bộ vi xử lý Qualcomm Snapdragon 855 và RAM 6GB, điện thoại mang lại hiệu năng nhanh nhạy cho đa nhiệm và chơi game. Tính năng nổi bật của Pixel 4 XL là hệ thống camera, bao gồm cảm biến chính 12,2MP và ống kính tele 16MP, mang lại chất lượng ảnh và video tuyệt vời trong nhiều điều kiện ánh sáng khác nhau. Ngoài ra, Pixel 4 XL còn cung cấp các tính năng như Motion Sense, cho phép điều khiển bằng cử chỉ và Mở khóa bằng khuôn mặt để bảo mật thuận tiện. Với trải nghiệm phần mềm trực quan và rõ ràng, các bản cập nhật thường xuyên trực tiếp từ Google và chất lượng hoàn thiện cao cấp, Pixel 4 XL vẫn là lựa chọn hấp dẫn cho cả những người đam mê Android và nhiếp ảnh.",
+    "orignal_price": 124999,
+    "discount_percentage": 5,
+    "warranty": 1,
+    "product_image": "product_images/google-pixel-4-xl-pakistan-priceoye-zqway-500x500.webp",
+    "is_stock": true,
+    "is_active": true,
+    "is_trending": true,
+    "slug": "google-pixel-4-xl",
+    "created_at": "2024-06-10T09:16:56.949Z"
+  }
+},
+{
+  "model": "myapp.product",
+  "pk": 22,
+  "fields": {
+    "category": 2,
+    "company": 14,
+    "product_name": "ROG Strix G15",
+    "product_description": "ROG Strix G15 là một chiếc laptop chơi game mạnh mẽ được thiết kế cho trải nghiệm chơi game hiệu năng cao. Với phần cứng mạnh mẽ và thiết kế thời trang, đây là lựa chọn yêu thích của các game thủ tìm kiếm cả sức mạnh lẫn tính thẩm mỹ.\r\n\r\n1. **Hiệu năng**: Được trang bị bộ vi xử lý Intel Core i9 và đồ họa NVIDIA GeForce RTX, ROG Strix G15 mang đến hiệu năng chơi game vượt trội. Cho dù bạn đang chơi các tựa game AAA mới nhất hay phát trực tuyến nội dung, phần cứng mạnh mẽ này đảm bảo trải nghiệm chơi game mượt mà và tốc độ render nhanh chóng.\r\n\r\n2. **Màn hình**: Chiếc laptop này sở hữu màn hình tần số quét cao với các tùy chọn lên đến 300Hz, mang lại hình ảnh mượt mà như nhung và giảm thiểu hiện tượng nhòe chuyển động trong các tựa game tốc độ cao. Màn hình cũng sở hữu màu sắc sống động và độ tương phản tuyệt vời, nâng cao trải nghiệm chơi game.\r\n\r\n3. **Hệ thống tản nhiệt**: Để duy trì hiệu suất tối ưu trong những phiên chơi game cường độ cao, ROG Strix G15 được trang bị hệ thống tản nhiệt tiên tiến. Nhiều ống dẫn nhiệt, lỗ thông hơi được bố trí hợp lý và quạt hiệu quả hoạt động cùng nhau để tản nhiệt và kiểm soát nhiệt độ, đảm bảo hiệu suất ổn định ngay cả khi tải nặng.\r\n\r\nVới phần cứng mạnh mẽ, màn hình có tốc độ làm mới cao và hệ thống làm mát tiên tiến, ROG Strix G15 là lựa chọn hàng đầu cho các game thủ yêu cầu hiệu suất và độ tin cậy từ máy tính xách tay chơi game của họ.",
+    "orignal_price": 236000,
+    "discount_percentage": 2,
+    "warranty": 1,
+    "product_image": "product_images/w273.png",
+    "is_stock": true,
+    "is_active": true,
+    "is_trending": true,
+    "slug": "rog-strix-g15",
+    "created_at": "2024-06-10T09:19:58.454Z"
+  }
+},
+{
+  "model": "myapp.featureproductimage",
+  "pk": 1,
+  "fields": {
+    "product": 5,
+    "image": "feature_product_images/feature_iamge.webp"
+  }
+},
+{
+  "model": "myapp.featureproductimage",
+  "pk": 2,
+  "fields": {
+    "product": 5,
+    "image": "feature_product_images/2nd.jpg"
+  }
+},
+{
+  "model": "myapp.featureproductimage",
+  "pk": 3,
+  "fields": {
+    "product": 5,
+    "image": "feature_product_images/3rd.jpg"
+  }
+},
+{
+  "model": "myapp.featureproductimage",
+  "pk": 4,
+  "fields": {
+    "product": 7,
+    "image": "feature_product_images/Iphone_Se_Featrue.webp"
+  }
+},
+{
+  "model": "myapp.featureproductimage",
+  "pk": 5,
+  "fields": {
+    "product": 7,
+    "image": "feature_product_images/iphone_SE_Feature.png"
+  }
+},
+{
+  "model": "myapp.featureproductimage",
+  "pk": 6,
+  "fields": {
+    "product": 7,
+    "image": "feature_product_images/Iphoen_se_pro.jpg"
+  }
+},
+{
+  "model": "myapp.featureproductimage",
+  "pk": 7,
+  "fields": {
+    "product": 8,
+    "image": "feature_product_images/Featrue_iamge.jpg"
+  }
+},
+{
+  "model": "myapp.featureproductimage",
+  "pk": 8,
+  "fields": {
+    "product": 8,
+    "image": "feature_product_images/2nd_Feature_iamge_apple_watch.webp"
+  }
+},
+{
+  "model": "myapp.featureproductimage",
+  "pk": 9,
+  "fields": {
+    "product": 9,
+    "image": "feature_product_images/1_feature.jpg"
+  }
+},
+{
+  "model": "myapp.featureproductimage",
+  "pk": 10,
+  "fields": {
+    "product": 9,
+    "image": "feature_product_images/2nd_feature.jpg"
+  }
+},
+{
+  "model": "myapp.featureproductimage",
+  "pk": 11,
+  "fields": {
+    "product": 9,
+    "image": "feature_product_images/3rd_feature.jpg"
+  }
+},
+{
+  "model": "myapp.featureproductimage",
+  "pk": 12,
+  "fields": {
+    "product": 10,
+    "image": "feature_product_images/iPhone-15-Pro-Lineup-Feature.jpg"
+  }
+},
+{
+  "model": "myapp.featureproductimage",
+  "pk": 13,
+  "fields": {
+    "product": 21,
+    "image": "feature_product_images/1.webp"
+  }
+},
+{
+  "model": "myapp.featureproductimage",
+  "pk": 14,
+  "fields": {
+    "product": 21,
+    "image": "feature_product_images/2.webp"
+  }
+},
+{
+  "model": "myapp.featureproductimage",
+  "pk": 15,
+  "fields": {
+    "product": 21,
+    "image": "feature_product_images/3.webp"
+  }
+},
+{
+  "model": "myapp.featureproductimage",
+  "pk": 16,
+  "fields": {
+    "product": 21,
+    "image": "feature_product_images/4.jpg"
+  }
+},
+{
+  "model": "myapp.productdescription",
+  "pk": 1,
+  "fields": {
+    "product": 5,
+    "feature": "Màn hình Retina 24 inch 4.5K tuyệt đẹp:",
+    "product_description": "Trải nghiệm màu sắc sống động và chi tiết đáng kinh ngạc với độ phân giải 4480 x 2520, hoàn hảo cho công việc sáng tạo và giải trí.",
+    "product_image": "product_description_images/display_fwfoH4P.jpg"
+  }
+},
+{
+  "model": "myapp.productdescription",
+  "pk": 2,
+  "fields": {
+    "product": 5,
+    "feature": "Chip M1 mạnh mẽ",
+    "product_description": "Tận hưởng hiệu suất vượt trội và hiệu quả năng lượng, cho phép thực hiện đa nhiệm mượt mà và xử lý các tác vụ khó một cách dễ dàng.",
+    "product_image": "product_description_images/m1_chip.webp"
+  }
+},
+{
+  "model": "myapp.productdescription",
+  "pk": 3,
+  "fields": {
+    "product": 5,
+    "feature": "Thiết kế siêu mỏng",
+    "product_description": "Thiết kế mỏng và đẹp mắt của iMac, có nhiều màu sắc rực rỡ, mang đến nét hiện đại và phong cách cho bất kỳ không gian làm việc nào.",
+    "product_image": "product_description_images/Redesigned-iMac-8.jpg"
+  }
+},
+{
+  "model": "myapp.productdescription",
+  "pk": 4,
+  "fields": {
+    "product": 6,
+    "feature": "Hiệu suất chip M1:",
+    "product_description": "Trải nghiệm tốc độ và hiệu quả đáng kinh ngạc với chip Apple M1, mang lại hiệu suất CPU nhanh hơn tới 3,5 lần và đồ họa nhanh hơn tới 5 lần.",
+    "product_image": "product_description_images/m1_chip_PaxmZ9Z.webp"
+  }
+},
+{
+  "model": "myapp.productdescription",
+  "pk": 5,
+  "fields": {
+    "product": 6,
+    "feature": "Màn hình Retina tuyệt đẹp",
+    "product_description": "Tận hưởng màu sắc sống động và chi tiết sắc nét trên màn hình Retina 13,3 inch, hoàn hảo cho mọi nhu cầu, từ thiết kế đồ họa đến xem phim.",
+    "product_image": "product_description_images/mackboook_dispaly.jpg"
+  }
+},
+{
+  "model": "myapp.productdescription",
+  "pk": 6,
+  "fields": {
+    "product": 6,
+    "feature": "Thời lượng pin cả ngày:",
+    "product_description": "Duy trì năng suất và giải trí với thời lượng pin lên đến 18 giờ, cho phép bạn làm việc, học tập hoặc giải trí suốt cả ngày mà không cần sạc lại.",
+    "product_image": "product_description_images/battery.jpg"
+  }
+},
+{
+  "model": "myapp.productdescription",
+  "pk": 7,
+  "fields": {
+    "product": 7,
+    "feature": "A13 Bionic Chip:",
+    "product_description": "Được trang bị cùng loại chip như trên dòng iPhone 11, iPhone SE mang lại hiệu suất nhanh và mượt mà cho khả năng đa nhiệm, chơi game và sử dụng ứng dụng liền mạch.",
+    "product_image": "product_description_images/a13.webp"
+  }
+},
+{
+  "model": "myapp.productdescription",
+  "pk": 8,
+  "fields": {
+    "product": 7,
+    "feature": "Màn hình Retina HD 4,7 inch",
+    "product_description": "Tận hưởng hình ảnh sắc nét và sống động trên màn hình Retina HD 4,7 inch, hoàn hảo để duyệt web, xem video và xem ảnh.",
+    "product_image": "product_description_images/4.7-inch_Retina_HD_Display.webp"
+  }
+},
+{
+  "model": "myapp.productdescription",
+  "pk": 9,
+  "fields": {
+    "product": 7,
+    "feature": "Hệ thống camera tiên tiến",
+    "product_description": "Chụp ảnh và quay video tuyệt đẹp bằng camera góc rộng 12 megapixel, có chế độ Chân dung với hiệu ứng bokeh nâng cao và Kiểm soát độ sâu để có ảnh chân dung chuyên nghiệp.",
+    "product_image": "product_description_images/camera_iphone_se.webp"
+  }
+},
+{
+  "model": "myapp.productdescription",
+  "pk": 10,
+  "fields": {
+    "product": 8,
+    "feature": "Theo dõi sức khỏe và thể chất:",
+    "product_description": "Cung cấp các tính năng theo dõi sức khỏe và thể chất toàn diện, bao gồm theo dõi nhịp tim, ứng dụng ECG, theo dõi oxy trong máu, theo dõi giấc ngủ và các chỉ số tập luyện nâng cao. Thiết bị cũng cung cấp các mục tiêu hoạt động được cá nhân hóa và hướng dẫn để giúp người dùng duy trì động lực và năng động.",
+    "product_image": "product_description_images/featured-1560434269-GettyImages-882538278.jpg"
+  }
+},
+{
+  "model": "myapp.productdescription",
+  "pk": 11,
+  "fields": {
+    "product": 8,
+    "feature": "Hệ điều hành và tích hợp",
+    "product_description": "Chạy trên nền tảng watchOS, mang đến khả năng tích hợp liền mạch với các thiết bị Apple khác như iPhone, iPad và Mac. Thiết bị cho phép truy cập vào hệ sinh thái rộng lớn gồm các ứng dụng, dịch vụ và tính năng của Apple, bao gồm tích hợp Siri, Apple Pay, cũng như khả năng thực hiện và nhận cuộc gọi và tin nhắn.",
+    "product_image": "product_description_images/operating_system.jpg"
+  }
+},
+{
+  "model": "myapp.productdescription",
+  "pk": 12,
+  "fields": {
+    "product": 9,
+    "feature": "Thiết kế nhỏ gọn:",
+    "product_description": "Mac Mini có thiết kế thanh lịch và nhỏ gọn, phù hợp với mọi không gian làm việc, lý tưởng cho bàn làm việc nhỏ hoặc thiết lập giải trí tại nhà. Hình ảnh về kiểu dáng nhỏ gọn của máy có sẵn trực tuyến.",
+    "product_image": "product_description_images/mac_mini_design.jpeg"
+  }
+},
+{
+  "model": "myapp.productdescription",
+  "pk": 13,
+  "fields": {
+    "product": 9,
+    "feature": "Cổng đa dạng",
+    "product_description": "Với nhiều cổng kết nối đa dạng, bao gồm Thunderbolt, USB-C, HDMI và Ethernet, Mac Mini mang đến nhiều lựa chọn kết nối linh hoạt cho các thiết bị ngoại vi, màn hình và thiết bị mạng. Hình ảnh minh họa về các cổng kết nối của máy rất dễ xem.",
+    "product_image": "product_description_images/mac_mini_port.webp"
+  }
+},
+{
+  "model": "myapp.productdescription",
+  "pk": 14,
+  "fields": {
+    "product": 10,
+    "feature": "A17 Bionic Chip",
+    "product_description": "iPhone 15 Pro được trang bị chip A17 Bionic, mang lại hiệu suất và hiệu quả vượt trội cho khả năng đa nhiệm, chơi game và sử dụng ứng dụng mượt mà.",
+    "product_image": "product_description_images/A17-Bionic-1-e1691609087133.jpg"
+  }
+},
+{
+  "model": "myapp.productdescription",
+  "pk": 15,
+  "fields": {
+    "product": 21,
+    "feature": "Cảm biến chuyển động",
+    "product_description": "Pixel 4 XL được trang bị Motion Sense, một tính năng được hỗ trợ bởi chip radar, cho phép người dùng tương tác với điện thoại bằng cử chỉ. Tính năng này cho phép thực hiện các chức năng như bỏ qua bài hát, tắt tiếng cuộc gọi, v.v. mà không cần chạm vào thiết bị.",
+    "product_image": "product_description_images/motion_sense.webp"
+  }
+},
+{
+  "model": "myapp.productdescription",
+  "pk": 16,
+  "fields": {
+    "product": 21,
+    "feature": "Hệ thống camera kép",
+    "product_description": "Thiết bị tự hào có hệ thống camera kép với cảm biến chính 12.2 MP và ống kính tele 16 MP. Cài đặt này nâng cao khả năng nhiếp ảnh, cung cấp các tính năng như Night Sight cho nhiếp ảnh trong điều kiện ánh sáng yếu, Super Res Zoom cho zoom kỹ thuật số chất lượng cao và chế độ chân dung cải tiến.",
+    "product_image": "product_description_images/dual_camera.jpg"
+  }
+},
+{
+  "model": "myapp.additionalinformation",
+  "pk": 19,
+  "fields": {
+    "product": 21,
+    "new_product_name": "iPhone 11 Pro",
+    "feature": "Camera",
+    "exisiting_product_description1": "Thiết lập camera sau: Camera kép (chính 12,2 MP, tele 16 MP) Tính năng: Chế độ nhìn đêm cho chụp ảnh thiếu sáng, Zoom siêu phân giải, chế độ chân dung được cải tiến. Camera trước: 8 MP",
+    "new_product_description": "Thiết lập camera sau: Ba camera (chính 12 MP, tele 12 MP, góc siêu rộng 12 MP) Các tính năng: Chế độ ban đêm, Deep Fusion cho ảnh chi tiết, Smart HDR cho dải động tốt hơn. Camera trước: 12 MP"
+  }
+},
+{
+  "model": "myapp.additionalinformation",
+  "pk": 8,
+  "fields": {
+    "product": 7,
+    "new_product_name": "Google Pixel 4a",
+    "feature": "Chipset and Performance",
+    "exisiting_product_description1": "Powered by the A13 Bionic chip, the same chip found in the iPhone 11 series, offering excellent performance for daily tasks, gaming, and multitasking.",
+    "new_product_description": "Features the Qualcomm Snapdragon 730G processor, providing smooth performance for most tasks but may lag behind the iPhone SE in demanding applications and gaming."
+  }
+},
+{
+  "model": "myapp.additionalinformation",
+  "pk": 7,
+  "fields": {
+    "product": 7,
+    "new_product_name": "Google Pixel 4a",
+    "feature": "Chất lượng camera:",
+    "exisiting_product_description1": "Được trang bị camera góc rộng 12MP, có khả năng chụp ảnh chất lượng cao và quay video 4K. Máy sở hữu các tính năng như chế độ Chân dung với hiệu ứng bokeh nâng cao và Kiểm soát Độ sâu cho những bức ảnh chân dung ấn tượng.",
+    "new_product_description": "Được trang bị camera sau đơn 12,2MP với các tính năng như Night Sight cho chụp ảnh thiếu sáng và Super Res Zoom cho ảnh zoom chi tiết. Công nghệ nhiếp ảnh điện toán của Google giúp nâng cao chất lượng hình ảnh, đặc biệt là trong điều kiện ánh sáng khó khăn."
+  }
+},
+{
+  "model": "myapp.additionalinformation",
+  "pk": 6,
+  "fields": {
+    "product": 6,
+    "new_product_name": "HP Pavilion x360:",
+    "feature": "Chất lượng hiển thị",
+    "exisiting_product_description1": "Được trang bị màn hình Retina 13,3 inch với màu sắc sống động và chi tiết sắc nét, mang lại trải nghiệm hình ảnh tuyệt vời cho việc sử dụng phương tiện truyền thông và công việc sáng tạo.",
+    "new_product_description": "Máy được trang bị màn hình cảm ứng Full HD 14 inch, mang lại chất lượng hình ảnh tốt nhưng lại không có độ chính xác về màu sắc và độ sắc nét như màn hình Retina của MacBook Air."
+  }
+},
+{
+  "model": "myapp.additionalinformation",
+  "pk": 2,
+  "fields": {
+    "product": 5,
+    "new_product_name": "Mac Mini",
+    "feature": "Display",
+    "exisiting_product_description1": "Bao gồm màn hình Retina 24 inch 4.5K tích hợp với độ phân giải 4480 x 2520, mang lại màu sắc sống động và chi tiết sắc nét ngay khi xuất xưởng.",
+    "new_product_description": "Không có màn hình, yêu cầu phải kết nối màn hình ngoài, chất lượng và độ phân giải có thể khác nhau tùy theo lựa chọn của người dùng."
+  }
+},
+{
+  "model": "myapp.additionalinformation",
+  "pk": 18,
+  "fields": {
+    "product": 21,
+    "new_product_name": "iPhone 11 Pro",
+    "feature": "Display",
+    "exisiting_product_description1": "Loại: P-OLED Kích thước: 6,3 inch Độ phân giải: 1440 x 3040 pixel Tốc độ làm mới: 90Hz, mang lại khả năng cuộn và hoạt ảnh mượt mà hơn.",
+    "new_product_description": "Loại: Super Retina XDR OLED Kích thước: 5,8 inch Độ phân giải: 1125 x 2436 pixel Tốc độ làm mới: 60Hz, đây là tốc độ tiêu chuẩn cho hầu hết điện thoại thông minh."
+  }
+},
+{
+  "model": "myapp.additionalinformation",
+  "pk": 20,
+  "fields": {
+    "product": 21,
+    "new_product_name": "iPhone 11 Pro",
+    "feature": "Hiệu suất",
+    "exisiting_product_description1": "Bộ xử lý: Qualcomm Snapdragon 855 RAM 6 GB Bộ nhớ trong Tùy chọn 64 GB hoặc 128 GB (không có bộ nhớ mở rộng)",
+    "new_product_description": "Bộ xử lý: Apple A13 Bionic RAM 4 GB Tùy chọn lưu trữ: 64 GB, 256 GB hoặc 512 GB (không có bộ nhớ mở rộng)"
+  }
+},
+{
+  "model": "myapp.additionalinformation",
+  "pk": 16,
+  "fields": {
+    "product": 9,
+    "new_product_name": "Intel NUC",
+    "feature": "Hệ điều hành",
+    "exisiting_product_description1": "Chạy trên macOS, hệ điều hành độc quyền của Apple, mang đến trải nghiệm liền mạch và thân thiện với người dùng với khả năng truy cập vào nhiều ứng dụng và dịch vụ từ hệ sinh thái Apple.",
+    "new_product_description": "Hỗ trợ nhiều hệ điều hành khác nhau bao gồm Windows và Linux, cho phép người dùng lựa chọn hệ điều hành phù hợp nhất với nhu cầu và sở thích của mình, mang lại sự linh hoạt trong khả năng tương thích phần mềm và các tùy chọn tùy chỉnh."
+  }
+},
+{
+  "model": "myapp.additionalinformation",
+  "pk": 12,
+  "fields": {
+    "product": 8,
+    "new_product_name": "Samsung Galaxy Watch 4",
+    "feature": "Hệ điều hành và tích hợp:",
+    "exisiting_product_description1": "Chạy trên nền tảng watchOS, mang đến khả năng tích hợp liền mạch với các thiết bị Apple khác như iPhone, iPad và Mac. Thiết bị cho phép truy cập vào hệ sinh thái rộng lớn gồm các ứng dụng, dịch vụ và tính năng của Apple, bao gồm tích hợp Siri, Apple Pay, cũng như khả năng thực hiện và nhận cuộc gọi và tin nhắn.",
+    "new_product_description": "Chạy trên hệ điều hành Wear OS do Samsung cung cấp, tương thích với điện thoại thông minh Android cũng như một số tính năng trên thiết bị iOS. Thiết bị tích hợp với các dịch vụ và ứng dụng của Google, bao gồm Google Assistant, Google Pay và Google Play Store."
+  }
+},
+{
+  "model": "myapp.additionalinformation",
+  "pk": 15,
+  "fields": {
+    "product": 9,
+    "new_product_name": "Intel NUC",
+    "feature": "Kết nối",
+    "exisiting_product_description1": "Cung cấp nhiều tùy chọn kết nối bao gồm cổng Thunderbolt, USB-C, HDMI và Ethernet, mang lại tính linh hoạt khi kết nối các thiết bị ngoại vi và phụ kiện.",
+    "new_product_description": "Cung cấp nhiều tùy chọn kết nối tương tự như Mac Mini, bao gồm cổng USB, HDMI và Ethernet, mang lại sự linh hoạt khi kết nối các thiết bị và màn hình bên ngoài."
+  }
+},
+{
+  "model": "myapp.additionalinformation",
+  "pk": 1,
+  "fields": {
+    "product": 5,
+    "new_product_name": "Mac Mini",
+    "feature": "Performance",
+    "exisiting_product_description1": "Powered by the M1 chip, offering exceptional performance with up to 3.5x faster CPU and up to 6x faster GPU, ideal for demanding tasks and multitasking.",
+    "new_product_description": "Equipped with Intel processors, providing solid performance for everyday tasks but not as efficient or powerful as the M1 chip."
+  }
+},
+{
+  "model": "myapp.additionalinformation",
+  "pk": 4,
+  "fields": {
+    "product": 6,
+    "new_product_name": "HP Pavilion x360",
+    "feature": "Performance",
+    "exisiting_product_description1": "Powered by Apple's M1 chip, offering exceptional speed and efficiency with up to 3.5x faster CPU performance and up to 5x faster GPU performance. Ideal for demanding tasks and multitasking.",
+    "new_product_description": "Equipped with Intel Core i5 processors, providing decent performance for everyday tasks but not matching the M1 chip's efficiency and speed for intensive applications."
+  }
+},
+{
+  "model": "myapp.additionalinformation",
+  "pk": 14,
+  "fields": {
+    "product": 9,
+    "new_product_name": "Intel NUC",
+    "feature": "Performance",
+    "exisiting_product_description1": "Powered by the latest Apple silicon, it offers impressive performance with fast processing speeds and efficient multitasking capabilities, making it suitable for a wide range of tasks from everyday computing to creative work.",
+    "new_product_description": "Equipped with Intel processors, it provides decent performance for basic computing tasks but may lag behind the Mac Mini in terms of processing power and efficiency, especially for demanding applications."
+  }
+},
+{
+  "model": "myapp.additionalinformation",
+  "pk": 17,
+  "fields": {
+    "product": 10,
+    "new_product_name": "Xiaomi 14 Pro",
+    "feature": "Processor and Performance",
+    "exisiting_product_description1": "Chip: A17 Bionic chip Performance: Known for its exceptional speed and efficiency, the A17 Bionic chip offers top-tier performance for gaming, multitasking, and demanding applications, providing smooth and responsive user experiences.",
+    "new_product_description": "Chip: Snapdragon 8 Gen 2 Performance: The Snapdragon 8 Gen 2 is a powerful and efficient processor, delivering high performance and power efficiency, suitable for intensive gaming and multitasking. It provides a strong competitive edge in the Android ecosystem."
+  }
+},
+{
+  "model": "myapp.additionalinformation",
+  "pk": 9,
+  "fields": {
+    "product": 7,
+    "new_product_name": "Google Pixel 4a",
+    "feature": "Software and Updates",
+    "exisiting_product_description1": "Runs on iOS, offering a smooth and secure user experience with regular software updates directly from Apple, ensuring compatibility with the latest apps and features.",
+    "new_product_description": "Runs on stock Android with the promise of timely software updates directly from Google, providing a clean and intuitive user experience with access to the latest Android features and improvements."
+  }
+},
+{
+  "model": "myapp.additionalinformation",
+  "pk": 11,
+  "fields": {
+    "product": 8,
+    "new_product_name": "Samsung Galaxy Watch 4",
+    "feature": "Theo dõi sức khỏe và thể chất",
+    "exisiting_product_description1": "Cung cấp các tính năng theo dõi sức khỏe và thể chất toàn diện, bao gồm theo dõi nhịp tim, ứng dụng ECG, theo dõi oxy trong máu, theo dõi giấc ngủ và các chỉ số tập luyện nâng cao. Thiết bị cũng cung cấp các mục tiêu hoạt động được cá nhân hóa và hướng dẫn để giúp người dùng duy trì động lực và năng động.",
+    "new_product_description": "Được trang bị các tính năng theo dõi sức khỏe như theo dõi nhịp tim, điện tâm đồ, theo dõi huyết áp (nếu có), theo dõi giấc ngủ và nhiều tùy chọn theo dõi quá trình tập luyện. Thiết bị cũng cung cấp thông tin chi tiết về mức độ căng thẳng và hướng dẫn các bài tập thở."
+  }
+},
+{
+  "model": "myapp.additionalinformation",
+  "pk": 3,
+  "fields": {
+    "product": 5,
+    "new_product_name": "Mac Mini",
+    "feature": "Thiết kế và Tích hợp",
+    "exisiting_product_description1": "Thiết kế tất cả trong một kết hợp máy tính, màn hình, loa và camera thành một thiết bị duy nhất, đẹp mắt với nhiều màu sắc rực rỡ.",
+    "new_product_description": "Máy tính để bàn độc lập nhỏ gọn và tối giản, cần thêm các thiết bị ngoại vi như màn hình, bàn phím và chuột để hoạt động đầy đủ, mang lại sự linh hoạt nhưng quá trình thiết lập phức tạp hơn."
+  }
+},
+{
+  "model": "myapp.additionalinformation",
+  "pk": 13,
+  "fields": {
+    "product": 8,
+    "new_product_name": "Samsung Galaxy Watch 4",
+    "feature": "Thiết kế và Tùy chỉnh",
+    "exisiting_product_description1": "Thiết kế hiện đại và thanh lịch với mặt đồng hồ tùy chỉnh và dây đeo có thể thay đổi theo phong cách và sở thích cá nhân. Đồng hồ có nhiều chất liệu, bao gồm nhôm, thép không gỉ và titan, cho phép người dùng lựa chọn phù hợp nhất với phong cách sống của mình.",
+    "new_product_description": "Có hai kích cỡ và nhiều kiểu dáng khác nhau, bao gồm cả thiết kế cổ điển và thể thao. Sản phẩm cung cấp mặt đồng hồ tùy chỉnh và dây đeo có thể thay đổi, cho phép người dùng cá nhân hóa đồng hồ để phù hợp với sở thích và hoạt động cá nhân."
+  }
+},
+{
+  "model": "myapp.additionalinformation",
+  "pk": 5,
+  "fields": {
+    "product": 6,
+    "new_product_name": "HP Pavilion x360",
+    "feature": "Tuổi thọ pin:",
+    "exisiting_product_description1": "Có thời lượng pin lên đến 18 giờ, cho phép sử dụng cả ngày chỉ với một lần sạc, hoàn hảo cho nhu cầu giải trí và làm việc khi di chuyển.",
+    "new_product_description": "Thời lượng pin lên đến 8 giờ, đủ cho một ngày làm việc nhưng cần sạc lại thường xuyên hơn so với MacBook Air"
+  }
+}
+]
