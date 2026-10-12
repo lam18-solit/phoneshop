@@ -99,20 +99,31 @@ AUTH_USER_MODEL = 'myapp.CustomUser'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'mssql',
-        'NAME': os.environ.get('DB_NAME', 'phoneshop'),
-        'USER': os.environ.get('DB_USER', 'phoneshop'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', ''),
-        'HOST': os.environ.get('DB_HOST', 'den1.mssql8.gear.host'),
-        'PORT': '1433',
-        'OPTIONS': {
-            'driver': 'ODBC Driver 18 for SQL Server',
-            'extra_params': 'TrustServerCertificate=yes',
-        },
+_DATABASE_URL = os.environ.get('DATABASE_URL')
+
+if _DATABASE_URL:
+    # Render / cloud: dùng DATABASE_URL (PostgreSQL hoặc SQLite)
+    import dj_database_url
+    DATABASES = {
+        'default': dj_database_url.parse(_DATABASE_URL, conn_max_age=600)
     }
-}
+else:
+    # GearHost / local: dùng MSSQL
+    DATABASES = {
+        'default': {
+            'ENGINE': 'mssql',
+            'NAME': os.environ.get('DB_NAME', 'phoneshop'),
+            'USER': os.environ.get('DB_USER', 'phoneshop'),
+            'PASSWORD': os.environ.get('DB_PASSWORD', ''),
+            'HOST': os.environ.get('DB_HOST', 'den1.mssql8.gear.host'),
+            'PORT': '1433',
+            'OPTIONS': {
+                'driver': 'ODBC Driver 18 for SQL Server',
+                'extra_params': 'TrustServerCertificate=yes',
+            },
+        }
+    }
+
 
 
 # Password validation
