@@ -1,0 +1,226 @@
+{% extends 'admin_dashboard/base_admin.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center gap-3 mb-4">
+  <a href="{% url 'admin_products' %}" class="btn btn-sm btn-light border rounded-3 p-2 text-muted" title="Quay lại danh sách">
+    <i class="fa-solid fa-arrow-left"></i>
+  </a>
+  <div>
+    <h2 class="fw-bold mb-1">{{ title }}</h2>
+    <p class="text-muted small mb-0">Điền thông tin kỹ thuật, bảng giá và hình ảnh đại diện của sản phẩm.</p>
+  </div>
+</div>
+
+<div class="row g-4">
+  <div class="col-12 col-lg-8">
+    <div class="admin-card">
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Product Basic Info -->
+        <h5 class="fw-bold text-dark mb-3 border-bottom pb-2">
+          <i class="fa-solid fa-circle-info text-primary me-2"></i>Thông tin cơ bản
+        </h5>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">Tên sản phẩm điện thoại <span class="text-danger">*</span></label>
+          <input type="text" name="product_name" class="form-control form-control-lg rounded-3" 
+                 placeholder="Ví dụ: iPhone 15 Pro Max 256GB" 
+                 value="{{ product.product_name|default:'' }}" required>
+        </div>
+
+        <div class="row g-3 mb-3">
+          <div class="col-12 col-md-6">
+            <label class="form-label fw-bold">Hãng / Thương hiệu <span class="text-danger">*</span></label>
+            <select name="company" class="form-select rounded-3" required>
+              <option value="">-- Chọn Thương hiệu --</option>
+              {% for comp in companies %}
+              <option value="{{ comp.id }}" {% if product.company.id == comp.id %}selected{% endif %}>
+                {{ comp.company }}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label class="form-label fw-bold">Danh mục <span class="text-danger">*</span></label>
+            <select name="category" class="form-select rounded-3" required>
+              <option value="">-- Chọn Danh mục --</option>
+              {% for cat in categories %}
+              <option value="{{ cat.id }}" {% if product.category.id == cat.id %}selected{% endif %}>
+                {{ cat.category }}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <!-- Pricing & Warranty -->
+        <h5 class="fw-bold text-dark mt-4 mb-3 border-bottom pb-2">
+          <i class="fa-solid fa-tag text-primary me-2"></i>Bảng giá & Bảo hành
+        </h5>
+
+        <div class="row g-3 mb-3">
+          <div class="col-12 col-md-4">
+            <label class="form-label fw-bold">Giá niêm yết (VNĐ) <span class="text-danger">*</span></label>
+            <div class="input-group">
+              <input type="number" name="orignal_price" id="originalPriceInput" class="form-control rounded-start-3" 
+                     placeholder="Ví dụ: 29990000" value="{{ product.orignal_price|default:0 }}" required min="0" oninput="calculateDiscount()">
+              <span class="input-group-text bg-light">₫</span>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-4">
+            <label class="form-label fw-bold">Khuyến mãi (%)</label>
+            <div class="input-group">
+              <input type="number" name="discount_percentage" id="discountPercentInput" class="form-control rounded-start-3" 
+                     placeholder="Ví dụ: 10" value="{{ product.discount_percentage|default:0 }}" min="0" max="99" oninput="calculateDiscount()">
+              <span class="input-group-text bg-light">%</span>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-4">
+            <label class="form-label fw-bold">Thời hạn bảo hành (tháng)</label>
+            <div class="input-group">
+              <input type="number" name="warranty" class="form-control rounded-start-3" 
+                     value="{{ product.warranty|default:12 }}" min="0">
+              <span class="input-group-text bg-light">Tháng</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Real-time price calculation preview -->
+        <div class="p-3 rounded-3 bg-light border mb-4 d-flex justify-content-between align-items-center">
+          <div>
+            <span class="text-muted small">Giá bán thực tế sau giảm giá:</span>
+            <div class="fw-bold fs-5 text-danger" id="calculatedPrice">0 ₫</div>
+          </div>
+          <span class="badge bg-danger-subtle text-danger px-3 py-2 fw-bold" id="discountBadge">Giảm 0%</span>
+        </div>
+
+        <!-- Description -->
+        <h5 class="fw-bold text-dark mt-4 mb-3 border-bottom pb-2">
+          <i class="fa-solid fa-align-left text-primary me-2"></i>Mô tả chi tiết sản phẩm
+        </h5>
+
+        <div class="mb-4">
+          <textarea name="product_description" class="form-control rounded-3" rows="6" 
+                    placeholder="Mô tả thông số kỹ thuật, tính năng nổi bật (Màn hình OLED, chip xử lý, thời lượng pin, camera...)...">{{ product.product_description|default:'' }}</textarea>
+        </div>
+
+        <!-- Submit Buttons -->
+        <div class="d-flex justify-content-end gap-2 border-top pt-3">
+          <a href="{% url 'admin_products' %}" class="btn btn-light border rounded-3 px-4">Hủy bỏ</a>
+          <button type="submit" class="btn-tech-primary px-4">
+            <i class="fa-solid fa-check"></i>
+            <span>Lưu sản phẩm</span>
+          </button>
+        </div>
+    </div>
+  </div>
+
+  <!-- Sidebar Column: Image & Status Settings -->
+  <div class="col-12 col-lg-4">
+    <!-- Image Card -->
+    <div class="admin-card mb-4">
+      <h5 class="fw-bold text-dark mb-3 border-bottom pb-2">
+        <i class="fa-regular fa-image text-primary me-2"></i>Ảnh đại diện
+      </h5>
+
+      <div class="text-center p-3 border rounded-3 bg-light mb-3">
+        {% if product.product_image %}
+        <img id="imagePreview" src="{{ product.product_image.url }}" alt="Preview" 
+             class="img-fluid rounded-2 mb-2" style="max-height: 200px; object-fit: contain;">
+        {% else %}
+        <img id="imagePreview" src="" alt="Chưa có ảnh" 
+             class="img-fluid rounded-2 mb-2 d-none" style="max-height: 200px; object-fit: contain;">
+        <div id="noImagePlaceholder" class="py-4 text-muted">
+          <i class="fa-solid fa-cloud-arrow-up fs-1 text-secondary mb-2 d-block"></i>
+          <span class="small">Chưa chọn ảnh sản phẩm</span>
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="mb-2">
+        <label class="form-label small fw-bold">Chọn tệp hình ảnh mới (.jpg, .png, .webp):</label>
+        <input type="file" name="product_image" id="imageInput" class="form-control form-control-sm rounded-2" 
+               accept="image/*" onchange="previewSelectedImage(event)">
+      </div>
+      <div class="text-muted" style="font-size: 0.75rem;">
+        Khuyên dùng ảnh nền trắng hoặc trong suốt, tỷ lệ vuông 1:1 (kích thước tối thiểu 500x500px).
+      </div>
+    </div>
+
+    <!-- Visibility & Inventory Settings -->
+    <div class="admin-card mb-0">
+      <h5 class="fw-bold text-dark mb-3 border-bottom pb-2">
+        <i class="fa-solid fa-sliders text-primary me-2"></i>Trạng thái kinh doanh
+      </h5>
+
+      <div class="form-check form-switch mb-3">
+        <input class="form-check-input" type="checkbox" name="is_stock" id="isStockSwitch" 
+               {% if product.is_stock or not product %}checked{% endif %}>
+        <label class="form-check-label fw-bold small" for="isStockSwitch">
+          Còn hàng trong kho (In Stock)
+        </label>
+        <div class="text-muted" style="font-size: 0.75rem;">Bỏ tích nếu sản phẩm đã tạm thời hết hàng</div>
+      </div>
+
+      <div class="form-check form-switch mb-3">
+        <input class="form-check-input" type="checkbox" name="is_active" id="isActiveSwitch" 
+               {% if product.is_active or not product %}checked{% endif %}>
+        <label class="form-check-label fw-bold small" for="isActiveSwitch">
+          Hiển thị bán trên website (Active)
+        </label>
+        <div class="text-muted" style="font-size: 0.75rem;">Tắt nếu muốn tạm thời ẩn sản phẩm khỏi khách mua</div>
+      </div>
+
+      <div class="form-check form-switch mb-0">
+        <input class="form-check-input" type="checkbox" name="is_trending" id="isTrendingSwitch" 
+               {% if product.is_trending %}checked{% endif %}>
+        <label class="form-check-label fw-bold small" for="isTrendingSwitch">
+          Sản phẩm nổi bật / Xu hướng (Trending)
+        </label>
+        <div class="text-muted" style="font-size: 0.75rem;">Hiển thị ở khu vực Trending của trang chủ</div>
+      </div>
+    </div>
+  </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  function calculateDiscount() {
+    const original = parseFloat(document.getElementById('originalPriceInput').value) || 0;
+    const discount = parseFloat(document.getElementById('discountPercentInput').value) || 0;
+    
+    let finalPrice = original;
+    if (discount > 0 && discount < 100) {
+      finalPrice = original - (original * discount / 100);
+    }
+    document.getElementById('calculatedPrice').innerText = formatVND(Math.round(finalPrice));
+    document.getElementById('discountBadge').innerText = 'Giảm ' + discount + '%';
+  }
+
+  function previewSelectedImage(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const preview = document.getElementById('imagePreview');
+        preview.src = e.target.result;
+        preview.classList.remove('d-none');
+        const placeholder = document.getElementById('noImagePlaceholder');
+        if (placeholder) placeholder.classList.add('d-none');
+      }
+      reader.readAsDataURL(file);
+    }
+  }
+
+  // Initialize calculation on load
+  document.addEventListener('DOMContentLoaded', calculateDiscount);
+</script>
+{% endblock %}

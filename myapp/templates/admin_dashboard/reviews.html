@@ -1,0 +1,117 @@
+{% extends 'admin_dashboard/base_admin.html' %}
+
+{% block title %}Đánh giá Sản phẩm{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+  <div>
+    <h2 class="fw-bold mb-1">Đánh Giá & Nhận Xét</h2>
+    <p class="text-muted small mb-0">Lắng nghe phản hồi từ khách hàng về chất lượng điện thoại và dịch vụ giao hàng.</p>
+  </div>
+</div>
+
+<!-- Filters Card -->
+<div class="admin-card p-3 mb-4">
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+    <div class="d-flex gap-1 flex-wrap">
+      <a href="?" class="btn btn-sm {% if not rating_filter %}btn-primary text-white fw-bold{% else %}btn-light border text-muted{% endif %} rounded-3 px-3">
+        Tất cả đánh giá ({{ total_count }})
+      </a>
+      <a href="?rating=5" class="btn btn-sm {% if rating_filter == '5' %}btn-warning text-dark fw-bold{% else %}btn-light border text-muted{% endif %} rounded-3 px-3">
+        <i class="fa-solid fa-star text-warning"></i> 5 sao
+      </a>
+      <a href="?rating=4" class="btn btn-sm {% if rating_filter == '4' %}btn-warning text-dark fw-bold{% else %}btn-light border text-muted{% endif %} rounded-3 px-3">
+        <i class="fa-solid fa-star text-warning"></i> 4 sao
+      </a>
+      <a href="?rating=3" class="btn btn-sm {% if rating_filter == '3' %}btn-warning text-dark fw-bold{% else %}btn-light border text-muted{% endif %} rounded-3 px-3">
+        <i class="fa-solid fa-star text-warning"></i> 3 sao
+      </a>
+      <a href="?rating=1" class="btn btn-sm {% if rating_filter == '1' %}btn-danger text-white fw-bold{% else %}btn-light border text-muted{% endif %} rounded-3 px-3">
+        <i class="fa-solid fa-star"></i> 1-2 sao
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Reviews Table -->
+<div class="admin-card p-0 overflow-hidden">
+  <div class="table-responsive">
+    <table class="tech-table">
+      <thead>
+        <tr>
+          <th>Sản Phẩm Đánh Giá</th>
+          <th>Người Đánh Giá</th>
+          <th>Đánh Giá (Sao)</th>
+          <th>Tiêu Đề & Nội Dung</th>
+          <th class="text-end">Thao Tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for rev in reviews %}
+        <tr>
+          <!-- Product -->
+          <td>
+            <div class="d-flex align-items-center gap-2">
+              {% if rev.product.product_image %}
+              <img src="{{ rev.product.product_image.url }}" alt="" class="rounded-2 border" style="width: 38px; height: 38px; object-fit: contain; background: #fff; padding: 2px;">
+              {% endif %}
+              <div>
+                <a href="{% url 'admin_product_edit' rev.product.id %}" class="fw-bold text-dark text-decoration-none small d-block text-truncate" style="max-width: 160px;">
+                  {{ rev.product.product_name }}
+                </a>
+                <span class="badge bg-primary-subtle text-primary" style="font-size: 0.68rem;">{{ rev.product.company.company }}</span>
+              </div>
+            </div>
+          </td>
+
+          <!-- Customer -->
+          <td>
+            <div class="fw-semibold text-dark small">{{ rev.name|default:rev.user.email }}</div>
+            <div class="text-muted" style="font-size: 0.72rem;">{{ rev.user.email }}</div>
+          </td>
+
+          <!-- Stars -->
+          <td>
+            <div class="text-warning">
+              {% for i in "12345" %}
+                {% if forloop.counter <= rev.rating %}
+                  <i class="fa-solid fa-star"></i>
+                {% else %}
+                  <i class="fa-regular fa-star text-muted"></i>
+                {% endif %}
+              {% endfor %}
+            </div>
+            <span class="small fw-bold text-dark">{{ rev.rating }}/5 điểm</span>
+          </td>
+
+          <!-- Content -->
+          <td style="max-width: 340px;">
+            <div class="fw-bold text-dark small">{{ rev.title }}</div>
+            <p class="text-muted small mb-0">{{ rev.review }}</p>
+          </td>
+
+          <!-- Actions -->
+          <td class="text-end">
+            <form method="POST" action="{% url 'admin_reviews' %}" onsubmit="return confirm('Bạn có chắc chắn muốn xóa đánh giá này?');" class="d-inline">
+              {% csrf_token %}
+              <input type="hidden" name="action" value="delete">
+              <input type="hidden" name="review_id" value="{{ rev.id }}">
+              <button type="submit" class="btn btn-sm btn-light border text-danger" title="Xóa đánh giá này">
+                <i class="fa-regular fa-trash-can"></i>
+              </button>
+            </form>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5" class="text-center py-5 text-muted">
+            <i class="fa-solid fa-comment-slash fs-2 d-block mb-2 text-secondary"></i>
+            Chưa có đánh giá nào cho bộ lọc này.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

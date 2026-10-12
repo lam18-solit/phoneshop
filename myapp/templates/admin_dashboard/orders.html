@@ -1,0 +1,191 @@
+{% extends 'admin_dashboard/base_admin.html' %}
+{% load humanize %}
+
+{% block title %}Quản lý Đơn hàng{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+  <div>
+    <h2 class="fw-bold mb-1">Quản Lý Đơn Hàng</h2>
+    <p class="text-muted small mb-0">Theo dõi quy trình xử lý, đóng gói và vận chuyển đơn hàng của khách.</p>
+  </div>
+</div>
+
+<!-- Order Status Tabs -->
+<div class="admin-card p-2 mb-3">
+  <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+    <div class="d-flex flex-wrap gap-1">
+      <a href="?status=all&q={{ search_q }}" class="btn btn-sm {% if status_tab == 'all' %}btn-primary text-white fw-bold{% else %}btn-light text-muted border-0{% endif %} rounded-3 px-3 py-2">
+        Tất cả <span class="badge bg-white text-dark ms-1">{{ counts.all }}</span>
+      </a>
+      <a href="?status=pending&q={{ search_q }}" class="btn btn-sm {% if status_tab == 'pending' %}btn-warning text-dark fw-bold{% else %}btn-light text-muted border-0{% endif %} rounded-3 px-3 py-2">
+        <i class="fa-solid fa-clock me-1"></i>Chờ xác nhận <span class="badge bg-dark-subtle text-dark ms-1">{{ counts.pending }}</span>
+      </a>
+      <a href="?status=shipping&q={{ search_q }}" class="btn btn-sm {% if status_tab == 'shipping' %}btn-info text-white fw-bold{% else %}btn-light text-muted border-0{% endif %} rounded-3 px-3 py-2">
+        <i class="fa-solid fa-truck-fast me-1"></i>Đang giao <span class="badge bg-white text-dark ms-1">{{ counts.shipping }}</span>
+      </a>
+      <a href="?status=delivered&q={{ search_q }}" class="btn btn-sm {% if status_tab == 'delivered' %}btn-success text-white fw-bold{% else %}btn-light text-muted border-0{% endif %} rounded-3 px-3 py-2">
+        <i class="fa-solid fa-circle-check me-1"></i>Đã giao <span class="badge bg-white text-dark ms-1">{{ counts.delivered }}</span>
+      </a>
+      <a href="?status=cancelled&q={{ search_q }}" class="btn btn-sm {% if status_tab == 'cancelled' %}btn-danger text-white fw-bold{% else %}btn-light text-muted border-0{% endif %} rounded-3 px-3 py-2">
+        <i class="fa-solid fa-circle-xmark me-1"></i>Đã hủy <span class="badge bg-white text-dark ms-1">{{ counts.cancelled }}</span>
+      </a>
+    </div>
+
+    <!-- Search box -->
+    <form method="GET" class="d-flex gap-2">
+      <input type="hidden" name="status" value="{{ status_tab }}">
+      <div class="input-group input-group-sm" style="width: 260px;">
+        <input type="text" name="q" class="form-control rounded-start-3" placeholder="Tìm mã đơn, email..." value="{{ search_q }}">
+        <button class="btn btn-primary rounded-end-3" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Orders Table Card -->
+<div class="admin-card p-0 overflow-hidden">
+  <div class="table-responsive">
+    <table class="tech-table">
+      <thead>
+        <tr>
+          <th>Mã Đơn Hàng</th>
+          <th>Khách Hàng</th>
+          <th>Sản Phẩm Đặt Mua</th>
+          <th>Tổng Thanh Toán</th>
+          <th>Ngày Đặt Hàng</th>
+          <th>Trạng Thái</th>
+          <th style="min-width: 170px;">Cập Nhật Nhanh</th>
+          <th class="text-end">Chi Tiết</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+        <tr>
+          <!-- Order ID -->
+          <td>
+            <a href="{% url 'admin_order_detail' order.order_id %}" class="fw-bold text-primary font-monospace text-decoration-none">
+              #{{ order.order_id }}
+            </a>
+          </td>
+
+          <!-- Customer -->
+          <td>
+            <div class="fw-bold text-dark text-truncate" style="max-width: 150px;">
+              {% if order.user.first_name %}{{ order.user.last_name }} {{ order.user.first_name }}{% else %}{{ order.user.email }}{% endif %}
+            </div>
+            <div class="text-muted small" style="font-size: 0.78rem;">{{ order.user.email }}</div>
+            <div class="text-muted small" style="font-size: 0.75rem;">SĐT: {{ order.user.phone|default:'Chưa cập nhật' }}</div>
+          </td>
+
+          <!-- Product Details -->
+          <td>
+            <div class="d-flex align-items-center gap-2">
+              {% if order.product.product_image %}
+              <img src="{{ order.product.product_image.url }}" alt="" class="rounded-2 border" style="width: 40px; height: 40px; object-fit: contain; background: #ffffff; padding: 2px;">
+              {% endif %}
+              <div>
+                <div class="fw-semibold text-truncate" style="max-width: 160px;" title="{{ order.product.product_name }}">
+                  {{ order.product.product_name }}
+                </div>
+                <div class="text-muted small" style="font-size: 0.75rem;">
+                  SL: <strong>x{{ order.quantity }}</strong> • {{ order.product.company.company }}
+                </div>
+              </div>
+            </div>
+          </td>
+
+          <!-- Total Price -->
+          <td class="fw-bold text-dark text-nowrap">
+            {{ order.total_price|floatformat:0|intcomma }} ₫
+          </td>
+
+          <!-- Date -->
+          <td class="text-muted small text-nowrap">
+            {{ order.created_at|date:"d/m/Y" }}<br>
+            <span style="font-size: 0.75rem;">{{ order.created_at|date:"H:i" }}</span>
+          </td>
+
+          <!-- Status Badge -->
+          <td>
+            {% if order.order_status == 1 or order.order_status == 2 %}
+              <span class="badge-status badge-warning"><i class="fa-solid fa-clock"></i> Chờ duyệt</span>
+            {% elif order.order_status == 3 %}
+              <span class="badge-status badge-info"><i class="fa-solid fa-truck-fast"></i> Đang giao</span>
+            {% elif order.order_status == 4 %}
+              <span class="badge-status badge-success"><i class="fa-solid fa-circle-check"></i> Đã giao</span>
+            {% elif order.order_status == 5 %}
+              <span class="badge-status badge-danger"><i class="fa-solid fa-circle-xmark"></i> Đã hủy</span>
+            {% else %}
+              <span class="badge-status badge-secondary"><i class="fa-solid fa-rotate-left"></i> Trả hàng</span>
+            {% endif %}
+          </td>
+
+          <!-- Quick Update Status -->
+          <td>
+            <form method="POST" action="{% url 'admin_order_update_status' order.order_id %}" class="d-flex align-items-center gap-1">
+              {% csrf_token %}
+              <select name="order_status" class="form-select form-select-sm rounded-2 py-1 px-2" style="font-size: 0.8rem;" onchange="this.form.submit()">
+                <option value="2" {% if order.order_status == 1 or order.order_status == 2 %}selected{% endif %}>Chờ duyệt</option>
+                <option value="3" {% if order.order_status == 3 %}selected{% endif %}>Đang giao</option>
+                <option value="4" {% if order.order_status == 4 %}selected{% endif %}>Đã giao</option>
+                <option value="5" {% if order.order_status == 5 %}selected{% endif %}>Hủy đơn</option>
+                <option value="6" {% if order.order_status == 6 %}selected{% endif %}>Trả hàng</option>
+              </select>
+            </form>
+          </td>
+
+          <!-- Detail Button -->
+          <td class="text-end">
+            <a href="{% url 'admin_order_detail' order.order_id %}" class="btn btn-sm btn-light border rounded-2" title="Xem chi tiết đơn hàng">
+              <i class="fa-solid fa-arrow-right text-primary"></i>
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="8" class="text-center py-5 text-muted">
+            <i class="fa-solid fa-bag-shopping fs-2 d-block mb-2 text-secondary"></i>
+            Không có đơn hàng nào trong danh mục này.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  {% if orders.has_other_pages %}
+  <div class="d-flex justify-content-between align-items-center p-3 border-top">
+    <div class="small text-muted">
+      Trang <strong>{{ orders.number }}</strong> / <strong>{{ orders.paginator.num_pages }}</strong>
+    </div>
+    <nav>
+      <ul class="pagination pagination-sm mb-0">
+        {% if orders.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ orders.previous_page_number }}&status={{ status_tab }}&q={{ search_q }}">Trước</a>
+        </li>
+        {% endif %}
+
+        {% for p in orders.paginator.page_range %}
+          {% if orders.number == p %}
+          <li class="page-item active"><span class="page-link">{{ p }}</span></li>
+          {% elif p >= orders.number|add:"-2" and p <= orders.number|add:"2" %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ p }}&status={{ status_tab }}&q={{ search_q }}">{{ p }}</a>
+          </li>
+          {% endif %}
+        {% endfor %}
+
+        {% if orders.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ orders.next_page_number }}&status={{ status_tab }}&q={{ search_q }}">Tiếp</a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,196 @@
+{% extends 'admin_dashboard/base_admin.html' %}
+{% load humanize %}
+
+{% block title %}Báo cáo & Thống kê Doanh thu{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+  <div>
+    <h2 class="fw-bold mb-1">Báo Cáo & Thống Kê Doanh Thu</h2>
+    <p class="text-muted small mb-0">Phân tích chi tiết doanh số bán hàng, hiệu quả từng thương hiệu điện thoại và các chỉ số tài chính.</p>
+  </div>
+  <button class="btn btn-light border rounded-3" onclick="window.print()">
+    <i class="fa-solid fa-file-arrow-down me-1"></i> Xuất báo cáo PDF
+  </button>
+</div>
+
+<!-- Key Performance Indicators -->
+<div class="row g-3 mb-4">
+  <div class="col-12 col-sm-6 col-xl-4">
+    <div class="kpi-card">
+      <div class="kpi-title">Doanh Thu Đã Hoàn Tất</div>
+      <div class="kpi-value text-primary">{{ total_revenue|floatformat:0|intcomma }} ₫</div>
+      <div class="small text-success mt-2"><i class="fa-solid fa-circle-check me-1"></i>Đã giao và thanh toán</div>
+    </div>
+  </div>
+
+  <div class="col-12 col-sm-6 col-xl-4">
+    <div class="kpi-card">
+      <div class="kpi-title">Tổng Đơn Hàng Thành Công</div>
+      <div class="kpi-value">{{ total_orders_count }} đơn</div>
+      <div class="small text-muted mt-2">Tỷ lệ hoàn thành cao</div>
+    </div>
+  </div>
+
+  <div class="col-12 col-sm-6 col-xl-4">
+    <div class="kpi-card">
+      <div class="kpi-title">Giá Trị Đơn Trung Bình (AOV)</div>
+      <div class="kpi-value text-success">{{ aov|floatformat:0|intcomma }} ₫</div>
+      <div class="small text-muted mt-2">Trung bình mỗi khách thanh toán</div>
+    </div>
+  </div>
+</div>
+
+<!-- Charts Row -->
+<div class="row g-4 mb-4">
+  <!-- Brand Revenue Distribution (Bar chart) -->
+  <div class="col-12 col-lg-7">
+    <div class="admin-card h-100 mb-0">
+      <div class="admin-card-header">
+        <div>
+          <div class="admin-card-title">
+            <i class="fa-solid fa-chart-column text-primary"></i>
+            Doanh Thu Theo Thương Hiệu Điện Thoại
+          </div>
+          <div class="admin-card-subtitle">Apple, Samsung, Xiaomi, OPPO, ASUS...</div>
+        </div>
+      </div>
+      <div style="height: 300px; position: relative;">
+        <canvas id="brandChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Category Breakdown (Polar/Pie chart) -->
+  <div class="col-12 col-lg-5">
+    <div class="admin-card h-100 mb-0">
+      <div class="admin-card-header">
+        <div>
+          <div class="admin-card-title">
+            <i class="fa-solid fa-chart-pie text-info"></i>
+            Cơ Cấu Sản Phẩm Theo Danh Mục
+          </div>
+          <div class="admin-card-subtitle">Điện thoại, Laptop, Máy tính bảng...</div>
+        </div>
+      </div>
+      <div style="height: 300px; position: relative;">
+        <canvas id="categoryChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Brand Details Table -->
+<div class="admin-card p-0 overflow-hidden">
+  <div class="p-4 border-bottom">
+    <h5 class="fw-bold text-dark mb-0">
+      <i class="fa-solid fa-ranking-star text-warning me-2"></i>Chi Tiết Doanh Thu Từng Thương Hiệu
+    </h5>
+  </div>
+  <div class="table-responsive">
+    <table class="tech-table">
+      <thead>
+        <tr>
+          <th>Thứ Hạng</th>
+          <th>Thương Hiệu</th>
+          <th>Doanh Số Tích Lũy</th>
+          <th>Tỷ Trọng Doanh Thu</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for brand, rev in brand_stats %}
+        <tr>
+          <td style="width: 80px;">
+            <span class="badge {% if forloop.counter == 1 %}bg-warning text-dark{% elif forloop.counter == 2 %}bg-secondary text-white{% elif forloop.counter == 3 %}bg-primary-subtle text-primary{% else %}bg-light text-muted{% endif %} rounded-circle p-2" style="width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center;">
+              {{ forloop.counter }}
+            </span>
+          </td>
+          <td class="fw-bold text-dark">{{ brand }}</td>
+          <td class="fw-bold text-primary">{{ rev|floatformat:0|intcomma }} ₫</td>
+          <td>
+            <div class="d-flex align-items-center gap-2" style="max-width: 200px;">
+              <div class="progress flex-grow-1" style="height: 8px;">
+                <div class="progress-bar bg-primary" role="progressbar" style="width: {% widthratio rev total_revenue 100 %}%;"></div>
+              </div>
+              <span class="small fw-semibold text-muted">{% widthratio rev total_revenue 100 %}%</span>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4" class="text-center py-4 text-muted">Chưa có dữ liệu giao dịch thương hiệu.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  // Brand Chart
+  const brandLabels = {{ brand_labels_json|safe }};
+  const brandValues = {{ brand_values_json|safe }};
+
+  const ctxBrand = document.getElementById('brandChart').getContext('2d');
+  new Chart(ctxBrand, {
+    type: 'bar',
+    data: {
+      labels: brandLabels,
+      datasets: [{
+        label: 'Doanh thu (VNĐ)',
+        data: brandValues,
+        backgroundColor: '#2563eb',
+        borderRadius: 8,
+        hoverBackgroundColor: '#1d4ed8'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) { return ' ' + formatVND(ctx.raw); }
+          }
+        }
+      },
+      scales: {
+        x: { grid: { display: false } },
+        y: {
+          ticks: {
+            callback: function(v) { return (v / 1000000) + ' Tr'; }
+          },
+          grid: { color: '#f1f5f9' }
+        }
+      }
+    }
+  });
+
+  // Category Chart
+  const catLabels = {{ cat_labels_json|safe }};
+  const catValues = {{ cat_values_json|safe }};
+
+  const ctxCat = document.getElementById('categoryChart').getContext('2d');
+  new Chart(ctxCat, {
+    type: 'doughnut',
+    data: {
+      labels: catLabels,
+      datasets: [{
+        data: catValues,
+        backgroundColor: ['#2563eb', '#06b6d4', '#10b981', '#f59e0b', '#8b5cf6'],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom' }
+      }
+    }
+  });
+</script>
+{% endblock %}

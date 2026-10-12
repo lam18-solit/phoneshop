@@ -1,0 +1,138 @@
+{% extends 'admin_dashboard/base_admin.html' %}
+{% load humanize %}
+
+{% block title %}Quản lý Tồn kho{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+  <div>
+    <h2 class="fw-bold mb-1">Quản Lý Tồn Kho Thiết Bị</h2>
+    <p class="text-muted small mb-0">Theo dõi trạng thái xuất nhập kho, phát hiện sản phẩm sắp hết hàng và điều chỉnh lượng hàng bán.</p>
+  </div>
+</div>
+
+<!-- Inventory Stats Row -->
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-3">
+    <div class="kpi-card">
+      <div class="kpi-title">Tổng Sản Phẩm</div>
+      <div class="kpi-value text-dark">{{ counts.total }}</div>
+      <div class="small text-muted mt-2">Toàn bộ kho hàng</div>
+    </div>
+  </div>
+
+  <div class="col-6 col-md-3">
+    <div class="kpi-card">
+      <div class="kpi-title text-success">Còn Hàng Sẵn Sàng</div>
+      <div class="kpi-value text-success">{{ counts.in_stock }}</div>
+      <div class="small text-muted mt-2">Có thể bán ngay</div>
+    </div>
+  </div>
+
+  <div class="col-6 col-md-3">
+    <div class="kpi-card border-danger-subtle">
+      <div class="kpi-title text-danger">Đã Hết Hàng</div>
+      <div class="kpi-value text-danger">{{ counts.out_of_stock }}</div>
+      <div class="small text-danger mt-2"><i class="fa-solid fa-triangle-exclamation me-1"></i>Cần nhập thêm ngay</div>
+    </div>
+  </div>
+
+  <div class="col-6 col-md-3">
+    <div class="kpi-card">
+      <div class="kpi-title text-warning">Sản Phẩm Nổi Bật</div>
+      <div class="kpi-value text-warning">{{ counts.trending }}</div>
+      <div class="small text-muted mt-2">Đang chạy quảng cáo</div>
+    </div>
+  </div>
+</div>
+
+<!-- Filters Card -->
+<div class="admin-card p-3 mb-4">
+  <div class="d-flex flex-wrap gap-2 justify-content-between align-items-center">
+    <div class="d-flex gap-1 flex-wrap">
+      <a href="?type=all&q={{ search_q }}" class="btn btn-sm {% if filter_type == 'all' %}btn-primary text-white fw-bold{% else %}btn-light text-muted border{% endif %} rounded-3 px-3">
+        Tất cả ({{ counts.total }})
+      </a>
+      <a href="?type=in_stock&q={{ search_q }}" class="btn btn-sm {% if filter_type == 'in_stock' %}btn-success text-white fw-bold{% else %}btn-light text-muted border{% endif %} rounded-3 px-3">
+        <i class="fa-solid fa-circle-check me-1"></i>Còn hàng ({{ counts.in_stock }})
+      </a>
+      <a href="?type=out_of_stock&q={{ search_q }}" class="btn btn-sm {% if filter_type == 'out_of_stock' %}btn-danger text-white fw-bold{% else %}btn-light text-muted border{% endif %} rounded-3 px-3">
+        <i class="fa-solid fa-triangle-exclamation me-1"></i>Hết hàng ({{ counts.out_of_stock }})
+      </a>
+      <a href="?type=trending&q={{ search_q }}" class="btn btn-sm {% if filter_type == 'trending' %}btn-warning text-dark fw-bold{% else %}btn-light text-muted border{% endif %} rounded-3 px-3">
+        <i class="fa-solid fa-bolt me-1"></i>Trending ({{ counts.trending }})
+      </a>
+    </div>
+
+    <form method="GET" class="d-flex gap-2">
+      <input type="hidden" name="type" value="{{ filter_type }}">
+      <div class="input-group input-group-sm" style="width: 250px;">
+        <input type="text" name="q" class="form-control rounded-start-3" placeholder="Tìm tên điện thoại..." value="{{ search_q }}">
+        <button class="btn btn-primary" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Inventory Table -->
+<div class="admin-card p-0 overflow-hidden">
+  <div class="table-responsive">
+    <table class="tech-table">
+      <thead>
+        <tr>
+          <th>Sản Phẩm</th>
+          <th>Hãng Sản Xuất</th>
+          <th>Danh Mục</th>
+          <th>Đơn Giá Bán</th>
+          <th>Tình Trạng Kho</th>
+          <th>Thao Tác Nhập / Chuyển Đổi</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for prod in products %}
+        <tr class="{% if not prod.is_stock %}bg-danger-subtle bg-opacity-25{% endif %}">
+          <td>
+            <div class="d-flex align-items-center gap-3">
+              {% if prod.product_image %}
+              <img src="{{ prod.product_image.url }}" alt="" class="rounded-3 border" style="width: 46px; height: 46px; object-fit: contain; background: #ffffff; padding: 3px;">
+              {% endif %}
+              <div>
+                <div class="fw-bold text-dark">{{ prod.product_name }}</div>
+                <div class="text-muted small" style="font-size: 0.75rem;">Bảo hành: {{ prod.warranty }} tháng</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="badge bg-primary-subtle text-primary">{{ prod.company.company }}</span>
+          </td>
+          <td class="text-muted small">{{ prod.category.category }}</td>
+          <td class="fw-bold text-dark">{{ prod.orignal_price|floatformat:0|intcomma }} ₫</td>
+          <td>
+            {% if prod.is_stock %}
+              <span class="badge-status badge-success"><i class="fa-solid fa-check"></i> Đang có sẵn hàng</span>
+            {% else %}
+              <span class="badge-status badge-danger"><i class="fa-solid fa-triangle-exclamation"></i> Tạm hết hàng</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if prod.is_stock %}
+              <a href="{% url 'admin_product_toggle_stock' prod.id %}" class="btn btn-sm btn-outline-danger rounded-3" title="Báo hết hàng">
+                <i class="fa-solid fa-box-archive me-1"></i> Đánh dấu hết hàng
+              </a>
+            {% else %}
+              <a href="{% url 'admin_product_toggle_stock' prod.id %}" class="btn btn-sm btn-success rounded-3 text-white fw-bold" title="Nhập hàng về">
+                <i class="fa-solid fa-truck-ramp-box me-1"></i> Báo đã nhập hàng
+              </a>
+            {% endif %}
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" class="text-center py-5 text-muted">Không tìm thấy sản phẩm nào trong kho.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

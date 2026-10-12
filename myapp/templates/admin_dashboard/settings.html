@@ -1,0 +1,155 @@
+{% extends 'admin_dashboard/base_admin.html' %}
+
+{% block title %}Cài đặt Cửa hàng{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+  <div>
+    <h2 class="fw-bold mb-1">Cài Đặt Hệ Thống Phone Shop</h2>
+    <p class="text-muted small mb-0">Cấu hình thông tin liên hệ, hotline, địa chỉ showroom và các tùy chọn hiển thị chung.</p>
+  </div>
+</div>
+
+<div class="row g-4">
+  <div class="col-12 col-lg-8">
+    <div class="admin-card">
+      <form method="POST">
+        {% csrf_token %}
+
+        <!-- General Store Info -->
+        <h5 class="fw-bold text-dark mb-3 border-bottom pb-2">
+          <i class="fa-solid fa-store text-primary me-2"></i>Thông Tin Cửa Hàng
+        </h5>
+
+        <div class="row g-3 mb-3">
+          <div class="col-12 col-md-6">
+            <label class="form-label fw-bold">Tên thương hiệu cửa hàng <span class="text-danger">*</span></label>
+            <input type="text" name="store_name" class="form-control rounded-3" value="{{ settings.store_name }}" required>
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label fw-bold">Khẩu hiệu (Tagline)</label>
+            <input type="text" name="tagline" class="form-control rounded-3" value="{{ settings.tagline }}">
+          </div>
+        </div>
+
+        <div class="row g-3 mb-3">
+          <div class="col-12 col-md-6">
+            <label class="form-label fw-bold">Hotline tư vấn & CSKH <span class="text-danger">*</span></label>
+            <div class="input-group">
+              <span class="input-group-text bg-light"><i class="fa-solid fa-phone"></i></span>
+              <input type="text" name="hotline" class="form-control rounded-end-3" value="{{ settings.hotline }}" required>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label fw-bold">Email chăm sóc khách hàng</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light"><i class="fa-regular fa-envelope"></i></span>
+              <input type="email" name="support_email" class="form-control rounded-end-3" value="{{ settings.support_email }}">
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label fw-bold">Địa chỉ Showroom chính</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light"><i class="fa-solid fa-location-dot"></i></span>
+            <input type="text" name="address" class="form-control rounded-end-3" value="{{ settings.address }}">
+          </div>
+        </div>
+
+        <!-- Announcement Bar & Marketing -->
+        <h5 class="fw-bold text-dark mt-4 mb-3 border-bottom pb-2">
+          <i class="fa-solid fa-bullhorn text-warning me-2"></i>Thanh Thông Báo & Khuyến Mãi
+        </h5>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">Nội dung thanh thông báo đầu trang (Announcement Bar)</label>
+          <textarea name="announcement_bar" class="form-control rounded-3" rows="2">{{ settings.announcement_bar }}</textarea>
+        </div>
+
+        <div class="form-check form-switch mb-4">
+          <input class="form-check-input" type="checkbox" name="is_announcement_active" id="announcementSwitch" {% if settings.is_announcement_active %}checked{% endif %}>
+          <label class="form-check-label fw-bold small" for="announcementSwitch">
+            Bật thanh thông báo khuyến mãi trên website
+          </label>
+        </div>
+
+        <!-- Social Links -->
+        <h5 class="fw-bold text-dark mt-4 mb-3 border-bottom pb-2">
+          <i class="fa-solid fa-share-nodes text-info me-2"></i>Mạng Xã Hội & Kênh Hỗ Trợ
+        </h5>
+
+        <div class="row g-3 mb-4">
+          <div class="col-12 col-md-6">
+            <label class="form-label fw-bold">Facebook Fanpage URL</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light"><i class="fa-brands fa-facebook text-primary"></i></span>
+              <input type="url" name="facebook_url" class="form-control rounded-end-3" value="{{ settings.facebook_url }}">
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label fw-bold">Zalo Số điện thoại</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light"><i class="fa-solid fa-comment-dots text-info"></i></span>
+              <input type="text" name="zalo_phone" class="form-control rounded-end-3" value="{{ settings.zalo_phone }}">
+            </div>
+          </div>
+        </div>
+
+        <!-- Maintenance Mode -->
+        <h5 class="fw-bold text-danger mt-4 mb-3 border-bottom pb-2">
+          <i class="fa-solid fa-triangle-exclamation text-danger me-2"></i>Vùng Nguy Hiểm
+        </h5>
+
+        <div class="form-check form-switch mb-4">
+          <input class="form-check-input" type="checkbox" name="maintenance_mode" id="maintenanceSwitch" {% if settings.maintenance_mode %}checked{% endif %}>
+          <label class="form-check-label fw-bold text-danger small" for="maintenanceSwitch">
+            Bật chế độ bảo trì hệ thống (Maintenance Mode)
+          </label>
+          <div class="text-muted" style="font-size: 0.75rem;">Khi bật, khách hàng thông thường sẽ thấy trang thông báo tạm dừng phục vụ để nâng cấp.</div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="d-flex justify-content-end border-top pt-3">
+          <button type="submit" class="btn-tech-primary px-4">
+            <i class="fa-solid fa-floppy-disk"></i>
+            <span>Lưu tất cả thay đổi</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Sidebar Column: Quick Info Card -->
+  <div class="col-12 col-lg-4">
+    <div class="admin-card mb-4 bg-primary text-white">
+      <div class="d-flex align-items-center gap-3 mb-3">
+        <div class="rounded-3 bg-white text-primary p-2 fs-4">
+          <i class="fa-solid fa-server"></i>
+        </div>
+        <div>
+          <h5 class="fw-bold mb-0">Hệ Thống Đang Chạy</h5>
+          <span class="badge bg-success-subtle text-success fw-bold" style="font-size: 0.7rem;">STATUS: ONLINE</span>
+        </div>
+      </div>
+      <p class="small opacity-75 mb-3">
+        Dự án Phone Shop kết nối cơ sở dữ liệu Microsoft SQL Server (GearHost) / SQLite dự phòng và máy chủ Render Cloud.
+      </p>
+      <div class="border-top border-white border-opacity-25 pt-2 small d-flex justify-content-between">
+        <span>Phiên bản Admin:</span>
+        <strong>PhoneShop v2.5 Pro</strong>
+      </div>
+    </div>
+
+    <div class="admin-card">
+      <h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-life-ring text-primary me-2"></i>Hỗ Trợ Kỹ Thuật</h6>
+      <p class="small text-muted mb-3">
+        Nếu gặp sự cố về đồng bộ tồn kho hoặc kết nối thanh toán Stripe, vui lòng kiểm tra các cấu hình trong file biến môi trường <code>.env</code>.
+      </p>
+      <a href="/" target="_blank" class="btn btn-outline-primary btn-sm w-100 rounded-3">
+        <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> Kiểm tra cửa hàng trực tiếp
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

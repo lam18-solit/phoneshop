@@ -1,0 +1,129 @@
+{% extends 'admin_dashboard/base_admin.html' %}
+{% load humanize %}
+
+{% block title %}Quản lý Khách hàng{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+  <div>
+    <h2 class="fw-bold mb-1">Quản Lý Khách Hàng</h2>
+    <p class="text-muted small mb-0">Hồ sơ khách hàng đã đăng ký, lịch sử mua hàng và tổng giá trị chi tiêu tại Phone Shop.</p>
+  </div>
+</div>
+
+<!-- Search & Stats Card -->
+<div class="admin-card p-3 mb-4">
+  <div class="row g-2 align-items-center justify-content-between">
+    <div class="col-12 col-md-5">
+      <form method="GET" action="{% url 'admin_customers' %}">
+        <div class="input-group">
+          <span class="input-group-text bg-light border-end-0 text-muted"><i class="fa-solid fa-magnifying-glass"></i></span>
+          <input type="text" name="q" class="form-control border-start-0 ps-0 bg-light" placeholder="Tìm theo tên, email, số điện thoại..." value="{{ search_q }}">
+          <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+        </div>
+      </form>
+    </div>
+    <div class="col-12 col-md-auto text-muted small">
+      Tổng cộng: <strong class="text-dark">{{ total_count }}</strong> khách hàng đăng ký
+    </div>
+  </div>
+</div>
+
+<!-- Customers Table -->
+<div class="admin-card p-0 overflow-hidden">
+  <div class="table-responsive">
+    <table class="tech-table">
+      <thead>
+        <tr>
+          <th>Khách Hàng</th>
+          <th>Email</th>
+          <th>Số Điện Thoại</th>
+          <th>Địa Chỉ Đăng Ký</th>
+          <th class="text-center">Số Đơn Hàng</th>
+          <th class="text-end">Tổng Chi Tiêu</th>
+          <th class="text-end">Thao Tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in customers %}
+        <tr>
+          <td>
+            <div class="d-flex align-items-center gap-2">
+              <div class="admin-avatar-small" style="width: 36px; height: 36px; font-size: 0.9rem;">
+                {% if item.user.first_name %}{{ item.user.first_name|slice:":1"|upper }}{% else %}U{% endif %}
+              </div>
+              <div class="fw-bold text-dark">
+                {% if item.user.first_name or item.user.last_name %}
+                  {{ item.user.last_name }} {{ item.user.first_name }}
+                {% else %}
+                  {{ item.user.email }}
+                {% endif %}
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="text-muted small">{{ item.user.email }}</span>
+          </td>
+          <td>
+            <span class="text-muted small">{{ item.user.phone|default:'Chưa cập nhật' }}</span>
+          </td>
+          <td>
+            <span class="text-truncate d-inline-block small text-muted" style="max-width: 200px;" title="{{ item.user.address }}">
+              {{ item.user.address|default:'Chưa cập nhật' }}
+            </span>
+          </td>
+          <td class="text-center">
+            <span class="badge bg-primary-subtle text-primary px-2 py-1 fw-bold">
+              {{ item.orders_count }} đơn
+            </span>
+          </td>
+          <td class="text-end fw-bold text-dark text-nowrap">
+            {{ item.total_spent|floatformat:0|intcomma }} ₫
+          </td>
+          <td class="text-end">
+            <a href="{% url 'admin_customer_detail' item.user.id %}" class="btn btn-sm btn-light border rounded-2" title="Xem hồ sơ chi tiết">
+              <i class="fa-regular fa-eye text-primary"></i>
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="text-center py-5 text-muted">
+            <i class="fa-solid fa-users-slash fs-2 d-block mb-2 text-secondary"></i>
+            Không tìm thấy thông tin khách hàng nào.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  {% if customers.has_other_pages %}
+  <div class="d-flex justify-content-between align-items-center p-3 border-top">
+    <div class="small text-muted">
+      Trang <strong>{{ customers.number }}</strong> / <strong>{{ customers.paginator.num_pages }}</strong>
+    </div>
+    <nav>
+      <ul class="pagination pagination-sm mb-0">
+        {% if customers.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ customers.previous_page_number }}&q={{ search_q }}">Trước</a></li>
+        {% endif %}
+
+        {% for p in customers.paginator.page_range %}
+          {% if customers.number == p %}
+          <li class="page-item active"><span class="page-link">{{ p }}</span></li>
+          {% elif p >= customers.number|add:"-2" and p <= customers.number|add:"2" %}
+          <li class="page-item"><a class="page-link" href="?page={{ p }}&q={{ search_q }}">{{ p }}</a></li>
+          {% endif %}
+        {% endfor %}
+
+        {% if customers.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ customers.next_page_number }}&q={{ search_q }}">Tiếp</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

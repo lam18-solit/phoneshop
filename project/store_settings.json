@@ -1,0 +1,15 @@
+{
+  "store_name": "Phone Shop - Lam Shop",
+  "tagline": "Trao quyền cho cuộc sống công nghệ!",
+  "hotline": "0988 889 999",
+  "support_email": "support@phoneshop.com",
+  "address": "Showroom Phone Shop, Quận Hải Châu, TP. Đà Nẵng",
+  "currency": "VND",
+  "currency_symbol": "₫",
+  "announcement_bar": "🔥 KHUYẾN MÃI ĐẶC BIỆT: Giảm ngay 1.000.000 ₫ khi mua iPhone 15 Pro & Tặng ốp lưng cao cấp!",
+  "is_announcement_active": true,
+  "maintenance_mode": false,
+  "free_shipping_threshold": 5000000,
+  "facebook_url": "https://facebook.com/phoneshop",
+  "zalo_phone": "0988889999"
+}

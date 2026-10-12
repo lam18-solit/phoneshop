@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Tổng quan{% endblock %} | Phone Shop Admin Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- FontAwesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root {
+      --sidebar-bg: #0f172a;
+      --sidebar-card: #1e293b;
+      --sidebar-text: #94a3b8;
+      --sidebar-hover: #1e293b;
+      --sidebar-active-bg: #2563eb;
+      --sidebar-active-text: #ffffff;
+      --body-bg: #f8fafc;
+      --card-bg: #ffffff;
+      --primary-color: #2563eb;
+      --primary-light: #eff6ff;
+      --primary-dark: #1d4ed8;
+      --accent-cyan: #06b6d4;
+      --success-color: #10b981;
+      --warning-color: #f59e0b;
+      --danger-color: #ef4444;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --sidebar-width: 270px;
+      --topbar-height: 70px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--body-bg);
+      color: var(--text-main);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* Layout */
+    .admin-wrapper {
+      display: flex;
+      min-height: 100vh;
+      width: 100%;
+    }
+
+    /* Sidebar */
+    .admin-sidebar {
+      width: var(--sidebar-width);
+      background-color: var(--sidebar-bg);
+      color: var(--sidebar-text);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1030;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .sidebar-header {
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      height: var(--topbar-height);
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #ffffff;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.25rem;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+    }
+
+    .brand-title {
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+
+    .brand-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      background: rgba(37, 99, 235, 0.25);
+      color: #60a5fa;
+      padding: 2px 7px;
+      border-radius: 6px;
+      border: 1px solid rgba(96, 165, 250, 0.2);
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 18px 14px;
+      overflow-y: auto;
+    }
+
+    .nav-category {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: #64748b;
+      font-weight: 700;
+      padding: 12px 14px 6px;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      color: #94a3b8;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: 500;
+      font-size: 0.92rem;
+      transition: all 0.2s ease;
+      margin-bottom: 3px;
+      position: relative;
+    }
+
+    .sidebar-link i {
+      width: 22px;
+      font-size: 1.05rem;
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+
+    .sidebar-link:hover {
+      background-color: var(--sidebar-hover);
+      color: #ffffff;
+      transform: translateX(3px);
+    }
+
+    .sidebar-link:hover i {
+      transform: scale(1.15);
+      color: #60a5fa;
+    }
+
+    .sidebar-link.active {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: #ffffff;
+      font-weight: 600;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+    }
+
+    .sidebar-link.active i {
+      color: #ffffff;
+    }
+
+    .sidebar-badge {
+      margin-left: auto;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 20px;
+    }
+
+    .sidebar-footer {
+      padding: 16px 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    .admin-profile-pill {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .admin-avatar-small {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 0.95rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Main Area */
+    .admin-main {
+      flex: 1;
+      margin-left: var(--sidebar-width);
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Top Navbar */
+    .admin-topbar {
+      height: var(--topbar-height);
+      background-color: #ffffff;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      position: sticky;
+      top: 0;
+      z-index: 1020;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .sidebar-toggle-btn {
+      background: none;
+      border: 1px solid var(--border-color);
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .sidebar-toggle-btn:hover {
+      background-color: #f1f5f9;
+      color: var(--primary-color);
+    }
+
+    .search-input-wrapper {
+      position: relative;
+      width: 320px;
+    }
+
+    .search-input-wrapper i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      font-size: 0.9rem;
+    }
+
+    .search-input-wrapper input {
+      width: 100%;
+      height: 40px;
+      padding-left: 40px;
+      padding-right: 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      background-color: #f8fafc;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+
+    .search-input-wrapper input:focus {
+      background-color: #ffffff;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+      outline: none;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .topbar-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #475569;
+      position: relative;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .topbar-btn:hover {
+      background: #f1f5f9;
+      color: var(--primary-color);
+    }
+
+    .topbar-btn-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background-color: var(--danger-color);
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #ffffff;
+    }
+
+    .btn-view-store {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 10px;
+      background: #f1f5f9;
+      color: #334155;
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .btn-view-store:hover {
+      background: #e2e8f0;
+      color: var(--primary-color);
+    }
+
+    /* Content */
+    .admin-content {
+      flex: 1;
+      padding: 28px;
+    }
+
+    /* Cards */
+    .admin-card {
+      background-color: var(--card-bg);
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02), 0 10px 20px -5px rgba(0, 0, 0, 0.03);
+      padding: 24px;
+      margin-bottom: 24px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .admin-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .admin-card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .admin-card-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    /* KPI Stat Cards */
+    .kpi-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 22px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.25s ease;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.08);
+      border-color: #cbd5e1;
+    }
+
+    .kpi-icon-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+
+    .kpi-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .kpi-value {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+    }
+
+    .kpi-growth {
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 8px;
+    }
+
+    /* Buttons */
+    .btn-tech-primary {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: white;
+      font-weight: 600;
+      border-radius: 10px;
+      padding: 10px 18px;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+      transition: all 0.2s ease;
+    }
+    .btn-tech-primary:hover {
+      background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+    }
+
+    .btn-tech-outline {
+      background: #ffffff;
+      color: #334155;
+      font-weight: 600;
+      border-radius: 10px;
+      padding: 9px 16px;
+      border: 1px solid var(--border-color);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+    .btn-tech-outline:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+      color: var(--primary-color);
+    }
+
+    /* Badges */
+    .badge-status {
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .badge-success {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+    .badge-warning {
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+    .badge-info {
+      background-color: #e0f2fe;
+      color: #0369a1;
+    }
+    .badge-danger {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+    .badge-secondary {
+      background-color: #f1f5f9;
+      color: #475569;
+    }
+
+    /* Tables */
+    .tech-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    .tech-table th {
+      background-color: #f8fafc;
+      color: #64748b;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border-color);
+      white-space: nowrap;
+    }
+
+    .tech-table td {
+      padding: 16px 18px;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 0.9rem;
+      vertical-align: middle;
+      color: #1e293b;
+    }
+
+    .tech-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .tech-table tbody tr {
+      transition: background-color 0.15s ease;
+    }
+    .tech-table tbody tr:hover {
+      background-color: #f8fafc;
+    }
+
+    /* Mobile backdrop */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 1025;
+    }
+
+    /* Responsive */
+    @media (max-width: 991.98px) {
+      .admin-sidebar {
+        transform: translateX(-100%);
+      }
+      .admin-sidebar.show {
+        transform: translateX(0);
+      }
+      .sidebar-overlay.show {
+        display: block;
+      }
+      .admin-main {
+        margin-left: 0;
+      }
+      .search-input-wrapper {
+        display: none;
+      }
+      .admin-content {
+        padding: 18px;
+      }
+    }
+  </style>
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+<div class="admin-wrapper">
+  <!-- Mobile Sidebar Backdrop -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar" id="adminSidebar">
+    <div class="sidebar-header">
+      <a href="{% url 'admin_dashboard' %}" class="brand-logo">
+        <div class="brand-icon">
+          <i class="fa-solid fa-mobile-screen-button"></i>
+        </div>
+        <div>
+          <div class="brand-title">Phone Shop</div>
+          <span class="brand-badge"><i class="fa-solid fa-shield-halved me-1"></i>ADMIN PORTAL</span>
+        </div>
+      </a>
+      <button class="d-lg-none btn btn-sm text-white" onclick="toggleSidebar()">
+        <i class="fa-solid fa-xmark fs-5"></i>
+      </button>
+    </div>
+
+    <div class="sidebar-nav">
+      <div class="nav-category">Kinh Doanh & Thống Kê</div>
+      <a href="{% url 'admin_dashboard' %}" class="sidebar-link {% if active_menu == 'dashboard' %}active{% endif %}">
+        <i class="fa-solid fa-chart-pie"></i>
+        <span>Tổng quan</span>
+      </a>
+      <a href="{% url 'admin_analytics' %}" class="sidebar-link {% if active_menu == 'analytics' %}active{% endif %}">
+        <i class="fa-solid fa-chart-line"></i>
+        <span>Thống kê doanh thu</span>
+      </a>
+
+      <div class="nav-category">Quản Lý Bán Hàng</div>
+      <a href="{% url 'admin_products' %}" class="sidebar-link {% if active_menu == 'products' %}active{% endif %}">
+        <i class="fa-solid fa-boxes-stacked"></i>
+        <span>Quản lý sản phẩm</span>
+      </a>
+      <a href="{% url 'admin_categories' %}" class="sidebar-link {% if active_menu == 'categories' %}active{% endif %}">
+        <i class="fa-solid fa-tags"></i>
+        <span>Danh mục & Hãng</span>
+      </a>
+      <a href="{% url 'admin_orders' %}" class="sidebar-link {% if active_menu == 'orders' %}active{% endif %}">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span>Quản lý đơn hàng</span>
+        <span class="badge bg-danger rounded-pill sidebar-badge ms-auto">Đơn mới</span>
+      </a>
+      <a href="{% url 'admin_inventory' %}" class="sidebar-link {% if active_menu == 'inventory' %}active{% endif %}">
+        <i class="fa-solid fa-warehouse"></i>
+        <span>Quản lý tồn kho</span>
+      </a>
+
+      <div class="nav-category">Khách Hàng & Tiếp Thị</div>
+      <a href="{% url 'admin_customers' %}" class="sidebar-link {% if active_menu == 'customers' %}active{% endif %}">
+        <i class="fa-solid fa-users"></i>
+        <span>Quản lý khách hàng</span>
+      </a>
+      <a href="{% url 'admin_coupons' %}" class="sidebar-link {% if active_menu == 'coupons' %}active{% endif %}">
+        <i class="fa-solid fa-ticket"></i>
+        <span>Mã giảm giá</span>
+      </a>
+      <a href="{% url 'admin_reviews' %}" class="sidebar-link {% if active_menu == 'reviews' %}active{% endif %}">
+        <i class="fa-solid fa-star"></i>
+        <span>Đánh giá sản phẩm</span>
+      </a>
+
+      <div class="nav-category">Hệ Thống</div>
+      <a href="{% url 'admin_settings' %}" class="sidebar-link {% if active_menu == 'settings' %}active{% endif %}">
+        <i class="fa-solid fa-gear"></i>
+        <span>Cài đặt cửa hàng</span>
+      </a>
+      <a href="/" target="_blank" class="sidebar-link">
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        <span>Xem website bán hàng</span>
+      </a>
+      <a href="{% url 'admin_logout' %}" class="sidebar-link text-danger">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span>Đăng xuất</span>
+      </a>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="admin-profile-pill">
+        <div class="admin-avatar-small">
+          {% if request.user.first_name %}{{ request.user.first_name|slice:":1"|upper }}{% else %}A{% endif %}
+        </div>
+        <div class="overflow-hidden">
+          <div class="text-white fw-bold text-truncate" style="font-size: 0.88rem;">
+            {% if request.user.first_name or request.user.last_name %}
+              {{ request.user.last_name }} {{ request.user.first_name }}
+            {% else %}
+              {{ request.user.email }}
+            {% endif %}
+          </div>
+          <div class="text-muted small d-flex align-items-center gap-1" style="font-size: 0.75rem;">
+            <span class="badge bg-success p-1 rounded-circle" style="width: 7px; height: 7px;"></span>
+            <span>Quản trị viên</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Wrapper -->
+  <div class="admin-main">
+    <!-- Topbar -->
+    <header class="admin-topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Đóng / mở Sidebar">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <form class="search-input-wrapper" method="GET" action="{% url 'admin_products' %}">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" name="q" placeholder="Tìm sản phẩm, đơn hàng, khách hàng..." value="{{ search_q|default:'' }}">
+        </form>
+      </div>
+
+      <div class="topbar-right">
+        <a href="/" target="_blank" class="btn-view-store">
+          <i class="fa-solid fa-store text-primary"></i>
+          <span class="d-none d-sm-inline">Xem cửa hàng</span>
+        </a>
+
+        <!-- Notifications Dropdown -->
+        <div class="dropdown">
+          <button class="topbar-btn dropdown-toggle no-arrow" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-regular fa-bell"></i>
+            <span class="topbar-btn-badge">3</span>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end shadow-lg border-0 p-3 rounded-4" style="width: 320px;">
+            <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom">
+              <span class="fw-bold">Thông báo mới</span>
+              <span class="badge bg-primary rounded-pill">3 mới</span>
+            </div>
+            <div class="list-group list-group-flush small">
+              <a href="{% url 'admin_orders' %}" class="list-group-item list-group-item-action border-0 px-0 py-2 d-flex gap-2">
+                <i class="fa-solid fa-cart-shopping text-success mt-1"></i>
+                <div>
+                  <div class="fw-semibold">Đơn hàng mới #ORD1018</div>
+                  <div class="text-muted" style="font-size: 0.75rem;">iPhone 15 Pro Max • 10 phút trước</div>
+                </div>
+              </a>
+              <a href="{% url 'admin_inventory' %}" class="list-group-item list-group-item-action border-0 px-0 py-2 d-flex gap-2">
+                <i class="fa-solid fa-triangle-exclamation text-warning mt-1"></i>
+                <div>
+                  <div class="fw-semibold">Cảnh báo tồn kho</div>
+                  <div class="text-muted" style="font-size: 0.75rem;">Xiaomi Redmi Note 13 sắp hết hàng</div>
+                </div>
+              </a>
+              <a href="{% url 'admin_reviews' %}" class="list-group-item list-group-item-action border-0 px-0 py-2 d-flex gap-2">
+                <i class="fa-solid fa-star text-warning mt-1"></i>
+                <div>
+                  <div class="fw-semibold">Đánh giá 5 sao mới</div>
+                  <div class="text-muted" style="font-size: 0.75rem;">Khách hàng vừa để lại nhận xét</div>
+                </div>
+              </a>
+            </div>
+            <div class="text-center mt-2 pt-2 border-top">
+              <a href="{% url 'admin_orders' %}" class="text-primary text-decoration-none fw-semibold small">Xem tất cả đơn hàng</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- User Profile Dropdown -->
+        <div class="dropdown">
+          <button class="btn p-0 d-flex align-items-center gap-2 border-0 bg-transparent dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="admin-avatar-small" style="width: 38px; height: 38px;">
+              {% if request.user.first_name %}{{ request.user.first_name|slice:":1"|upper }}{% else %}A{% endif %}
+            </div>
+            <div class="d-none d-md-block text-start" style="line-height: 1.2;">
+              <div class="fw-bold text-dark" style="font-size: 0.88rem;">{{ request.user.email|truncatechars:18 }}</div>
+              <div class="text-muted" style="font-size: 0.72rem;">Administrator</div>
+            </div>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-3 mt-2 py-2">
+            <li><h6 class="dropdown-header text-muted">Tài khoản quản trị</h6></li>
+            <li><a class="dropdown-item py-2" href="{% url 'admin_settings' %}"><i class="fa-solid fa-gear me-2 text-muted"></i>Cài đặt cửa hàng</a></li>
+            <li><a class="dropdown-item py-2" href="/" target="_blank"><i class="fa-solid fa-store me-2 text-muted"></i>Xem cửa hàng</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item py-2 text-danger" href="{% url 'admin_logout' %}"><i class="fa-solid fa-right-from-bracket me-2"></i>Đăng xuất</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="admin-content">
+      <!-- Alerts & Messages -->
+      {% if messages %}
+      <div class="mb-4">
+        {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags|default:'info' }}{% endif %} alert-dismissible fade show rounded-3 shadow-sm border-0 d-flex align-items-center gap-3" role="alert">
+          {% if message.tags == 'success' %}
+            <i class="fa-solid fa-circle-check fs-5 text-success"></i>
+          {% elif message.tags == 'error' %}
+            <i class="fa-solid fa-circle-xmark fs-5 text-danger"></i>
+          {% else %}
+            <i class="fa-solid fa-circle-info fs-5 text-primary"></i>
+          {% endif %}
+          <div class="flex-grow-1">{{ message }}</div>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="px-4 py-3 bg-white border-top text-center text-muted small mt-auto">
+      <span>&copy; 2026 <strong>Phone Shop Admin</strong>. Hệ thống quản trị cửa hàng điện thoại công nghệ cao cấp.</span>
+    </footer>
+  </div>
+</div>
+
+<!-- Bootstrap 5 JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById('adminSidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    sidebar.classList.toggle('show');
+    overlay.classList.toggle('show');
+  }
+
+  // Format VND helper
+  function formatVND(amount) {
+    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+  }
+</script>
+
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

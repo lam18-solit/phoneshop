@@ -1,0 +1,442 @@
+{% extends 'admin_dashboard/base_admin.html' %}
+{% load humanize %}
+
+{% block title %}Tổng quan Bán hàng{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+  <div>
+    <h2 class="fw-bold mb-1" style="letter-spacing: -0.5px;">Tổng Quan Hoạt Động</h2>
+    <p class="text-muted small mb-0">Theo dõi doanh thu, đơn đặt hàng và hiệu suất kinh doanh của Phone Shop theo thời gian thực.</p>
+  </div>
+  <div class="d-flex align-items-center gap-2">
+    <a href="{% url 'admin_product_add' %}" class="btn-tech-primary">
+      <i class="fa-solid fa-plus"></i>
+      <span>Thêm sản phẩm</span>
+    </a>
+    <a href="{% url 'admin_orders' %}" class="btn-tech-outline">
+      <i class="fa-solid fa-list-check"></i>
+      <span>Xử lý đơn hàng</span>
+    </a>
+  </div>
+</div>
+
+<!-- 4 KPI Cards -->
+<div class="row g-3 mb-4">
+  <!-- Revenue Card -->
+  <div class="col-12 col-sm-6 col-xl-3">
+    <div class="kpi-card">
+      <div class="d-flex justify-content-between align-items-start">
+        <div>
+          <div class="kpi-title">Tổng Doanh Thu</div>
+          <div class="kpi-value text-primary">
+            {{ total_revenue|floatformat:0|intcomma }} ₫
+          </div>
+        </div>
+        <div class="kpi-icon-box" style="background: rgba(37, 99, 235, 0.12); color: #2563eb;">
+          <i class="fa-solid fa-money-bill-wave"></i>
+        </div>
+      </div>
+      <div class="kpi-growth text-success">
+        <i class="fa-solid fa-arrow-trend-up"></i>
+        <span>+14.8% so với tháng trước</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Orders Card -->
+  <div class="col-12 col-sm-6 col-xl-3">
+    <div class="kpi-card">
+      <div class="d-flex justify-content-between align-items-start">
+        <div>
+          <div class="kpi-title">Tổng Đơn Hàng</div>
+          <div class="kpi-value">{{ total_orders }}</div>
+        </div>
+        <div class="kpi-icon-box" style="background: rgba(16, 185, 129, 0.12); color: #10b981;">
+          <i class="fa-solid fa-bag-shopping"></i>
+        </div>
+      </div>
+      <div class="kpi-growth text-primary">
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        <span>{{ status_counts.pending }} đơn cần xử lý</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Products Card -->
+  <div class="col-12 col-sm-6 col-xl-3">
+    <div class="kpi-card">
+      <div class="d-flex justify-content-between align-items-start">
+        <div>
+          <div class="kpi-title">Tổng Sản Phẩm</div>
+          <div class="kpi-value">{{ total_products }}</div>
+        </div>
+        <div class="kpi-icon-box" style="background: rgba(14, 165, 233, 0.12); color: #0ea5e9;">
+          <i class="fa-solid fa-boxes-stacked"></i>
+        </div>
+      </div>
+      <div class="kpi-growth {% if out_of_stock > 0 %}text-warning{% else %}text-success{% endif %}">
+        <i class="fa-solid fa-warehouse"></i>
+        <span>{{ active_products }} đang bán • {{ out_of_stock }} hết hàng</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Customers Card -->
+  <div class="col-12 col-sm-6 col-xl-3">
+    <div class="kpi-card">
+      <div class="d-flex justify-content-between align-items-start">
+        <div>
+          <div class="kpi-title">Tổng Khách Hàng</div>
+          <div class="kpi-value">{{ total_customers }}</div>
+        </div>
+        <div class="kpi-icon-box" style="background: rgba(139, 92, 246, 0.12); color: #8b5cf6;">
+          <i class="fa-solid fa-users"></i>
+        </div>
+      </div>
+      <div class="kpi-growth text-success">
+        <i class="fa-solid fa-user-plus"></i>
+        <span>{{ total_reviews }} lượt đánh giá</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Charts Row -->
+<div class="row g-4 mb-4">
+  <!-- Revenue Line/Bar Chart -->
+  <div class="col-12 col-xl-8">
+    <div class="admin-card h-100 mb-0">
+      <div class="admin-card-header">
+        <div>
+          <div class="admin-card-title">
+            <i class="fa-solid fa-chart-area text-primary"></i>
+            Biểu Đồ Doanh Thu Phone Shop
+          </div>
+          <div class="admin-card-subtitle">Doanh thu bán điện thoại và thiết bị công nghệ</div>
+        </div>
+        <div class="btn-group btn-group-sm" role="group">
+          <button type="button" class="btn btn-outline-secondary active" id="btnChartDays" onclick="switchChart('days')">7 Ngày</button>
+          <button type="button" class="btn btn-outline-secondary" id="btnChartMonths" onclick="switchChart('months')">6 Tháng</button>
+        </div>
+      </div>
+      <div style="height: 320px; position: relative;">
+        <canvas id="revenueChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Status Doughnut Chart -->
+  <div class="col-12 col-xl-4">
+    <div class="admin-card h-100 mb-0 d-flex flex-column">
+      <div class="admin-card-header">
+        <div>
+          <div class="admin-card-title">
+            <i class="fa-solid fa-chart-pie text-info"></i>
+            Trạng Thái Đơn Hàng
+          </div>
+          <div class="admin-card-subtitle">Tỷ lệ phân bố đơn hàng hiện tại</div>
+        </div>
+      </div>
+      <div style="height: 220px; position: relative; margin: auto 0;">
+        <canvas id="statusChart"></canvas>
+      </div>
+      <div class="mt-3 pt-3 border-top small">
+        <div class="d-flex justify-content-between mb-1">
+          <span><i class="fa-solid fa-circle text-warning me-1"></i> Chờ xác nhận:</span>
+          <strong>{{ status_counts.pending }} đơn</strong>
+        </div>
+        <div class="d-flex justify-content-between mb-1">
+          <span><i class="fa-solid fa-circle text-info me-1"></i> Đang vận chuyển:</span>
+          <strong>{{ status_counts.shipping }} đơn</strong>
+        </div>
+        <div class="d-flex justify-content-between mb-1">
+          <span><i class="fa-solid fa-circle text-success me-1"></i> Đã giao thành công:</span>
+          <strong>{{ status_counts.delivered }} đơn</strong>
+        </div>
+        <div class="d-flex justify-content-between">
+          <span><i class="fa-solid fa-circle text-danger me-1"></i> Đã hủy / Trả lại:</span>
+          <strong>{{ status_counts.cancelled }} đơn</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Recent Orders & Top Selling Row -->
+<div class="row g-4">
+  <!-- Recent Orders Table -->
+  <div class="col-12 col-xl-8">
+    <div class="admin-card mb-0">
+      <div class="admin-card-header">
+        <div>
+          <div class="admin-card-title">
+            <i class="fa-solid fa-cart-shopping text-primary"></i>
+            Đơn Hàng Mới Nhất
+          </div>
+          <div class="admin-card-subtitle">Danh sách các đơn đặt hàng vừa phát sinh</div>
+        </div>
+        <a href="{% url 'admin_orders' %}" class="btn-tech-outline btn-sm">
+          <span>Xem tất cả</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="table-responsive">
+        <table class="tech-table">
+          <thead>
+            <tr>
+              <th>Mã Đơn</th>
+              <th>Khách Hàng</th>
+              <th>Sản Phẩm</th>
+              <th>Tổng Tiền</th>
+              <th>Ngày Đặt</th>
+              <th>Trạng Thái</th>
+              <th class="text-end">Chi Tiết</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in recent_orders %}
+            <tr>
+              <td>
+                <span class="fw-bold text-primary font-monospace">#{{ order.order_id }}</span>
+              </td>
+              <td>
+                <div class="fw-semibold text-truncate" style="max-width: 130px;">
+                  {% if order.user.first_name %}{{ order.user.last_name }} {{ order.user.first_name }}{% else %}{{ order.user.email }}{% endif %}
+                </div>
+                <div class="text-muted small" style="font-size: 0.75rem;">{{ order.user.phone|default:'--' }}</div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center gap-2">
+                  {% if order.product.product_image %}
+                  <img src="{{ order.product.product_image.url }}" alt="" class="rounded-2" style="width: 34px; height: 34px; object-fit: contain; background: #f8fafc; padding: 2px;">
+                  {% endif %}
+                  <span class="text-truncate" style="max-width: 140px;" title="{{ order.product.product_name }}">
+                    {{ order.product.product_name }}
+                  </span>
+                  <span class="badge bg-secondary-subtle text-secondary small">x{{ order.quantity }}</span>
+                </div>
+              </td>
+              <td class="fw-bold text-dark text-nowrap">
+                {{ order.total_price|floatformat:0|intcomma }} ₫
+              </td>
+              <td class="text-muted small text-nowrap">
+                {{ order.created_at|date:"d/m/Y H:i" }}
+              </td>
+              <td>
+                {% if order.order_status == 1 or order.order_status == 2 %}
+                  <span class="badge-status badge-warning"><i class="fa-solid fa-clock"></i> Chờ duyệt</span>
+                {% elif order.order_status == 3 %}
+                  <span class="badge-status badge-info"><i class="fa-solid fa-truck-fast"></i> Đang giao</span>
+                {% elif order.order_status == 4 %}
+                  <span class="badge-status badge-success"><i class="fa-solid fa-check"></i> Đã giao</span>
+                {% elif order.order_status == 5 %}
+                  <span class="badge-status badge-danger"><i class="fa-solid fa-xmark"></i> Đã hủy</span>
+                {% else %}
+                  <span class="badge-status badge-secondary"><i class="fa-solid fa-rotate-left"></i> Trả hàng</span>
+                {% endif %}
+              </td>
+              <td class="text-end">
+                <a href="{% url 'admin_order_detail' order.order_id %}" class="btn btn-sm btn-light border rounded-2" title="Xem chi tiết đơn">
+                  <i class="fa-regular fa-eye"></i>
+                </a>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="7" class="text-center py-4 text-muted">Chưa có đơn hàng nào trong hệ thống.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Column: Top Selling & Low Stock Warnings -->
+  <div class="col-12 col-xl-4">
+    <!-- Top Selling Phones -->
+    <div class="admin-card mb-4">
+      <div class="admin-card-header mb-3">
+        <div>
+          <div class="admin-card-title" style="font-size: 1.05rem;">
+            <i class="fa-solid fa-fire text-danger"></i>
+            Điện Thoại Bán Chạy
+          </div>
+        </div>
+        <a href="{% url 'admin_products' %}" class="small text-primary text-decoration-none fw-semibold">Kho hàng</a>
+      </div>
+
+      <div class="d-flex flex-column gap-3">
+        {% for prod in top_products %}
+        <div class="d-flex align-items-center gap-3 p-2 rounded-3 hover-bg">
+          {% if prod.product_image %}
+          <img src="{{ prod.product_image.url }}" alt="" class="rounded-3 border" style="width: 46px; height: 46px; object-fit: contain; background: #f8fafc; padding: 3px;">
+          {% else %}
+          <div class="rounded-3 border bg-light d-flex align-items-center justify-content-center" style="width: 46px; height: 46px;">
+            <i class="fa-solid fa-mobile-screen text-muted"></i>
+          </div>
+          {% endif %}
+          <div class="flex-grow-1 overflow-hidden">
+            <div class="fw-semibold text-truncate small" title="{{ prod.product_name }}">{{ prod.product_name }}</div>
+            <div class="d-flex align-items-center gap-2 small text-muted">
+              <span class="badge bg-primary-subtle text-primary" style="font-size: 0.7rem;">{{ prod.company.company }}</span>
+              <span class="fw-bold text-dark">{{ prod.orignal_price|floatformat:0|intcomma }} ₫</span>
+            </div>
+          </div>
+          {% if prod.is_stock %}
+          <span class="badge bg-success-subtle text-success small">Còn hàng</span>
+          {% else %}
+          <span class="badge bg-danger-subtle text-danger small">Hết</span>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Low Stock Alert -->
+    <div class="admin-card mb-0 border-warning-subtle">
+      <div class="admin-card-header mb-3">
+        <div class="admin-card-title text-warning" style="font-size: 1.05rem;">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          Cảnh Báo Tồn Kho
+        </div>
+        <a href="{% url 'admin_inventory' %}" class="small text-warning text-decoration-none fw-semibold">Xem kho</a>
+      </div>
+
+      {% if low_stock_products %}
+      <div class="d-flex flex-column gap-2">
+        {% for prod in low_stock_products %}
+        <div class="d-flex align-items-center justify-content-between p-2 rounded-3 bg-light">
+          <div class="d-flex align-items-center gap-2 overflow-hidden">
+            <i class="fa-solid fa-circle-exclamation text-danger fs-6"></i>
+            <span class="small fw-semibold text-truncate" style="max-width: 170px;">{{ prod.product_name }}</span>
+          </div>
+          <a href="{% url 'admin_product_toggle_stock' prod.id %}" class="btn btn-sm btn-outline-primary py-0 px-2 small" style="font-size: 0.75rem;">
+            Nhập hàng
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="text-center py-3 text-muted small">
+        <i class="fa-solid fa-circle-check text-success fs-4 mb-2 d-block"></i>
+        Tất cả sản phẩm đều đang đủ tồn kho sẵn sàng bán!
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  // Revenue Chart setup
+  const daysLabels = {{ days_labels_json|safe }};
+  const daysRevenue = {{ days_revenue_json|safe }};
+  const monthsLabels = {{ months_labels_json|safe }};
+  const monthsRevenue = {{ months_revenue_json|safe }};
+
+  const ctxRev = document.getElementById('revenueChart').getContext('2d');
+  
+  // Create gradient
+  const gradient = ctxRev.createLinearGradient(0, 0, 0, 300);
+  gradient.addColorStop(0, 'rgba(37, 99, 235, 0.35)');
+  gradient.addColorStop(1, 'rgba(37, 99, 235, 0.0)');
+
+  const revenueChart = new Chart(ctxRev, {
+    type: 'line',
+    data: {
+      labels: daysLabels,
+      datasets: [{
+        label: 'Doanh thu (VNĐ)',
+        data: daysRevenue,
+        borderColor: '#2563eb',
+        borderWidth: 3,
+        backgroundColor: gradient,
+        fill: true,
+        tension: 0.35,
+        pointBackgroundColor: '#ffffff',
+        pointBorderColor: '#2563eb',
+        pointBorderWidth: 2,
+        pointRadius: 5,
+        pointHoverRadius: 7
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return ' Doanh thu: ' + formatVND(context.raw);
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false }
+        },
+        y: {
+          ticks: {
+            callback: function(val) {
+              if (val >= 1000000) return (val / 1000000) + ' Tr';
+              return val;
+            }
+          },
+          grid: { color: '#f1f5f9' }
+        }
+      }
+    }
+  });
+
+  function switchChart(mode) {
+    const btnDays = document.getElementById('btnChartDays');
+    const btnMonths = document.getElementById('btnChartMonths');
+    if (mode === 'days') {
+      btnDays.classList.add('active');
+      btnMonths.classList.remove('active');
+      revenueChart.data.labels = daysLabels;
+      revenueChart.data.datasets[0].data = daysRevenue;
+    } else {
+      btnMonths.classList.add('active');
+      btnDays.classList.remove('active');
+      revenueChart.data.labels = monthsLabels;
+      revenueChart.data.datasets[0].data = monthsRevenue;
+    }
+    revenueChart.update();
+  }
+
+  // Status Doughnut Chart setup
+  const ctxStatus = document.getElementById('statusChart').getContext('2d');
+  new Chart(ctxStatus, {
+    type: 'doughnut',
+    data: {
+      labels: ['Chờ duyệt', 'Đang giao', 'Đã giao', 'Đã hủy'],
+      datasets: [{
+        data: [
+          {{ status_counts.pending|default:0 }},
+          {{ status_counts.shipping|default:0 }},
+          {{ status_counts.delivered|default:0 }},
+          {{ status_counts.cancelled|default:0 }}
+        ],
+        backgroundColor: ['#f59e0b', '#06b6d4', '#10b981', '#ef4444'],
+        borderWidth: 0,
+        hoverOffset: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '72%',
+      plugins: {
+        legend: { display: false }
+      }
+    }
+  });
+</script>
+{% endblock %}

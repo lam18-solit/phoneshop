@@ -1,0 +1,161 @@
+{% extends 'admin_dashboard/base_admin.html' %}
+{% load humanize %}
+
+{% block title %}Quản lý Mã giảm giá{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+  <div>
+    <h2 class="fw-bold mb-1">Mã Giảm Giá & Khuyến Mãi</h2>
+    <p class="text-muted small mb-0">Quản lý voucher ưu đãi, mã giảm giá theo chiến dịch marketing của Phone Shop.</p>
+  </div>
+  <button type="button" class="btn-tech-primary" data-bs-toggle="modal" data-bs-target="#addCouponModal">
+    <i class="fa-solid fa-plus"></i>
+    <span>Tạo mã giảm giá mới</span>
+  </button>
+</div>
+
+<div class="row g-4">
+  {% for c in coupons %}
+  <div class="col-12 col-md-6 col-xl-3">
+    <div class="admin-card position-relative overflow-hidden h-100 d-flex flex-column mb-0 {% if not c.is_active %}opacity-75{% endif %}">
+      <!-- Top banner -->
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <span class="badge {% if c.is_active %}bg-success{% else %}bg-secondary{% endif %} rounded-pill px-3 py-1">
+          {% if c.is_active %}Đang kích hoạt{% else %}Tạm dừng{% endif %}
+        </span>
+        <div class="dropdown">
+          <button class="btn btn-sm btn-light border p-1" type="button" data-bs-toggle="dropdown">
+            <i class="fa-solid fa-ellipsis-vertical"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+            <li>
+              <form method="POST" action="{% url 'admin_coupons' %}">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="toggle_coupon">
+                <input type="hidden" name="coupon_id" value="{{ c.id }}">
+                <button type="submit" class="dropdown-item small">
+                  <i class="fa-solid fa-toggle-{% if c.is_active %}off{% else %}on{% endif %} me-2"></i>
+                  {% if c.is_active %}Tạm dừng mã{% else %}Kích hoạt lại{% endif %}
+                </button>
+              </form>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <form method="POST" action="{% url 'admin_coupons' %}" onsubmit="return confirm('Bạn có chắc chắn muốn xóa mã {{ c.code }}?');">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="delete_coupon">
+                <input type="hidden" name="coupon_id" value="{{ c.id }}">
+                <button type="submit" class="dropdown-item small text-danger">
+                  <i class="fa-regular fa-trash-can me-2"></i>Xóa mã
+                </button>
+              </form>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Coupon Code Box -->
+      <div class="p-3 rounded-3 bg-light border text-center mb-3 cursor-pointer position-relative" 
+           onclick="navigator.clipboard.writeText('{{ c.code }}'); alert('Đã sao chép mã {{ c.code }}!');" 
+           title="Bấm để sao chép mã">
+        <div class="text-muted small" style="font-size: 0.72rem;">MÃ VOUCHER</div>
+        <div class="fw-bold font-monospace fs-4 text-primary letter-spacing-1">{{ c.code }}</div>
+        <span class="badge bg-secondary-subtle text-secondary small" style="font-size: 0.65rem;">
+          <i class="fa-regular fa-copy me-1"></i>Bấm để copy
+        </span>
+      </div>
+
+      <!-- Discount Value -->
+      <div class="mb-3">
+        <div class="fw-bold text-dark fs-5">
+          {% if c.discount_type == 'percent' %}
+            Giảm {{ c.discount_value }}%
+          {% else %}
+            Giảm {{ c.discount_value|floatformat:0|intcomma }} ₫
+          {% endif %}
+        </div>
+        <p class="text-muted small mb-0" style="min-height: 38px;">{{ c.description }}</p>
+      </div>
+
+      <!-- Details -->
+      <div class="mt-auto border-top pt-2 small text-muted">
+        <div class="d-flex justify-content-between mb-1">
+          <span>Đơn tối thiểu:</span>
+          <strong>{{ c.min_spend|floatformat:0|intcomma }} ₫</strong>
+        </div>
+        <div class="d-flex justify-content-between mb-1">
+          <span>Đã dùng:</span>
+          <span><strong>{{ c.used_count }}</strong> / {{ c.usage_limit }} lượt</span>
+        </div>
+        <div class="d-flex justify-content-between">
+          <span>Hạn sử dụng:</span>
+          <span class="text-dark">{{ c.valid_until }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- Add Coupon Modal -->
+<div class="modal fade" id="addCouponModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 border-0 shadow-lg">
+      <div class="modal-header border-bottom">
+        <h5 class="modal-title fw-bold">Tạo Mã Giảm Giá Mới</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="POST" action="{% url 'admin_coupons' %}">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="add_coupon">
+        <div class="modal-body p-4">
+          <div class="mb-3">
+            <label class="form-label fw-bold">Mã Voucher (Viết hoa, không dấu) <span class="text-danger">*</span></label>
+            <input type="text" name="code" class="form-control font-monospace rounded-3" placeholder="Ví dụ: IPHONE2026, TET2026" required style="text-transform: uppercase;">
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-6">
+              <label class="form-label fw-bold">Loại giảm giá</label>
+              <select name="discount_type" class="form-select rounded-3">
+                <option value="percent">Theo phần trăm (%)</option>
+                <option value="fixed">Số tiền cố định (VNĐ)</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <label class="form-label fw-bold">Mức giảm <span class="text-danger">*</span></label>
+              <input type="number" name="discount_value" class="form-control rounded-3" placeholder="10 hoặc 500000" required min="1">
+            </div>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-6">
+              <label class="form-label fw-bold">Đơn tối thiểu (VNĐ)</label>
+              <input type="number" name="min_spend" class="form-control rounded-3" placeholder="0" value="0">
+            </div>
+            <div class="col-6">
+              <label class="form-label fw-bold">Giới hạn số lượt</label>
+              <input type="number" name="usage_limit" class="form-control rounded-3" value="100">
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">Ngày hết hạn</label>
+            <input type="date" name="valid_until" class="form-control rounded-3" value="2026-12-31">
+          </div>
+
+          <div class="mb-0">
+            <label class="form-label fw-bold">Mô tả chương trình ưu đãi</label>
+            <input type="text" name="description" class="form-control rounded-3" placeholder="Ví dụ: Giảm giá ngày hội mua sắm công nghệ">
+          </div>
+        </div>
+        <div class="modal-footer border-top">
+          <button type="button" class="btn btn-light border rounded-3" data-bs-dismiss="modal">Hủy bỏ</button>
+          <button type="submit" class="btn-tech-primary">Tạo mã ưu đãi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

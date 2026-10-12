@@ -1,0 +1,203 @@
+{% extends 'admin_dashboard/base_admin.html' %}
+
+{% block title %}Danh mục & Thương hiệu{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+  <div>
+    <h2 class="fw-bold mb-1">Danh Mục & Thương Hiệu</h2>
+    <p class="text-muted small mb-0">Quản lý các nhóm danh mục thiết bị và các hãng sản xuất điện thoại đối tác.</p>
+  </div>
+  <div class="d-flex gap-2">
+    <button type="button" class="btn-tech-primary" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
+      <i class="fa-solid fa-folder-plus"></i>
+      <span>Thêm danh mục</span>
+    </button>
+    <button type="button" class="btn-tech-outline" data-bs-toggle="modal" data-bs-target="#addCompanyModal">
+      <i class="fa-solid fa-tag"></i>
+      <span>Thêm thương hiệu</span>
+    </button>
+  </div>
+</div>
+
+<div class="row g-4">
+  <!-- Categories Column -->
+  <div class="col-12 col-lg-5">
+    <div class="admin-card p-0 overflow-hidden h-100 mb-0">
+      <div class="p-4 border-bottom d-flex justify-content-between align-items-center">
+        <div>
+          <h5 class="fw-bold text-dark mb-0">
+            <i class="fa-solid fa-folder-open text-primary me-2"></i>Danh Mục Thiết Bị
+          </h5>
+          <span class="text-muted small">Tổng {{ categories|length }} danh mục</span>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="tech-table">
+          <thead>
+            <tr>
+              <th>Tên Danh Mục</th>
+              <th class="text-center">Số Sản Phẩm</th>
+              <th class="text-end">Thao Tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for cat in categories %}
+            <tr>
+              <td>
+                <div class="fw-bold text-dark d-flex align-items-center gap-2">
+                  <div class="rounded-2 bg-primary-subtle text-primary p-2" style="font-size: 0.8rem;">
+                    <i class="fa-solid fa-cubes"></i>
+                  </div>
+                  {{ cat.category }}
+                </div>
+              </td>
+              <td class="text-center">
+                <span class="badge bg-light text-dark border px-2 py-1">{{ cat.product_count }} sản phẩm</span>
+              </td>
+              <td class="text-end">
+                <form method="POST" action="{% url 'admin_categories' %}" class="d-inline" onsubmit="return confirm('Bạn có chắc chắn muốn xóa danh mục {{ cat.category }}?');">
+                  {% csrf_token %}
+                  <input type="hidden" name="action" value="delete_category">
+                  <input type="hidden" name="category_id" value="{{ cat.id }}">
+                  <button type="submit" class="btn btn-sm btn-light border text-danger" title="Xóa danh mục">
+                    <i class="fa-regular fa-trash-can"></i>
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="3" class="text-center py-4 text-muted">Chưa có danh mục nào.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Brands / Companies Column -->
+  <div class="col-12 col-lg-7">
+    <div class="admin-card p-0 overflow-hidden h-100 mb-0">
+      <div class="p-4 border-bottom d-flex justify-content-between align-items-center">
+        <div>
+          <h5 class="fw-bold text-dark mb-0">
+            <i class="fa-solid fa-tags text-primary me-2"></i>Thương Hiệu & Hãng Sản Xuất
+          </h5>
+          <span class="text-muted small">Apple, Samsung, Xiaomi, OPPO, Vivo, ASUS... ({{ companies|length }} hãng)</span>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="tech-table">
+          <thead>
+            <tr>
+              <th>Hãng / Thương Hiệu</th>
+              <th>Danh Mục Trực Thuộc</th>
+              <th class="text-center">Số Sản Phẩm</th>
+              <th class="text-end">Thao Tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for comp in companies %}
+            <tr>
+              <td>
+                <div class="fw-bold text-dark d-flex align-items-center gap-2">
+                  <div class="rounded-2 bg-info-subtle text-info p-2" style="font-size: 0.8rem;">
+                    <i class="fa-solid fa-mobile-screen"></i>
+                  </div>
+                  {{ comp.company }}
+                </div>
+              </td>
+              <td class="text-muted small">
+                {{ comp.category.category|default:'Chung' }}
+              </td>
+              <td class="text-center">
+                <span class="badge bg-light text-dark border px-2 py-1">{{ comp.product_count }} sản phẩm</span>
+              </td>
+              <td class="text-end">
+                <form method="POST" action="{% url 'admin_categories' %}" class="d-inline" onsubmit="return confirm('Bạn có chắc chắn muốn xóa thương hiệu {{ comp.company }}?');">
+                  {% csrf_token %}
+                  <input type="hidden" name="action" value="delete_company">
+                  <input type="hidden" name="company_id" value="{{ comp.id }}">
+                  <button type="submit" class="btn btn-sm btn-light border text-danger" title="Xóa thương hiệu">
+                    <i class="fa-regular fa-trash-can"></i>
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="4" class="text-center py-4 text-muted">Chưa có thương hiệu nào.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Category Modal -->
+<div class="modal fade" id="addCategoryModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 border-0 shadow">
+      <div class="modal-header border-bottom">
+        <h5 class="modal-title fw-bold">Thêm danh mục thiết bị mới</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="POST" action="{% url 'admin_categories' %}">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="add_category">
+        <div class="modal-body p-4">
+          <div class="mb-3">
+            <label class="form-label fw-bold">Tên danh mục <span class="text-danger">*</span></label>
+            <input type="text" name="category_name" class="form-control rounded-3" placeholder="Ví dụ: Smartwatch, Tai nghe, Phụ kiện..." required>
+          </div>
+        </div>
+        <div class="modal-footer border-top">
+          <button type="button" class="btn btn-light border rounded-3" data-bs-dismiss="modal">Hủy</button>
+          <button type="submit" class="btn-tech-primary">Lưu danh mục</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Add Company Modal -->
+<div class="modal fade" id="addCompanyModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 border-0 shadow">
+      <div class="modal-header border-bottom">
+        <h5 class="modal-title fw-bold">Thêm thương hiệu / Hãng điện thoại mới</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="POST" action="{% url 'admin_categories' %}">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="add_company">
+        <div class="modal-body p-4">
+          <div class="mb-3">
+            <label class="form-label fw-bold">Tên hãng / Thương hiệu <span class="text-danger">*</span></label>
+            <input type="text" name="company_name" class="form-control rounded-3" placeholder="Ví dụ: Apple, Samsung, Xiaomi, OPPO..." required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-bold">Danh mục trực thuộc <span class="text-danger">*</span></label>
+            <select name="category_id" class="form-select rounded-3" required>
+              <option value="">-- Chọn danh mục --</option>
+              {% for cat in categories %}
+              <option value="{{ cat.id }}">{{ cat.category }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer border-top">
+          <button type="button" class="btn btn-light border rounded-3" data-bs-dismiss="modal">Hủy</button>
+          <button type="submit" class="btn-tech-primary">Lưu thương hiệu</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

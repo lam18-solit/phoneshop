@@ -1,0 +1,310 @@
+{% extends 'admin_dashboard/base_admin.html' %}
+{% load humanize %}
+
+{% block title %}Quản lý Sản phẩm{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+  <div>
+    <h2 class="fw-bold mb-1">Quản Lý Sản Phẩm Điện Thoại</h2>
+    <p class="text-muted small mb-0">Quản lý danh sách thiết bị di động, bảng giá, thương hiệu và trạng thái kinh doanh.</p>
+  </div>
+  <a href="{% url 'admin_product_add' %}" class="btn-tech-primary">
+    <i class="fa-solid fa-plus"></i>
+    <span>Thêm sản phẩm mới</span>
+  </a>
+</div>
+
+<!-- Filters Card -->
+<div class="admin-card p-3 mb-4">
+  <form method="GET" action="{% url 'admin_products' %}" class="row g-2 align-items-center">
+    <!-- Keyword Search -->
+    <div class="col-12 col-md-4">
+      <div class="input-group">
+        <span class="input-group-text bg-light border-end-0 text-muted"><i class="fa-solid fa-magnifying-glass"></i></span>
+        <input type="text" name="q" class="form-control border-start-0 ps-0 bg-light" placeholder="Tìm tên điện thoại, mô tả..." value="{{ search_q }}">
+      </div>
+    </div>
+
+    <!-- Brand / Company Filter -->
+    <div class="col-6 col-md-3">
+      <select name="company" class="form-select bg-light" onchange="this.form.submit()">
+        <option value="">-- Tất cả Thương hiệu --</option>
+        {% for comp in companies %}
+        <option value="{{ comp.id }}" {% if company_id == comp.id|stringformat:"s" %}selected{% endif %}>
+          {{ comp.company }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Category Filter -->
+    <div class="col-6 col-md-3">
+      <select name="category" class="form-select bg-light" onchange="this.form.submit()">
+        <option value="">-- Tất cả Danh mục --</option>
+        {% for cat in categories %}
+        <option value="{{ cat.id }}" {% if category_id == cat.id|stringformat:"s" %}selected{% endif %}>
+          {{ cat.category }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Stock Status Filter -->
+    <div class="col-6 col-md-2">
+      <select name="stock" class="form-select bg-light" onchange="this.form.submit()">
+        <option value="">-- Tồn kho --</option>
+        <option value="in_stock" {% if stock_filter == 'in_stock' %}selected{% endif %}>Còn hàng</option>
+        <option value="out_of_stock" {% if stock_filter == 'out_of_stock' %}selected{% endif %}>Hết hàng</option>
+      </select>
+    </div>
+  </form>
+</div>
+
+<!-- Products Table Card -->
+<div class="admin-card p-0 overflow-hidden">
+  <div class="table-responsive">
+    <table class="tech-table">
+      <thead>
+        <tr>
+          <th style="width: 70px;">Hình Ảnh</th>
+          <th>Tên Điện Thoại</th>
+          <th>Thương Hiệu</th>
+          <th>Danh Mục</th>
+          <th>Giá Bán</th>
+          <th>Tồn Kho</th>
+          <th>Trạng Thái</th>
+          <th class="text-end" style="min-width: 140px;">Thao Tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for prod in products %}
+        <tr>
+          <!-- Thumbnail -->
+          <td>
+            {% if prod.product_image %}
+            <img src="{{ prod.product_image.url }}" alt="{{ prod.product_name }}" class="rounded-3 border" style="width: 52px; height: 52px; object-fit: contain; background: #ffffff; padding: 4px;">
+            {% else %}
+            <div class="rounded-3 border bg-light d-flex align-items-center justify-content-center text-muted" style="width: 52px; height: 52px;">
+              <i class="fa-solid fa-mobile-screen"></i>
+            </div>
+            {% endif %}
+          </td>
+
+          <!-- Product Name & Features -->
+          <td>
+            <div class="fw-bold text-dark mb-1">{{ prod.product_name }}</div>
+            <div class="d-flex align-items-center gap-2 small">
+              <span class="text-muted" style="font-size: 0.78rem;">Bảo hành: {{ prod.warranty }} tháng</span>
+              {% if prod.is_trending %}
+              <span class="badge bg-warning-subtle text-warning" style="font-size: 0.7rem;"><i class="fa-solid fa-bolt me-1"></i>Nổi bật</span>
+              {% endif %}
+            </div>
+          </td>
+
+          <!-- Brand -->
+          <td>
+            <span class="badge bg-primary-subtle text-primary fw-bold px-2 py-1" style="font-size: 0.8rem;">
+              {{ prod.company.company }}
+            </span>
+          </td>
+
+          <!-- Category -->
+          <td class="text-muted small">
+            {{ prod.category.category }}
+          </td>
+
+          <!-- Pricing -->
+          <td>
+            {% if prod.discount_percentage > 0 %}
+            <div class="fw-bold text-danger">{{ prod.discounted_price|floatformat:0|intcomma }} ₫</div>
+            <div class="text-muted text-decoration-line-through small" style="font-size: 0.75rem;">{{ prod.orignal_price|floatformat:0|intcomma }} ₫</div>
+            <span class="badge bg-danger text-white" style="font-size: 0.65rem;">-{{ prod.discount_percentage }}%</span>
+            {% else %}
+            <div class="fw-bold text-dark">{{ prod.orignal_price|floatformat:0|intcomma }} ₫</div>
+            {% endif %}
+          </td>
+
+          <!-- Stock Status Toggle -->
+          <td>
+            {% if prod.is_stock %}
+            <a href="{% url 'admin_product_toggle_stock' prod.id %}" class="badge-status badge-success text-decoration-none" title="Bấm để chuyển thành Hết hàng">
+              <i class="fa-solid fa-check"></i> Còn hàng
+            </a>
+            {% else %}
+            <a href="{% url 'admin_product_toggle_stock' prod.id %}" class="badge-status badge-danger text-decoration-none" title="Bấm để chuyển thành Còn hàng">
+              <i class="fa-solid fa-xmark"></i> Hết hàng
+            </a>
+            {% endif %}
+          </td>
+
+          <!-- Active Status Toggle -->
+          <td>
+            {% if prod.is_active %}
+            <a href="{% url 'admin_product_toggle_active' prod.id %}" class="badge bg-success-subtle text-success text-decoration-none py-1 px-2" title="Bấm để tạm ẩn">
+              <i class="fa-solid fa-eye me-1"></i>Đang bán
+            </a>
+            {% else %}
+            <a href="{% url 'admin_product_toggle_active' prod.id %}" class="badge bg-secondary-subtle text-secondary text-decoration-none py-1 px-2" title="Bấm để hiện bán">
+              <i class="fa-solid fa-eye-slash me-1"></i>Tạm ẩn
+            </a>
+            {% endif %}
+          </td>
+
+          <!-- Action Buttons -->
+          <td class="text-end">
+            <div class="d-inline-flex gap-1">
+              <button type="button" class="btn btn-sm btn-light border" title="Xem chi tiết" 
+                      onclick="openProductQuickView('{{ prod.product_name|escapejs }}', '{{ prod.company.company|escapejs }}', '{{ prod.category.category|escapejs }}', '{{ prod.orignal_price|floatformat:0|intcomma }} ₫', '{% if prod.discount_percentage > 0 %}{{ prod.discounted_price|floatformat:0|intcomma }} ₫ (-{{ prod.discount_percentage }}%){% else %}Không giảm{% endif %}', '{% if prod.product_image %}{{ prod.product_image.url }}{% endif %}', '{{ prod.warranty }} tháng', '{{ prod.product_description|escapejs }}')">
+                <i class="fa-regular fa-eye text-info"></i>
+              </button>
+
+              <a href="{% url 'admin_product_edit' prod.id %}" class="btn btn-sm btn-light border" title="Chỉnh sửa sản phẩm">
+                <i class="fa-regular fa-pen-to-square text-primary"></i>
+              </a>
+
+              <button type="button" class="btn btn-sm btn-light border text-danger" title="Xóa sản phẩm"
+                      onclick="confirmDeleteProduct('{{ prod.id }}', '{{ prod.product_name|escapejs }}')">
+                <i class="fa-regular fa-trash-can"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="8" class="text-center py-5 text-muted">
+            <i class="fa-solid fa-box-open fs-2 d-block mb-2 text-secondary"></i>
+            Không tìm thấy sản phẩm nào phù hợp với bộ lọc.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  {% if products.has_other_pages %}
+  <div class="d-flex justify-content-between align-items-center p-3 border-top">
+    <div class="small text-muted">
+      Hiển thị trang <strong>{{ products.number }}</strong> / <strong>{{ products.paginator.num_pages }}</strong> (Tổng {{ total_count }} sản phẩm)
+    </div>
+    <nav>
+      <ul class="pagination pagination-sm mb-0">
+        {% if products.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ products.previous_page_number }}&q={{ search_q }}&company={{ company_id }}&category={{ category_id }}&stock={{ stock_filter }}">Trước</a>
+        </li>
+        {% endif %}
+
+        {% for p in products.paginator.page_range %}
+          {% if products.number == p %}
+          <li class="page-item active"><span class="page-link">{{ p }}</span></li>
+          {% elif p >= products.number|add:"-2" and p <= products.number|add:"2" %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ p }}&q={{ search_q }}&company={{ company_id }}&category={{ category_id }}&stock={{ stock_filter }}">{{ p }}</a>
+          </li>
+          {% endif %}
+        {% endfor %}
+
+        {% if products.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ products.next_page_number }}&q={{ search_q }}&company={{ company_id }}&category={{ category_id }}&stock={{ stock_filter }}">Tiếp</a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+  {% endif %}
+</div>
+
+<!-- Quick View Modal -->
+<div class="modal fade" id="productViewModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content rounded-4 border-0 shadow-lg">
+      <div class="modal-header border-bottom">
+        <h5 class="modal-title fw-bold" id="qvName">Chi tiết sản phẩm</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4">
+        <div class="row g-4">
+          <div class="col-12 col-md-5 text-center">
+            <img id="qvImage" src="" alt="" class="img-fluid rounded-3 border p-3 bg-light" style="max-height: 260px; object-fit: contain;">
+          </div>
+          <div class="col-12 col-md-7">
+            <div class="d-flex gap-2 mb-2">
+              <span id="qvBrand" class="badge bg-primary-subtle text-primary fw-bold"></span>
+              <span id="qvCategory" class="badge bg-secondary-subtle text-secondary"></span>
+            </div>
+            <h4 id="qvModalTitle" class="fw-bold mb-3 text-dark"></h4>
+            <div class="mb-2">
+              <span class="text-muted small">Giá gốc:</span>
+              <span id="qvPrice" class="fw-bold text-dark fs-5 ms-2"></span>
+            </div>
+            <div class="mb-2">
+              <span class="text-muted small">Giá khuyến mãi:</span>
+              <span id="qvSalePrice" class="fw-bold text-danger fs-5 ms-2"></span>
+            </div>
+            <div class="mb-3">
+              <span class="text-muted small">Chế độ bảo hành:</span>
+              <span id="qvWarranty" class="badge bg-info-subtle text-info ms-2"></span>
+            </div>
+            <hr>
+            <div>
+              <div class="fw-bold small text-muted mb-1">Mô tả sản phẩm:</div>
+              <p id="qvDescription" class="small text-secondary mb-0" style="max-height: 120px; overflow-y: auto;"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer border-top">
+        <button type="button" class="btn btn-secondary rounded-3" data-bs-dismiss="modal">Đóng</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 border-0 shadow">
+      <div class="modal-body text-center p-4">
+        <div class="rounded-circle bg-danger-subtle text-danger mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+          <i class="fa-solid fa-triangle-exclamation fs-3"></i>
+        </div>
+        <h5 class="fw-bold mb-2">Xác nhận xóa sản phẩm</h5>
+        <p class="text-muted small mb-4">Bạn có chắc chắn muốn xóa sản phẩm <strong id="deleteProdName" class="text-dark"></strong> không? Thao tác này không thể hoàn tác.</p>
+        <form id="deleteProdForm" method="POST" action="">
+          {% csrf_token %}
+          <div class="d-flex justify-content-center gap-2">
+            <button type="button" class="btn btn-light border px-4 rounded-3" data-bs-dismiss="modal">Hủy bỏ</button>
+            <button type="submit" class="btn btn-danger px-4 rounded-3 fw-bold">Xác nhận xóa</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  function openProductQuickView(name, brand, category, price, salePrice, image, warranty, description) {
+    document.getElementById('qvModalTitle').innerText = name;
+    document.getElementById('qvBrand').innerText = brand;
+    document.getElementById('qvCategory').innerText = category;
+    document.getElementById('qvPrice').innerText = price;
+    document.getElementById('qvSalePrice').innerText = salePrice;
+    document.getElementById('qvImage').src = image || '/static/assets/img/default-phone.png';
+    document.getElementById('qvWarranty').innerText = warranty;
+    document.getElementById('qvDescription').innerText = description || 'Chưa có thông tin mô tả chi tiết.';
+    
+    new bootstrap.Modal(document.getElementById('productViewModal')).show();
+  }
+
+  function confirmDeleteProduct(id, name) {
+    document.getElementById('deleteProdName').innerText = name;
+    document.getElementById('deleteProdForm').action = '/admin/dashboard/products/delete/' + id + '/';
+    new bootstrap.Modal(document.getElementById('deleteConfirmModal')).show();
+  }
+</script>
+{% endblock %}
