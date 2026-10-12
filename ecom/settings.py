@@ -100,27 +100,36 @@ AUTH_USER_MODEL = 'myapp.CustomUser'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 _DATABASE_URL = os.environ.get('DATABASE_URL')
+_DB_HOST = os.environ.get('DB_HOST')
 
 if _DATABASE_URL:
-    # Render / cloud: dùng DATABASE_URL (PostgreSQL hoặc SQLite)
+    # Cloud: dùng DATABASE_URL (PostgreSQL hoặc khác)
     import dj_database_url
     DATABASES = {
         'default': dj_database_url.parse(_DATABASE_URL, conn_max_age=600)
     }
-else:
-    # GearHost / local: dùng MSSQL
+elif _DB_HOST:
+    # GearHost / local: dùng MSSQL khi có DB_HOST
     DATABASES = {
         'default': {
             'ENGINE': 'mssql',
             'NAME': os.environ.get('DB_NAME', 'phoneshop'),
             'USER': os.environ.get('DB_USER', 'phoneshop'),
             'PASSWORD': os.environ.get('DB_PASSWORD', ''),
-            'HOST': os.environ.get('DB_HOST', 'den1.mssql8.gear.host'),
+            'HOST': _DB_HOST,
             'PORT': '1433',
             'OPTIONS': {
-                'driver': 'ODBC Driver 18 for SQL Server',
+                'python_driver': 'mssql-python',
                 'extra_params': 'TrustServerCertificate=yes',
             },
+        }
+    }
+else:
+    # Mặc định: SQLite (Render hoặc dev)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
 
