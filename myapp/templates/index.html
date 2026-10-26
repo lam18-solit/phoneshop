@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE 8]> <html lang="vi" class="ie8"> <![endif]-->
 <!--[if !IE]><!-->
 <html lang="vi">
@@ -35,7 +35,9 @@
         <div class="container">
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                  
+                    {% if request.user.is_authenticated and request.user.is_staff %}
+                    <li><a href="/dashboard/" style="color: #ff9900; font-weight: bold;"><i class="fa fa-dashboard"></i> BẢNG ĐIỀU KHIỂN QUẢN TRỊ (ADMIN)</a></li>
+                    {% endif %}
                     <li><a href="{% url 'contact_us' %}">Chăm sóc khách hàng</a></li>
                     <li><a href="{% url 'order_tracking' %}">Theo dõi đơn hàng</a></li>
                 </ul>
@@ -194,6 +196,13 @@
 
                         <!-- Người dùng -->
                         {% if request.user.is_authenticated %}
+                            {% if request.user.is_staff or request.user.is_superuser %}
+                            <li>
+                                <a href="/dashboard/" style="background: #2563eb; color: #ffffff !important; font-weight: 600; padding: 4px 12px; margin-top: 14px; margin-right: 8px; border-radius: 6px;">
+                                    <i class="fa fa-cogs"></i> Trang Quản Trị
+                                </a>
+                            </li>
+                            {% endif %}
                             <li class="divider"></li>
                             <li>
                                 <a href="{% url 'my_account' %}">

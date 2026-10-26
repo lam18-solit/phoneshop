@@ -734,11 +734,18 @@ def order_tracking(request):
     return render(request, 'order_tracking.html')
 
 def login_page(request):
-    
     latest_products = Product.objects.filter(is_active=True).order_by('-id')[:4]
+
+    # Nếu người dùng đã đăng nhập sẵn
+    if request.user.is_authenticated:
+        if request.user.is_staff or request.user.is_superuser:
+            return redirect('/admin/dashboard/')
+        return redirect('/')
+
     if request.method == "POST":
         email = request.POST.get('email')
         password = request.POST.get('password')
+        next_url = request.POST.get('next')
         
         if not User.objects.filter(email=email).exists():
             messages.info(request, 'Please create an account first.')
@@ -748,6 +755,11 @@ def login_page(request):
         
         if user is not None:
             login(request, user)
+            # Nếu là Admin/Staff -> chuyển hướng thẳng vào Trang quản trị Dashboard
+            if user.is_staff or user.is_superuser:
+                return redirect('/admin/dashboard/')
+            if next_url:
+                return redirect(next_url)
             return redirect('/')
         else:
             messages.info(request, 'invalid Email and Password')

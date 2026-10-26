@@ -13,6 +13,8 @@ urlpatterns = [
     path('admin/login/', admin_login_view, name='admin_login'),
     path('admin/logout/', admin_logout_view, name='admin_logout'),
     path('admin/dashboard/', include('myapp.admin_urls')),
+    path('dashboard/', include('myapp.admin_urls')),
+    path('quan-tri/', include('myapp.admin_urls')),
 
     # Default Django admin
     path('admin/', admin.site.urls),
