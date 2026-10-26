@@ -1,4 +1,4 @@
-﻿{% extends 'index.html' %}
+{% extends 'index.html' %}
 
 {% block title %}
 <title>{{product.product_name}}</title>
@@ -123,7 +123,11 @@
                 <div class="review">
                   <div class="review-info">
                     <div class="review-icon">
-                      <img src="{{request.user.user_profile.url}}" alt="Ảnh đại diện" />
+                      {% if review.user and review.user.user_profile and review.user.user_profile.name %}
+                        <img src="{{ review.user.user_profile.url }}" alt="Ảnh đại diện" />
+                      {% else %}
+                        <img src="{% static 'user_profile/default.webp' %}" alt="Ảnh đại diện" />
+                      {% endif %}
                     </div>
                     <div class="review-rate">
                       <ul class="review-star">

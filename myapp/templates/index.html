@@ -206,8 +206,8 @@
                             <li class="divider"></li>
                             <li>
                                 <a href="{% url 'my_account' %}">
-                                    {% if request.user.user_profile %}
-                                        <img src="{{ MEDIA_URL }}{{ request.user.user_profile.url }}" class="user-img" alt="{{ request.user.first_name }}" />
+                                    {% if request.user.user_profile and request.user.user_profile.name %}
+                                        <img src="{{ request.user.user_profile.url }}" class="user-img" alt="{{ request.user.first_name }}" />
                                     {% else %}
                                         <img src="{% static 'user_profile/default.webp' %}" class="user-img" alt="Ảnh mặc định" />
                                     {% endif %}
